@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Push Notifications on Android</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  @font-face { font-family: "Inter"; src: url("../fonts/InterVariable.woff2") format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Mono"; src: url("../fonts/DejaVuSansMono.ttf"); font-weight: 400; }
+  @font-face { font-family: "Mono"; src: url("../fonts/DejaVuSansMono-Bold.ttf"); font-weight: 700; }
+
+  :root {
+    --bg: #0a0f1f;
+    --ink: #eef2ff;
+    --muted: #9aa6c7;
+    --green: #3ddc84;   /* Android */
+    --amber: #ffb938;   /* FCM */
+    --blue: #5cc8ff;    /* server */
+    --pink: #ff6fa8;    /* token */
+    --violet: #a58bff;
+    --card: #141b33;
+    --line: #2a3560;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #000; height: 100%; }
+  body { display: flex; align-items: center; justify-content: center; overflow: hidden; font-family: "Inter", system-ui, sans-serif; color: var(--ink); }
+
+  #viewport { width: 1080px; height: 1920px; transform-origin: center center; flex: none; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+
+  .abs { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+
+  /* ---------- background ---------- */
+  #bgGlow { position: absolute; inset: 0;
+    background:
+      radial-gradient(900px 700px at 20% 15%, rgba(61,220,132,.16), transparent 60%),
+      radial-gradient(800px 800px at 90% 60%, rgba(92,200,255,.13), transparent 60%),
+      radial-gradient(900px 700px at 30% 95%, rgba(165,139,255,.14), transparent 60%);
+  }
+  #bgDots { position: absolute; left: -60px; top: -60px; width: 1200px; height: 2040px; opacity: .35;
+    background-image: radial-gradient(rgba(255,255,255,.18) 1.5px, transparent 1.6px);
+    background-size: 40px 40px; }
+
+  /* ---------- header ---------- */
+  #progress { display: flex; gap: 12px; width: 640px; }
+  #progress .seg { flex: 1; height: 10px; border-radius: 6px; background: rgba(255,255,255,.12); overflow: hidden; }
+  #progress .seg i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--green), #9dffc6); border-radius: 6px; }
+
+  .chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 26px; border-radius: 999px;
+    font-weight: 700; font-size: 30px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+  .stepchip { background: rgba(61,220,132,.14); color: var(--green); border: 2px solid rgba(61,220,132,.45); }
+
+  .title { width: 960px; text-align: center; font-weight: 800; font-size: 76px; line-height: 1.08; letter-spacing: -.02em; }
+  .title em { font-style: normal; color: var(--green); }
+  .title .a { color: var(--amber); } .title .b { color: var(--blue); } .title .p { color: var(--pink); }
+
+  .caption { width: 940px; text-align: center; font-size: 42px; line-height: 1.32; font-weight: 500; color: #dfe6ff; }
+  .caption b { color: #fff; font-weight: 800; }
+  .caption .g { color: var(--green); font-weight: 700; } .caption .a { color: var(--amber); font-weight: 700; }
+  .caption .b { color: var(--blue); font-weight: 700; } .caption .p { color: var(--pink); font-weight: 700; }
+  .caption code { font-family: "Mono"; font-size: 36px; color: var(--green); background: rgba(61,220,132,.1); padding: 2px 10px; border-radius: 10px; }
+
+  /* ---------- phone ---------- */
+  #phone { width: 300px; height: 600px; border-radius: 48px; background: #05070f; padding: 12px;
+    box-shadow: 0 0 0 3px #3a4570, 0 40px 90px rgba(0,0,0,.55), 0 0 80px rgba(61,220,132,.12); }
+  #phone .screen { position: relative; width: 100%; height: 100%; border-radius: 38px; overflow: hidden;
+    background: linear-gradient(160deg, #1d3b6b 0%, #2a2461 45%, #0f3a3a 100%); }
+  #phone .cam { position: absolute; top: 12px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: #000; z-index: 5; }
+  .status { position: absolute; top: 8px; left: 22px; right: 22px; display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 700; color: #fff; z-index: 4; }
+  .status .icons { display: flex; gap: 6px; align-items: center; }
+  .homeclock { position: absolute; top: 140px; width: 100%; text-align: center; font-size: 62px; font-weight: 300; color: #fff; letter-spacing: -.02em; }
+  .homedate { position: absolute; top: 218px; width: 100%; text-align: center; font-size: 16px; color: rgba(255,255,255,.75); font-weight: 500; }
+  .apps { position: absolute; bottom: 70px; left: 26px; right: 26px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 14px; }
+  .app { width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center; justify-self: center; }
+  .app svg { width: 28px; height: 28px; }
+  .dock { position: absolute; bottom: 22px; left: 50%; width: 100px; height: 5px; margin-left: -50px; border-radius: 3px; background: rgba(255,255,255,.6); }
+
+  .notif { position: absolute; top: 40px; left: 12px; right: 12px; border-radius: 22px; background: rgba(240,244,255,.97); color: #111a33;
+    padding: 14px 14px 14px 14px; display: flex; gap: 12px; z-index: 6; box-shadow: 0 12px 30px rgba(0,0,0,.35); }
+  .notif .ic { flex: none; width: 36px; height: 36px; border-radius: 11px; background: #ff8a3d; display: flex; align-items: center; justify-content: center; }
+  .notif .ic svg { width: 22px; height: 22px; }
+  .notif .meta { font-size: 12px; color: #5a6485; font-weight: 600; margin-bottom: 2px; }
+  .notif .t { font-size: 16px; font-weight: 800; }
+  .notif .bd { font-size: 14px; color: #36405e; line-height: 1.25; }
+
+  .appview { position: absolute; inset: 0; background: #f6f7fb; z-index: 3; color: #111a33; }
+  .appview .bar { height: 104px; background: #ff8a3d; padding: 52px 20px 0; color: #fff; font-weight: 800; font-size: 22px; }
+  .appview .row { margin: 16px 18px 0; height: 70px; border-radius: 16px; background: #fff; box-shadow: 0 2px 8px rgba(20,30,70,.08); display: flex; align-items: center; gap: 12px; padding: 0 14px; }
+  .appview .row .sq { width: 42px; height: 42px; border-radius: 10px; background: #ffe2cc; }
+  .appview .row .ln { height: 10px; border-radius: 5px; background: #dfe3ee; }
+  .snack { position: absolute; left: 14px; right: 14px; bottom: 60px; border-radius: 16px; background: #1c2440; color: #fff; padding: 14px 16px; font-size: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+  .snack span { color: #ffb27a; font-weight: 800; }
+  .dialog-scrim { position: absolute; inset: 0; background: rgba(5,8,20,.55); z-index: 7; }
+  .dialog { position: absolute; left: 22px; right: 22px; top: 170px; border-radius: 26px; background: #eef1fb; color: #111a33; padding: 22px 20px 16px; z-index: 8; text-align: center; }
+  .dialog .ic { width: 40px; height: 40px; margin: 0 auto 10px; border-radius: 50%; background: #dfe6ff; display: flex; align-items: center; justify-content: center; }
+  .dialog .q { font-size: 17px; font-weight: 700; line-height: 1.3; margin-bottom: 16px; }
+  .dialog .btn { height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; margin-top: 8px; }
+  .dialog .allow { background: #2c5bd8; color: #fff; }
+  .dialog .deny { background: #dfe4f3; color: #2c3a66; }
+  .offline { position: absolute; top: 44px; left: 50%; transform: translateX(-50%); z-index: 6; background: #2a1020; border: 2px solid #ff5d7a; color: #ff9fb1; padding: 10px 18px; border-radius: 999px; font-weight: 800; font-size: 17px; white-space: nowrap; display: flex; gap: 8px; align-items: center; }
+
+  /* ---------- FCM cloud ---------- */
+  #fcm { width: 320px; height: 210px; }
+  #fcm svg { position: absolute; inset: 0; }
+  #fcm .lbl { position: absolute; width: 100%; top: 76px; text-align: center; font-weight: 900; font-size: 52px; color: #1d1300; letter-spacing: .02em; }
+  .actorlbl { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; font-weight: 700; font-size: 26px; color: var(--muted); text-align: center; }
+
+  /* ---------- server ---------- */
+  #server { width: 220px; height: 280px; }
+  .rack { position: absolute; left: 0; width: 220px; height: 64px; border-radius: 16px; background: linear-gradient(180deg, #22305c, #18223f); border: 2px solid #3a4c85; display: flex; align-items: center; padding: 0 18px; gap: 10px; }
+  .rack .led { width: 12px; height: 12px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 12px var(--blue); }
+  .rack .slot { flex: 1; height: 8px; border-radius: 4px; background: #0f1630; margin-left: 10px; }
+  #db { position: absolute; left: 35px; top: 160px; width: 150px; height: 118px; }
+
+  /* ---------- floating things ---------- */
+  .token { display: flex; align-items: center; gap: 10px; padding: 10px 20px 10px 14px; border-radius: 999px; background: #2a0f22; border: 3px solid var(--pink);
+    color: #ffd0e3; font-family: "Mono"; font-weight: 700; font-size: 26px; white-space: nowrap; box-shadow: 0 0 30px rgba(255,111,168,.45); }
+  .token svg { width: 30px; height: 30px; }
+  .packet { display: flex; align-items: center; gap: 10px; padding: 10px 20px 10px 12px; border-radius: 999px; background: #1a2448; border: 3px solid var(--amber);
+    color: #ffe3a8; font-weight: 800; font-size: 26px; white-space: nowrap; box-shadow: 0 0 34px rgba(255,185,56,.5); }
+  .packet .dot { width: 34px; height: 34px; border-radius: 50%; background: var(--amber); display: flex; align-items: center; justify-content: center; }
+  .packet .dot svg { width: 22px; height: 22px; }
+  .bubble { padding: 16px 24px; border-radius: 22px; background: var(--card); border: 2px solid var(--line); font-weight: 700; font-size: 28px; white-space: nowrap; box-shadow: 0 16px 40px rgba(0,0,0,.35); display: flex; gap: 12px; align-items: center; }
+
+  #json { width: 760px; border-radius: 28px; background: #0d1328; border: 2px solid #34437a; box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 60px rgba(92,200,255,.12); overflow: hidden; }
+  #json .hd { display: flex; align-items: center; gap: 12px; padding: 18px 24px; background: #151d3b; font-family: "Mono"; font-size: 23px; color: #cfe0ff; }
+  #json .hd .m { background: var(--green); color: #04210f; font-weight: 700; padding: 4px 12px; border-radius: 8px; }
+  #json pre { font-family: "Mono"; font-size: 25px; line-height: 1.5; padding: 20px 28px 24px; color: #c7d2f5; }
+  #json .k { color: #8fb4ff; } #json .s { color: #ffd38a; } #json .tk { color: var(--pink); } #json .dim { color: #6f7ba3; }
+  #json .hl { display: inline-block; border-radius: 8px; padding: 0 6px; margin: 0 -6px; }
+
+  .card { width: 420px; border-radius: 28px; background: var(--card); border: 2px solid var(--line); padding: 24px 26px; box-shadow: 0 18px 50px rgba(0,0,0,.35); }
+  .card .h { display: flex; align-items: center; gap: 12px; font-size: 25px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 10px; }
+  .card .h i { width: 16px; height: 16px; border-radius: 50%; display: inline-block; }
+  .card .b { font-size: 30px; line-height: 1.3; font-weight: 600; color: #e5eaff; }
+  .card code { font-family: "Mono"; font-size: 27px; color: var(--green); }
+
+  .recap-row { width: 820px; display: flex; align-items: center; gap: 30px; }
+  .recap-row .ic { flex: none; width: 116px; height: 116px; border-radius: 34px; display: flex; align-items: center; justify-content: center; background: var(--card); border: 3px solid var(--line); }
+  .recap-row .ic svg { width: 62px; height: 62px; }
+  .recap-row .tx .n { font-size: 24px; font-weight: 800; letter-spacing: .1em; color: var(--muted); }
+  .recap-row .tx .l { font-size: 44px; font-weight: 800; letter-spacing: -.01em; }
+  .recap-row .tx .d { font-size: 28px; color: var(--muted); font-weight: 500; }
+
+  #wires { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+  .wire { fill: none; stroke: #3b4a82; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 2 16; }
+  .wire-draw { fill: none; stroke-width: 6; stroke-linecap: round; }
+  .mini { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0,0,0,.4); }
+  .mini svg { width: 26px; height: 26px; }
+
+  #hint { position: fixed; bottom: 12px; left: 12px; font: 13px/1.4 system-ui; color: #9aa6c7; background: rgba(0,0,0,.6); padding: 6px 10px; border-radius: 8px; }
+  body.render #hint { display: none; }
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+  <div id="bgGlow"></div>
+  <div id="bgDots"></div>
+
+  <svg id="wires" viewBox="0 0 1080 1920">
+    <defs>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <!-- phone -> FCM (register / delivery pipe) -->
+    <path id="wA" class="wire" d="M 300 812 C 300 730 340 700 400 690"/>
+    <path id="wAd" class="wire-draw" stroke="#ff6fa8" d="M 300 812 C 300 730 340 700 400 690"/>
+    <!-- phone -> server -->
+    <path id="wB" class="wire" d="M 400 1090 L 712 1090"/>
+    <path id="wBd" class="wire-draw" stroke="#5cc8ff" d="M 400 1090 L 712 1090"/>
+    <!-- server -> FCM -->
+    <path id="wC" class="wire" d="M 830 942 C 830 780 790 700 700 690"/>
+    <path id="wCd" class="wire-draw" stroke="#ffb938" d="M 830 942 C 830 780 790 700 700 690"/>
+    <!-- delivery pipe (FCM -> phone) -->
+    <path id="pipeGlow" fill="none" stroke="#3ddc84" stroke-width="22" stroke-linecap="round" opacity=".25" filter="url(#glow)" d="M 400 690 C 340 700 300 730 300 812"/>
+    <path id="pipe" fill="none" stroke="#3ddc84" stroke-width="9" stroke-linecap="round" d="M 400 690 C 340 700 300 730 300 812"/>
+    <!-- flight paths (invisible) -->
+    <path id="fTok1" fill="none" stroke="none" d="M 470 720 C 420 800 330 900 250 1040"/>
+    <path id="fTok2" fill="none" stroke="none" d="M 250 1120 C 420 960 700 980 830 1170"/>
+    <!-- recap spine -->
+    <path id="spine" fill="none" stroke="#2a3560" stroke-width="8" stroke-linecap="round" d="M 188 560 L 188 1340"/>
+    <path id="spineOn" fill="none" stroke="#3ddc84" stroke-width="8" stroke-linecap="round" d="M 188 560 L 188 1340"/>
+  </svg>
+
+  <!-- header -->
+  <div id="progress" class="abs"><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div></div>
+  <div id="stepchip" class="abs chip stepchip">Step <span id="stepn">1</span> of 5</div>
+  <div id="titles"></div>
+
+  <!-- actors -->
+  <div id="fcm" class="abs">
+    <svg viewBox="0 0 320 210"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd36b"/><stop offset="1" stop-color="#ff9f1c"/></linearGradient></defs>
+      <path d="M86 190 C38 190 14 158 14 126 C14 92 40 68 74 66 C84 30 118 10 156 10 C196 10 228 34 238 70 C278 70 306 98 306 132 C306 166 280 190 244 190 Z" fill="url(#cg)"/>
+    </svg>
+    <div class="lbl">FCM</div>
+    <div class="actorlbl" style="top:214px">Firebase Cloud Messaging</div>
+  </div>
+
+  <div id="server" class="abs">
+    <div class="rack" style="top:0"><div class="led"></div><div class="led" style="background:#3ddc84;box-shadow:0 0 12px #3ddc84"></div><div class="slot"></div></div>
+    <div class="rack" style="top:76px"><div class="led"></div><div class="led"></div><div class="slot"></div></div>
+    <svg id="db" viewBox="0 0 150 118">
+      <path d="M4 20 V98 C4 110 36 116 75 116 C114 116 146 110 146 98 V20" fill="#18223f" stroke="#3a4c85" stroke-width="3"/>
+      <path d="M4 58 C4 70 36 76 75 76 C114 76 146 70 146 58" fill="none" stroke="#3a4c85" stroke-width="3"/>
+      <ellipse cx="75" cy="20" rx="71" ry="17" fill="#22305c" stroke="#3a4c85" stroke-width="3"/>
+      <ellipse id="dbGlow" cx="75" cy="20" rx="71" ry="17" fill="#ff6fa8" opacity="0"/>
+    </svg>
+    <div class="actorlbl" style="top:292px">Your server</div>
+  </div>
+
+  <div id="phone" class="abs"><div class="screen">
+    <div class="cam"></div>
+    <div class="status"><span>9:41</span><span class="icons">
+      <svg id="sigOn" width="18" height="14" viewBox="0 0 18 14"><path d="M1 13h3V9H1zM6 13h3V6H6zM11 13h3V3h-3zM16 13h1V0h-1z" fill="#fff"/></svg>
+      <svg id="sigOff" width="18" height="16" viewBox="0 0 24 24" style="display:none"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" fill="#ff9fb1"/></svg>
+      <svg width="24" height="12" viewBox="0 0 24 12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" fill="none" stroke="#fff"/><rect x="2" y="2" width="14" height="8" rx="1.5" fill="#fff"/><rect x="21.5" y="4" width="2" height="4" rx="1" fill="#fff"/></svg>
+    </span></div>
+    <div class="homeclock">9:41</div>
+    <div class="homedate">Thursday, September 24</div>
+    <div class="apps">
+      <div class="app" id="myapp" style="background:#ff8a3d"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7z" fill="#fff"/><path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
+      <div class="app" style="background:#3f7bff"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z" fill="#fff"/></svg></div>
+      <div class="app" style="background:#1fb57a"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2" fill="#fff"/><path d="M3 7l9 6 9-6" stroke="#1fb57a" stroke-width="2" fill="none"/></svg></div>
+      <div class="app" style="background:#e94f6a"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#fff"/><path d="M10 8l6 4-6 4z" fill="#e94f6a"/></svg></div>
+      <div class="app" style="background:#8a63ff"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="5" fill="#fff"/><path d="M12 22s-7-6-7-12h14c0 6-7 12-7 12z" fill="#fff"/></svg></div>
+      <div class="app" style="background:#ffc233"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2" fill="#fff"/><rect x="4" y="5" width="16" height="4" fill="#e49b00"/></svg></div>
+      <div class="app" style="background:#26b5d9"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="5" fill="none" stroke="#fff" stroke-width="2.5"/><rect x="4" y="6" width="16" height="13" rx="3" fill="none" stroke="#fff" stroke-width="2"/></svg></div>
+      <div class="app" style="background:#5b6687"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="#fff"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" stroke="#fff" stroke-width="2"/></svg></div>
+    </div>
+    <div class="dock"></div>
+
+    <div class="appview" id="appview">
+      <div class="bar">ShopNow</div>
+      <div class="row"><div class="sq"></div><div style="flex:1"><div class="ln" style="width:80%"></div><div class="ln" style="width:50%;margin-top:8px"></div></div></div>
+      <div class="row"><div class="sq"></div><div style="flex:1"><div class="ln" style="width:70%"></div><div class="ln" style="width:40%;margin-top:8px"></div></div></div>
+      <div class="row"><div class="sq"></div><div style="flex:1"><div class="ln" style="width:85%"></div><div class="ln" style="width:55%;margin-top:8px"></div></div></div>
+      <div class="snack" id="snack">Order #1234 shipped! <span>TRACK</span></div>
+    </div>
+
+    <div class="notif" id="notif">
+      <div class="ic"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7z" fill="#fff"/><path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="#fff" stroke-width="2" fill="none"/></svg></div>
+      <div><div class="meta">ShopNow · now</div><div class="t">Order shipped</div><div class="bd">Your order #1234 is on the way</div></div>
+    </div>
+
+    <div class="offline" id="offline"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" fill="#ff9fb1"/></svg>Offline</div>
+
+    <div class="dialog-scrim" id="scrim"></div>
+    <div class="dialog" id="dialog">
+      <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.5-2.5h-5A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5-6.7V3.5a2 2 0 0 0-4 0v.8A7 7 0 0 0 5 11v5l-2 2v1h18v-1z" fill="#2c5bd8"/></svg></div>
+      <div class="q">Allow <b>ShopNow</b> to send you notifications?</div>
+      <div class="btn allow" id="allowBtn">Allow</div>
+      <div class="btn deny">Don't allow</div>
+    </div>
+  </div></div>
+
+  <!-- floating objects -->
+  <div id="tokenPhone" class="abs token"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#ff6fa8" stroke-width="2.6"/><path d="M12.5 12H22M18 12v4M21 12v3" stroke="#ff6fa8" stroke-width="2.6" stroke-linecap="round"/></svg><span id="tokText">fGx9…Q2</span></div>
+  <div id="tokenFly" class="abs token"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#ff6fa8" stroke-width="2.6"/><path d="M12.5 12H22M18 12v4M21 12v3" stroke="#ff6fa8" stroke-width="2.6" stroke-linecap="round"/></svg>fGx9…Q2</div>
+  <div id="pkt" class="abs packet"><span class="dot"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z" fill="#1a2448"/><path d="M3 6l9 7 9-7" stroke="#ffb938" stroke-width="2" fill="none"/></svg></span><span id="pktLbl">getToken()</span></div>
+
+  <div id="dbRow" class="abs bubble" style="font-family:Mono;font-size:24px;border-color:#ff6fa8"><span style="color:#9aa6c7">user_42</span><span style="color:#9aa6c7">→</span><span style="color:#ff6fa8">fGx9…Q2</span></div>
+  <div id="event" class="abs bubble" style="border-color:#5cc8ff"><svg width="30" height="30" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="#ffb938"/></svg>Order #1234 shipped</div>
+  <div id="accepted" class="abs bubble" style="border-color:#3ddc84;color:#3ddc84"><svg width="30" height="30" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" stroke="#3ddc84" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>200 OK</div>
+  <div id="queue" class="abs bubble" style="border-color:#ffb938;flex-direction:column;align-items:flex-start;gap:4px;font-size:25px"><div style="display:flex;gap:10px;align-items:center;color:#ffb938"><svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#ffb938" stroke-width="2.4"/><path id="qHand" d="M12 12V6.5" stroke="#ffb938" stroke-width="2.4" stroke-linecap="round"/><path d="M12 12h4" stroke="#ffb938" stroke-width="2.4" stroke-linecap="round"/></svg>Queued</div><div style="color:#9aa6c7;font-weight:600">waiting for device…</div></div>
+  <div id="shared" class="abs bubble" style="flex-direction:column;align-items:flex-start;gap:4px;font-size:25px;border-color:#3ddc84"><div style="color:#3ddc84">Google Play services</div><div style="color:#9aa6c7;font-weight:600">1 connection · all apps</div></div>
+  <div id="m1" class="abs mini" style="background:#3f7bff"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z" fill="#fff"/></svg></div>
+  <div id="m2" class="abs mini" style="background:#1fb57a"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2" fill="#fff"/><path d="M3 7l9 6 9-6" stroke="#1fb57a" stroke-width="2" fill="none"/></svg></div>
+  <div id="m3" class="abs mini" style="background:#e94f6a"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#fff"/><path d="M10 8l6 4-6 4z" fill="#e94f6a"/></svg></div>
+  <div id="route" class="abs bubble" style="border-color:#3ddc84;font-size:25px"><span style="color:#3ddc84">Play services</span><span style="color:#9aa6c7">→</span><span style="color:#ffb27a">ShopNow</span></div>
+
+  <div id="json" class="abs">
+    <div class="hd"><span class="m">POST</span>fcm.googleapis.com/v1/…/messages:send</div>
+    <pre><span class="hl" id="jAuth"><span class="k">Authorization</span>: <span class="dim">Bearer &lt;service-account&gt;</span></span>
+
+{
+  <span class="k">"message"</span>: {
+    <span class="hl" id="jTok"><span class="k">"token"</span>: <span class="tk">"fGx9…Q2"</span>,</span>
+    <span class="k">"notification"</span>: {
+      <span class="hl" id="jTitle"><span class="k">"title"</span>: <span class="s">"Order shipped"</span>,</span>
+      <span class="hl" id="jBody"><span class="k">"body"</span>: <span class="s">"Your order #1234 is on the way"</span></span>
+    }
+  }
+}</pre>
+  </div>
+
+  <div id="cardA" class="abs card"><div class="h" style="color:#3ddc84"><i style="background:#3ddc84"></i>App in background</div><div class="b">Android shows it in the <b>notification tray</b> for you.</div></div>
+  <div id="cardB" class="abs card"><div class="h" style="color:#ffb27a"><i style="background:#ffb27a"></i>App in foreground</div><div class="b">Your code gets it in <code>onMessage&shy;Received()</code></div></div>
+  <div id="cardC" class="abs card"><div class="h" style="color:#a58bff"><i style="background:#a58bff"></i>Android 13+</div><div class="b">User must allow the <code>POST_&shy;NOTIFICATIONS</code> permission.</div></div>
+
+  <div id="recap"></div>
+
+  <div id="captions"></div>
+</div></div>
+<div id="hint">Click to pause · ←/→ seek</div>
+
+<script>
+/* ======================================================================
+   Everything on screen is a pure function of time t (seconds), so the
+   same page can play live in a browser or be captured frame by frame.
+   ====================================================================== */
+const DURATION = 60;
+const $ = id => document.getElementById(id);
+
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const E = {
+  lin: p => p,
+  out: p => 1 - Math.pow(1 - p, 3),
+  inOut: p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2,
+  back: p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); },
+};
+// opacity envelope: fades in at tin, out at tout
+const vis = (t, tin, tout, d = .45) => E.out(prog(t, tin, tin + d)) * (1 - E.out(prog(t, tout - d, tout)));
+// keyframes: [[time, value], ...] eased between neighbours, held outside
+function kf(t, keys, ease = E.inOut) {
+  if (t <= keys[0][0]) return keys[0][1];
+  for (let i = 0; i < keys.length - 1; i++) {
+    const [t0, v0] = keys[i], [t1, v1] = keys[i + 1];
+    if (t <= t1) return v0 + (v1 - v0) * ease(prog(t, t0, t1));
+  }
+  return keys[keys.length - 1][1];
+}
+function place(el, x, y, s = 1, o = 1, extra = '') {
+  el.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%) scale(${s}) ${extra}`;
+  el.style.opacity = o;
+  el.style.visibility = o <= 0.001 ? 'hidden' : 'visible';
+}
+function alongPath(path, p) {
+  const L = path.getTotalLength();
+  return path.getPointAtLength(clamp(p) * L);
+}
+function drawPath(path, p) {
+  const L = path.getTotalLength();
+  path.style.strokeDasharray = L;
+  path.style.strokeDashoffset = L * (1 - clamp(p));
+}
+const pop = (t, a, d = .5) => E.back(prog(t, a, a + d));
+
+/* ---------------- text tracks ---------------- */
+const TITLES = [
+  [0.3, 5.0, 'How does a <em>push notification</em> reach your phone?'],
+  [5.6, 14.0, 'Get a <span class="p">token</span>'],
+  [14.0, 21.0, 'Send it to <span class="b">your server</span>'],
+  [21.0, 31.0, 'Server asks <span class="a">FCM</span>'],
+  [31.0, 41.0, '<span class="a">FCM</span> delivers it'],
+  [41.0, 51.0, '<em>Android</em> shows it'],
+  [51.2, 60.0, 'The full journey'],
+];
+const CAPTIONS = [
+  [2.6, 5.0, 'Let’s follow one notification, <b>step by step</b> →'],
+  [6.3, 10.2, 'When your app starts, the <b>Firebase SDK</b> registers this device with <span class="a">FCM</span>.'],
+  [10.2, 14.0, '<span class="a">FCM</span> replies with a <span class="p">registration token</span> — a unique address for <b>this app on this phone</b>.'],
+  [14.3, 17.6, 'The app sends that <span class="p">token</span> to <span class="b">your backend server</span>…'],
+  [17.6, 21.0, '…which saves it with the user’s account, so it knows <b>where to reach them</b> later.'],
+  [21.3, 24.6, 'Something happens — an <b>order ships</b>. Your server builds a message for that <span class="p">token</span>.'],
+  [24.6, 31.0, 'It calls the <span class="a">FCM HTTP v1 API</span>. Your server never talks to the phone <b>directly</b>!'],
+  [31.3, 35.4, 'Android keeps <b>one</b> always-on connection to <span class="a">FCM</span> via <span class="g">Google Play services</span> — shared by every app to save battery.'],
+  [35.4, 41.0, 'Phone offline? <span class="a">FCM</span> <b>holds the message</b> and delivers it as soon as the device reconnects.'],
+  [41.3, 46.0, '<span class="g">Play services</span> hands it to your app. In the background, <b>Android draws the notification</b> automatically.'],
+  [46.0, 48.4, 'App open? You decide what to show in <code>onMessageReceived()</code>.'],
+  [48.4, 51.0, 'And on Android 13+, nothing appears unless the user <b>allows notifications</b>.'],
+  [55.6, 60.0, '<b>Save this</b> for your next Android interview<br><span class="g">Follow for more dev explainers</span>'],
+];
+function buildText(container, list, cls) {
+  return list.map(([a, b, html]) => {
+    const el = document.createElement('div');
+    el.className = 'abs ' + cls;
+    el.innerHTML = html;
+    container.appendChild(el);
+    return { a, b, el };
+  });
+}
+const titleEls = buildText($('titles'), TITLES, 'title');
+const capEls = buildText($('captions'), CAPTIONS, 'caption');
+
+/* ---------------- recap rows ---------------- */
+const ICON = {
+  phone: '<svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3" fill="none" stroke="#3ddc84" stroke-width="2"/><circle cx="12" cy="18" r="1.2" fill="#3ddc84"/></svg>',
+  key: '<svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#ff6fa8" stroke-width="2.2"/><path d="M12.5 12H22M18 12v4M21 12v3" stroke="#ff6fa8" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  server: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="7" rx="2" fill="none" stroke="#5cc8ff" stroke-width="2"/><rect x="3" y="14" width="18" height="7" rx="2" fill="none" stroke="#5cc8ff" stroke-width="2"/><circle cx="7" cy="6.5" r="1.2" fill="#5cc8ff"/><circle cx="7" cy="17.5" r="1.2" fill="#5cc8ff"/></svg>',
+  cloud: '<svg viewBox="0 0 24 24"><path d="M7 19a5 5 0 0 1-.6-10A6 6 0 0 1 18 9.5 4.5 4.5 0 0 1 17.5 19z" fill="#ffb938"/></svg>',
+  play: '<svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z" fill="none" stroke="#3ddc84" stroke-width="2.2" stroke-linejoin="round"/></svg>',
+  bell: '<svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.5-2.5h-5A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5-6.7V3.5a2 2 0 0 0-4 0v.8A7 7 0 0 0 5 11v5l-2 2v1h18v-1z" fill="#ffb27a"/></svg>',
+};
+const RECAP = [
+  ['phone', 'App starts', 'Firebase SDK registers', '#3ddc84'],
+  ['key', 'Token', 'unique device address', '#ff6fa8'],
+  ['server', 'Your server', 'stores the token', '#5cc8ff'],
+  ['cloud', 'FCM', 'HTTP v1 API receives it', '#ffb938'],
+  ['play', 'Play services', 'one shared connection', '#3ddc84'],
+  ['bell', 'Notification', 'shown to the user', '#ffb27a'],
+];
+const recapEls = RECAP.map(([ic, l, d, c], i) => {
+  const el = document.createElement('div');
+  el.className = 'abs recap-row';
+  el.innerHTML = `<div class="ic">${ICON[ic]}</div><div class="tx"><div class="n">0${i + 1}</div><div class="l">${l}</div><div class="d">${d}</div></div>`;
+  $('recap').appendChild(el);
+  el._ic = el.querySelector('.ic');
+  el._c = c;
+  return el;
+});
+
+/* ---------------- layout constants ---------------- */
+const PH = { x: 250, y: 1090, s: .9 };
+const FCM = { x: 540, y: 650 };
+const SV = { x: 830, y: 1090 };
+const Q = { x: 540, y: 520 };   // where a message waits at FCM
+const CAP_Y = 1520;
+
+/* ======================================================================
+   render(t)
+   ====================================================================== */
+function render(t) {
+  // background drift
+  $('bgDots').style.transform = `translate(${(t * 6) % 40}px, ${(t * 10) % 40}px)`;
+
+  /* ----- header ----- */
+  const step = t < 14 ? 1 : t < 21 ? 2 : t < 31 ? 3 : t < 41 ? 4 : 5;
+  const headerOn = vis(t, 5.4, 51.2, .5);
+  place($('progress'), 540, 170, 1, headerOn);
+  const bounds = [[5.6, 14], [14, 21], [21, 31], [31, 41], [41, 51]];
+  document.querySelectorAll('#progress .seg i').forEach((el, i) => {
+    el.style.width = (prog(t, bounds[i][0], bounds[i][1]) * 100) + '%';
+  });
+  $('stepn').textContent = step;
+  const chipBump = 1 + .08 * Math.sin(Math.PI * prog(t, [5.6, 14, 21, 31, 41][step - 1], [5.6, 14, 21, 31, 41][step - 1] + .35));
+  place($('stepchip'), 540, 250, chipBump, headerOn);
+
+  titleEls.forEach(({ a, b, el }, i) => {
+    const o = vis(t, a, b, .45);
+    const y = i === 0 ? 330 : 360;
+    place(el, 540, y + 30 * (1 - E.out(prog(t, a, a + .5))), 1, o);
+  });
+  capEls.forEach(({ a, b, el }) => {
+    const o = vis(t, a, b, .35);
+    place(el, 540, CAP_Y + 24 * (1 - E.out(prog(t, a, a + .4))), 1, o);
+  });
+
+  /* ----- phone ----- */
+  const phX = kf(t, [[4.6, 540], [5.8, PH.x], [41, PH.x], [42.4, 290]]);
+  const phY = kf(t, [[4.6, 1000], [5.8, PH.y], [41, PH.y], [42.4, 1000]]);
+  const phS = kf(t, [[4.6, 1.35], [5.8, PH.s], [41, PH.s], [42.4, 1.15]]);
+  const phIn = E.out(prog(t, 0, .7));
+  let phO = phIn * (1 - E.out(prog(t, 50.8, 51.4)));
+  phO *= kf(t, [[22.4, 1], [23.2, .25], [27.4, .25], [28.2, 1]]);
+  place($('phone'), phX, phY + 40 * (1 - phIn), phS * (0.94 + .06 * phIn), phO);
+
+  // our app pulse (app launch)
+  const launch = Math.sin(Math.PI * prog(t, 6.6, 7.2));
+  $('myapp').style.transform = `scale(${1 + .35 * launch})`;
+  $('myapp').style.boxShadow = `0 0 ${30 * launch}px rgba(255,138,61,${.9 * launch})`;
+
+  // notification on phone: intro, then step 5
+  const nIntro = E.out(prog(t, 1.1, 1.6)) * (1 - E.out(prog(t, 4.2, 4.7)));
+  const nStep5 = E.out(prog(t, 42.6, 43.1)) * (1 - E.out(prog(t, 46.0, 46.4)));
+  const nOn = Math.max(nIntro, nStep5);
+  const nPos = Math.max(E.back(prog(t, 1.1, 1.6)) * (t < 5 ? 1 : 0), E.back(prog(t, 42.6, 43.1)) * (t > 40 ? 1 : 0));
+  $('notif').style.opacity = nOn;
+  $('notif').style.transform = `translateY(${-110 * (1 - nPos)}px)`;
+
+  // offline indicator
+  const off = t > 35.6 && t < 38.6;
+  const offO = vis(t, 35.6, 38.6, .3);
+  $('offline').style.opacity = offO;
+  $('offline').style.transform = `translateX(-50%) scale(${.8 + .2 * offO})`;
+  $('sigOn').style.display = off ? 'none' : '';
+  $('sigOff').style.display = off ? '' : 'none';
+
+  // in-app view (foreground) and permission dialog
+  const av = E.inOut(prog(t, 46.0, 46.6));
+  $('appview').style.transform = `translateY(${(1 - av) * 100}%)`;
+  $('appview').style.visibility = av > 0 ? 'visible' : 'hidden';
+  const sn = E.back(prog(t, 46.8, 47.3));
+  $('snack').style.transform = `translateY(${(1 - sn) * 140}px)`;
+  const dlg = vis(t, 48.5, 50.4, .35);
+  $('scrim').style.opacity = dlg;
+  $('dialog').style.opacity = dlg;
+  $('dialog').style.transform = `scale(${.9 + .1 * E.out(prog(t, 48.5, 48.9))})`;
+  const press = Math.sin(Math.PI * prog(t, 49.5, 49.9));
+  $('allowBtn').style.transform = `scale(${1 - .08 * press})`;
+  $('allowBtn').style.filter = `brightness(${1 + .4 * press})`;
+
+  /* ----- FCM cloud ----- */
+  const fcmIn = pop(t, 6.0, .6);
+  const fcmOut = 1 - E.out(prog(t, 41.0, 41.6));
+  const fcmPulse = 1 + .06 * Math.sin(Math.PI * prog(t, 8.5, 8.9)) + .06 * Math.sin(Math.PI * prog(t, 29.1, 29.5)) + .05 * Math.sin(Math.PI * prog(t, 36.6, 37.0));
+  place($('fcm'), FCM.x, FCM.y, Math.max(0, fcmIn) * fcmPulse, clamp(prog(t, 6.0, 6.3)) * fcmOut);
+
+  /* ----- server ----- */
+  const svIn = pop(t, 14.0, .6);
+  const svOut = 1 - E.out(prog(t, 41.0, 41.6));
+  const svO = clamp(prog(t, 14.0, 14.3)) * svOut * kf(t, [[22.4, 1], [23.2, .3], [27.0, .3], [27.6, 1]]);
+  place($('server'), SV.x, SV.y, Math.max(0, svIn), svO);
+  $('dbGlow').setAttribute('opacity', .8 * Math.sin(Math.PI * prog(t, 16.9, 17.8)));
+
+  /* ----- wires ----- */
+  const wireOut = 1 - E.out(prog(t, 41.0, 41.5));
+  $('wA').style.opacity = clamp(prog(t, 6.2, 6.8)) * wireOut * (1 - prog(t, 31.0, 31.5));
+  $('wB').style.opacity = clamp(prog(t, 14.2, 14.8)) * wireOut;
+  $('wC').style.opacity = clamp(prog(t, 21.0, 21.6)) * wireOut;
+  drawPath($('wAd'), prog(t, 7.1, 8.4)); $('wAd').style.opacity = 1 - prog(t, 8.8, 9.6);
+  drawPath($('wBd'), prog(t, 15.0, 16.6)); $('wBd').style.opacity = 1 - prog(t, 17.2, 18.0);
+  drawPath($('wCd'), prog(t, 27.8, 29.1)); $('wCd').style.opacity = 1 - prog(t, 29.6, 30.4);
+
+  // shared delivery pipe (step 4)
+  const pipeDraw = E.inOut(prog(t, 31.2, 32.4));
+  const broken = kf(t, [[35.5, 0], [35.8, 1], [38.4, 1], [38.8, 0]], E.lin);
+  ['pipe', 'pipeGlow'].forEach(id => {
+    const p = $(id);
+    p.style.opacity = pipeDraw > 0 ? (1 - E.out(prog(t, 41.0, 41.5))) * (id === 'pipe' ? 1 : .25 + .15 * Math.sin(t * 5)) : 0;
+    const L = p.getTotalLength();
+    if (broken > 0) {
+      p.style.strokeDasharray = `${6 + 30 * (1 - broken)} ${24 * broken}`;
+      p.style.strokeDashoffset = 0;
+      p.setAttribute('stroke', broken > .5 ? '#6a2c3e' : '#3ddc84');
+    } else {
+      p.style.strokeDasharray = L;
+      p.style.strokeDashoffset = L * (1 - pipeDraw);
+      p.setAttribute('stroke', '#3ddc84');
+    }
+  });
+
+  /* ----- step 1: register + token ----- */
+  let pk = null;
+  const pktEl = $('pkt');
+  if (t >= 7.1 && t < 8.6) {
+    const p = E.inOut(prog(t, 7.1, 8.5));
+    pk = { pt: alongPath($('wA'), p), lbl: 'getToken()', o: vis(t, 7.1, 8.6, .2) };
+  } else if (t >= 27.6 && t < 29.3) {
+    const p = E.inOut(prog(t, 27.7, 29.1));
+    pk = { pt: alongPath($('wC'), p), lbl: 'message', o: vis(t, 27.6, 29.3, .2) };
+  } else if (t >= 36.2 && t < 38.8) {
+    // message waiting at FCM while the phone is offline
+    pk = { pt: Q, lbl: 'message', o: vis(t, 36.2, 38.9, .3) * (0.75 + .25 * Math.sin(t * 6)) };
+  } else if (t >= 38.8 && t < 40.3) {
+    // leave the queue spot, then ride the pipe down to the phone
+    const p = E.inOut(prog(t, 38.9, 40.2));
+    const pt = alongPath($('pipe'), p), w = 1 - E.out(clamp(p / .3));
+    pk = { pt: { x: pt.x + (Q.x - pt.x) * w, y: pt.y + (Q.y - pt.y) * w }, lbl: 'message', o: vis(t, 38.8, 40.3, .2) };
+  }
+  if (pk) {
+    $('pktLbl').textContent = pk.lbl;
+    place(pktEl, pk.pt.x, pk.pt.y, 1, pk.o);
+  } else place(pktEl, 0, 0, 1, 0);
+
+  // token flies FCM -> phone and types out
+  const tok1 = E.inOut(prog(t, 8.9, 10.3));
+  const tokFlyA = t >= 8.8 && t < 10.4;
+  const tokLand = t >= 10.3;
+  const typed = Math.floor(clamp(prog(t, 10.3, 11.0)) * 7);
+  $('tokText').textContent = 'fGx9…Q2'.slice(0, Math.max(typed, 1)) + (typed < 7 && t < 11 ? '▌' : '');
+  place($('tokenPhone'), PH.x, 1120, tokLand ? kf(t, [[10.3, .6], [10.7, .82]], E.back) : .8,
+        tokLand ? (1 - E.out(prog(t, 40.8, 41.2))) : 0);
+
+  // token (step 1 flight, then step 2 copy to server)
+  if (tokFlyA) {
+    const pt = alongPath($('fTok1'), tok1);
+    place($('tokenFly'), pt.x, pt.y + 140 * tok1, .7 + .1 * tok1, vis(t, 8.8, 10.45, .2));
+  } else if (t >= 15.0 && t < 17.1) {
+    const p = E.inOut(prog(t, 15.0, 16.9));
+    const pt = alongPath($('fTok2'), p);
+    place($('tokenFly'), pt.x, pt.y, .8 - .25 * p, vis(t, 15.0, 17.1, .25));
+  } else place($('tokenFly'), 0, 0, 1, 0);
+
+  place($('dbRow'), SV.x - 40, 1370, pop(t, 17.3, .5) * 1, vis(t, 17.3, 21.2, .3));
+
+  /* ----- step 3: event, JSON, accepted ----- */
+  place($('event'), SV.x - 90, 880, Math.max(0, pop(t, 21.6, .5)), vis(t, 21.6, 23.0, .3));
+  const jIn = E.inOut(prog(t, 22.6, 23.4));
+  const jOut = E.inOut(prog(t, 27.0, 27.7));
+  const jx = kf(t, [[22.6, SV.x], [23.4, 540], [27.0, 540], [27.7, 830]]);
+  const jy = kf(t, [[22.6, SV.y], [23.4, 1100], [27.0, 1100], [27.7, 950]]);
+  place($('json'), jx, jy, (.2 + .8 * jIn) * (1 - .9 * jOut), jIn * (1 - jOut));
+  const hl = (id, a, b, c) => { $(id).style.background = `rgba(${c},${.28 * vis(t, a, b, .25)})`; };
+  hl('jTok', 23.7, 24.9, '255,111,168');
+  hl('jTitle', 24.9, 25.9, '255,211,138');
+  hl('jBody', 24.9, 25.9, '255,211,138');
+  hl('jAuth', 25.9, 27.0, '143,180,255');
+  place($('accepted'), 870, 530, Math.max(0, pop(t, 29.2, .5)), vis(t, 29.2, 31.0, .3));
+
+  /* ----- step 4: shared connection, offline queue ----- */
+  place($('shared'), 190, 620, Math.max(0, pop(t, 32.0, .5)), vis(t, 32.0, 35.4, .3));
+  [['m1', 32.6], ['m2', 33.2], ['m3', 33.8]].forEach(([id, a], i) => {
+    const p = prog(t, a, a + 1.3);
+    const pt = alongPath($('pipe'), i === 1 ? 1 - p : p); // traffic in both directions
+    place($(id), pt.x, pt.y, .9, p > 0 && p < 1 ? vis(t, a, a + 1.3, .2) : 0);
+  });
+  place($('queue'), 830, 560, Math.max(0, pop(t, 36.5, .5)), vis(t, 36.5, 39.0, .3));
+  const ang = (t - 36.5) * 240;
+  $('qHand').setAttribute('transform', `rotate(${ang} 12 12)`);
+
+  /* ----- step 5 ----- */
+  place($('route'), 290, 600, Math.max(0, pop(t, 41.8, .5)), vis(t, 41.8, 44.0, .3));
+  const cardFocus = (a, b) => .45 + .55 * (t >= a && t < b ? 1 : 0);
+  const cardsOut = 1 - E.out(prog(t, 50.8, 51.4));
+  place($('cardA'), 750, 780, .95 + .05 * pop(t, 42.8, .5), E.out(prog(t, 42.8, 43.2)) * cardsOut * kf(t, [[45.8, 1], [46.2, .45]]));
+  place($('cardB'), 750, 1010, .95 + .05 * pop(t, 46.0, .5), E.out(prog(t, 46.0, 46.4)) * cardsOut * kf(t, [[48.2, 1], [48.6, .45]]));
+  place($('cardC'), 750, 1240, .95 + .05 * pop(t, 48.4, .5), E.out(prog(t, 48.4, 48.8)) * cardsOut);
+
+  /* ----- recap ----- */
+  const spineO = vis(t, 51.4, 59.6, .5);
+  $('spine').style.opacity = spineO;
+  $('spineOn').style.opacity = spineO;
+  drawPath($('spineOn'), prog(t, 52.0, 52.0 + 5 * .62));
+  recapEls.forEach((el, i) => {
+    const a = 51.6 + i * .62;
+    const y = 560 + i * 156;
+    const o = vis(t, a, 59.6, .4);
+    place(el, 540 + 40 * (1 - E.out(prog(t, a, a + .5))), y, 1, o);
+    const lit = E.out(prog(t, a + .25, a + .55));
+    el._ic.style.borderColor = lit > .5 ? el._c : '';
+    el._ic.style.boxShadow = `0 0 ${36 * lit}px ${el._c}66`;
+  });
+
+  // global fade out at the very end
+  const endFade = E.inOut(prog(t, 59.5, 60));
+  $('stage').style.filter = endFade > 0 ? `brightness(${1 - endFade})` : '';
+}
+
+/* ---------------- playback ---------------- */
+function fit() {
+  const s = Math.min(innerWidth / 1080, innerHeight / 1920);
+  $('viewport').style.transform = `scale(${s})`;
+}
+window.renderAt = t => render(t);
+window.DURATION = DURATION;
+
+if (new URLSearchParams(location.search).has('render')) {
+  document.body.classList.add('render');
+  render(0);
+} else {
+  addEventListener('resize', fit); fit();
+  let t0 = performance.now(), paused = false, pausedAt = 0;
+  const now = () => paused ? pausedAt : ((performance.now() - t0) / 1000) % DURATION;
+  addEventListener('click', () => { if (paused) { t0 = performance.now() - pausedAt * 1000; paused = false; } else { pausedAt = now(); paused = true; } });
+  addEventListener('keydown', e => {
+    const d = e.key === 'ArrowRight' ? 2 : e.key === 'ArrowLeft' ? -2 : 0;
+    if (!d) return;
+    const nt = clamp(now() + d, 0, DURATION - .01);
+    if (paused) pausedAt = nt; else t0 = performance.now() - nt * 1000;
+  });
+  (function loop() { render(now()); requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>
