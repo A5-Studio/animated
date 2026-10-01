@@ -50,8 +50,14 @@ npx remotion render DataPipelineAnalogy data-pipeline-analogy.mp4
 
 `data-pipeline-analogy/data-pipeline-analogy-brutal.mp4` tells the same story in a neobrutalist style: thick black outlines, hard offset shadows, flat colours, Space Grotesk. All text and illustrations sit inside the TikTok safe area, which at 1080×1920 is x 120–840, y 252–1280. The strip from y 252–360 may extend right to x 960. Only the dotted background reaches the edges. The source is in `src/brutal/`.
 
+Audio:
+- **Music:** `public/music-brutal.wav` is an upbeat 112 BPM loop synthesized by `scripts/brutal_audio.py`, so there are no licensing issues. It fades in and out.
+- **Animation sounds:** the pop, thud and water effects are synthesized by the same script. Click, switch and ding come from Remotion's free SFX set (remotion.media) and are saved in `public/sfx/`.
+- **Transitions:** a whoosh plays on each slide and a whip on each wipe.
+
 ```sh
 npx remotion render DataPipelineBrutal data-pipeline-analogy-brutal.mp4
+python3 scripts/brutal_audio.py              # optional: regenerate music + synth SFX
 # Preview with the safe area shaded in red:
 npx remotion still DataPipelineBrutal check.png --frame=400 --props='{"showSafeArea":true}'
 ```

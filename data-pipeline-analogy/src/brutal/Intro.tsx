@@ -1,5 +1,17 @@
 import { interpolate, useCurrentFrame } from "remotion";
-import { B, Caption, Drop, Mark, Panel, SAFE, Sticker, STROKE, Title , BrutalBg } from "./kit";
+import {
+  B,
+  Caption,
+  Drop,
+  Mark,
+  Panel,
+  SAFE,
+  Sticker,
+  STROKE,
+  Title,
+  BrutalBg,
+  Sfx,
+} from "./kit";
 
 export const BrutalIntro: React.FC = () => {
   const frame = useCurrentFrame();
@@ -10,7 +22,10 @@ export const BrutalIntro: React.FC = () => {
       </Title>
 
       <Panel top={530} height={400} color={B.waterLight}>
-        <svg viewBox="-352 -200 704 388" style={{ width: "100%", height: "100%" }}>
+        <svg
+          viewBox="-352 -200 704 388"
+          style={{ width: "100%", height: "100%" }}
+        >
           {[0, 1, 2].map((i) => {
             const t = ((frame + i * 25) % 75) / 75;
             return (
@@ -31,7 +46,15 @@ export const BrutalIntro: React.FC = () => {
             transform={`translate(0 ${Math.sin(frame / 10) * 10}) scale(${interpolate(frame, [8, 22], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })})`}
           >
             <Drop r={95} />
-            <ellipse cx={-38} cy={10} rx={16} ry={30} fill={B.white} stroke={B.ink} strokeWidth={4} />
+            <ellipse
+              cx={-38}
+              cy={10}
+              rx={16}
+              ry={30}
+              fill={B.white}
+              stroke={B.ink}
+              strokeWidth={4}
+            />
           </g>
         </svg>
       </Panel>
@@ -60,6 +83,12 @@ export const BrutalIntro: React.FC = () => {
       <Caption from={90} to={160}>
         Lalu, bagaimana cara mengambilnya?
       </Caption>
+      <Sfx at={0} name="pop" />
+      <Sfx at={6} name="thud" volume={0.6} />
+      <Sfx at={40} name="pop" />
+      <Sfx at={50} name="pop" />
+      <Sfx at={60} name="pop" />
+      <Sfx at={90} name="mouse-click" />
     </BrutalBg>
   );
 };

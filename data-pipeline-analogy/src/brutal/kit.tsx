@@ -1,10 +1,22 @@
+import { Audio } from "@remotion/media";
 import { loadFont } from "@remotion/fonts";
 import type React from "react";
-import { AbsoluteFill, Easing, interpolate, staticFile, useCurrentFrame } from "remotion";
+import {
+  AbsoluteFill,
+  Easing,
+  interpolate,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 
 export const font = "Space Grotesk";
 for (const weight of ["500", "700"]) {
-  loadFont({ family: font, url: staticFile(`SpaceGrotesk-${weight}.ttf`), weight });
+  loadFont({
+    family: font,
+    url: staticFile(`SpaceGrotesk-${weight}.ttf`),
+    weight,
+  });
 }
 
 export const B = {
@@ -44,14 +56,24 @@ export const SHADOW = 10;
 export const border = `${STROKE}px solid ${B.ink}`;
 export const shadow = (n = SHADOW) => `${n}px ${n}px 0 ${B.ink}`;
 
-export const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+export const clamp = {
+  extrapolateLeft: "clamp",
+  extrapolateRight: "clamp",
+} as const;
 export const snap = Easing.bezier(0.2, 1.4, 0.4, 1);
 export const easeOut = Easing.bezier(0.16, 1, 0.3, 1);
 
 // Pops in with a slight overshoot, like a sticker slapped on.
-export const popIn = (frame: number, at: number, rotate = 0): React.CSSProperties => ({
+export const popIn = (
+  frame: number,
+  at: number,
+  rotate = 0,
+): React.CSSProperties => ({
   opacity: interpolate(frame, [at, at + 4], [0, 1], clamp),
-  scale: interpolate(frame, [at, at + 12], [0.6, 1], { ...clamp, easing: snap }),
+  scale: interpolate(frame, [at, at + 12], [0.6, 1], {
+    ...clamp,
+    easing: snap,
+  }),
   rotate: `${rotate}deg`,
 });
 
@@ -129,11 +151,18 @@ export const Title: React.FC<{
 };
 
 // Highlighted word inside a title.
-export const Mark: React.FC<{ readonly color: string; readonly children: string }> = ({
-  color,
-  children,
-}) => (
-  <span style={{ background: color, padding: "0 10px", border, boxDecorationBreak: "clone" }}>
+export const Mark: React.FC<{
+  readonly color: string;
+  readonly children: string;
+}> = ({ color, children }) => (
+  <span
+    style={{
+      background: color,
+      padding: "0 10px",
+      border,
+      boxDecorationBreak: "clone",
+    }}
+  >
     {children}
   </span>
 );
@@ -160,11 +189,21 @@ export const Caption: React.FC<{
         fontWeight: 700,
         lineHeight: 1.2,
         padding: "20px 28px",
-        opacity: interpolate(frame, [from, from + 4, to - 4, to], [0, 1, 1, 0], clamp),
-        translate: interpolate(frame, [from, from + 12], ["0px 40px", "0px 0px"], {
-          ...clamp,
-          easing: snap,
-        }),
+        opacity: interpolate(
+          frame,
+          [from, from + 4, to - 4, to],
+          [0, 1, 1, 0],
+          clamp,
+        ),
+        translate: interpolate(
+          frame,
+          [from, from + 12],
+          ["0px 40px", "0px 0px"],
+          {
+            ...clamp,
+            easing: snap,
+          },
+        ),
       }}
     >
       {children}
@@ -257,14 +296,19 @@ export const Drop: React.FC<{ readonly r: number; readonly fill?: string }> = ({
 );
 
 // Bucket; origin is top-centre of the rim. `fill` is 0..1.
-export const Bucket: React.FC<{ readonly fill: number; readonly id: string }> = ({
-  fill,
-  id,
-}) => {
+export const Bucket: React.FC<{
+  readonly fill: number;
+  readonly id: string;
+}> = ({ fill, id }) => {
   const body = "M -38 0 L 38 0 L 30 70 L -30 70 Z";
   return (
     <g>
-      <path d="M -34 2 C -34 -46 34 -46 34 2" fill="none" stroke={B.ink} strokeWidth={STROKE} />
+      <path
+        d="M -34 2 C -34 -46 34 -46 34 2"
+        fill="none"
+        stroke={B.ink}
+        strokeWidth={STROKE}
+      />
       <clipPath id={id}>
         <path d={body} />
       </clipPath>
@@ -278,7 +322,13 @@ export const Bucket: React.FC<{ readonly fill: number; readonly id: string }> = 
         clipPath={`url(#${id})`}
         opacity={fill > 0.01 ? 1 : 0}
       />
-      <path d={body} fill="none" stroke={B.ink} strokeWidth={STROKE} strokeLinejoin="round" />
+      <path
+        d={body}
+        fill="none"
+        stroke={B.ink}
+        strokeWidth={STROKE}
+        strokeLinejoin="round"
+      />
     </g>
   );
 };
@@ -295,3 +345,32 @@ export const SafeAreaGuide: React.FC = () => (
     </svg>
   </AbsoluteFill>
 );
+
+export type SfxName =
+  | "pop"
+  | "thud"
+  | "water"
+  | "whoosh"
+  | "whip"
+  | "switch"
+  | "mouse-click"
+  | "ding"
+  | "page-turn";
+
+// One-shot sound effect starting at scene-local frame `at`.
+export const Sfx: React.FC<{
+  readonly at: number;
+  readonly name: SfxName;
+  readonly volume?: number;
+}> = ({ at, name, volume = 0.5 }) => {
+  const { fps } = useVideoConfig();
+  return (
+    <Audio
+      name={`SFX ${name}`}
+      from={at}
+      src={staticFile(`sfx/${name}.wav`)}
+      volume={volume}
+      premountFor={fps}
+    />
+  );
+};
