@@ -24,3 +24,25 @@ npm run render
 ```
 
 `scripts/snapshots.mjs` grabs still frames at given times for quick review.
+
+## Push notification untuk orang awam: Bahasa Indonesia (Remotion, Reels 1080×1920, 67s)
+
+`push-notification-id/push-notification-id.mp4` retells the same story for non-technical viewers, in Bahasa Indonesia and a neobrutalist style. It uses a letter-and-post-office analogy:
+
+| Analogi | Aslinya |
+|---|---|
+| Rumah | HP kamu |
+| Toko (pengirim) | server aplikasi |
+| Kantor Pos | Google FCM |
+| Alamat | token |
+| Jalur khusus kurir | koneksi Google Play services |
+
+It is built with [Remotion](https://www.remotion.dev/). Scenes live in `push-notification-id/src/scenes.tsx`, and timing is set in `src/theme.ts`.
+
+```sh
+cd push-notification-id
+npm install
+npm run studio                                         # live preview / scrub
+python3 scripts/soundtrack.py public/soundtrack.wav    # optional: regenerate audio
+npm run render                                         # add --browser-executable=<chrome> if Remotion can't download one
+```
