@@ -24,3 +24,24 @@ npm run render
 ```
 
 `scripts/snapshots.mjs` grabs still frames at given times for quick review.
+
+## Data pipeline: ember vs pipa (Reels, 1080×1920, 52s, Bahasa Indonesia)
+
+`data-pipeline-analogy/data-pipeline-analogy.mp4` explains data pipelines with a water analogy:
+
+1. **Pembuka**: data itu seperti air, dan semua tim butuh setiap hari.
+2. **Cara ember**: setiap kali butuh data, seseorang mengambilnya manual dari sungai.
+3. **Masalah**: lambat, sering tumpah (data hilang atau salah), dan diulang terus.
+4. **Cara pipa**: bangun sekali: Ambil (Extract) → Saring (Transform) → Simpan (Load) → Keran.
+5. **Buka keran**: data siap kapan pun dibutuhkan.
+6. **Perbandingan**: ember vs pipa, dari usaha awal sampai saat kebutuhan tumbuh.
+7. **Penutup**: data pipeline = pipa untuk datamu.
+
+This one is built with [Remotion](https://www.remotion.dev) (React):
+
+```sh
+cd data-pipeline-analogy
+npm install
+npm run dev                                   # Remotion Studio preview
+npx remotion render DataPipelineAnalogy data-pipeline-analogy.mp4
+```
