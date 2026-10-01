@@ -45,3 +45,13 @@ npm install
 npm run dev                                   # Remotion Studio preview
 npx remotion render DataPipelineAnalogy data-pipeline-analogy.mp4
 ```
+
+### Neobrutalism version (TikTok safe area)
+
+`data-pipeline-analogy/data-pipeline-analogy-brutal.mp4` tells the same story in a neobrutalist style: thick black outlines, hard offset shadows, flat colours, Space Grotesk. All text and illustrations sit inside the TikTok safe area, which at 1080×1920 is x 120–840, y 252–1280. The strip from y 252–360 may extend right to x 960. Only the dotted background reaches the edges. The source is in `src/brutal/`.
+
+```sh
+npx remotion render DataPipelineBrutal data-pipeline-analogy-brutal.mp4
+# Preview with the safe area shaded in red:
+npx remotion still DataPipelineBrutal check.png --frame=400 --props='{"showSafeArea":true}'
+```
