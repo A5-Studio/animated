@@ -61,3 +61,22 @@ python3 scripts/brutal_audio.py              # optional: regenerate music + synt
 # Preview with the safe area shaded in red:
 npx remotion still DataPipelineBrutal check.png --frame=400 --props='{"showSafeArea":true}'
 ```
+
+## Computational thinking (Reels, 1080×1920, 56s, Bahasa Indonesia)
+
+`data-pipeline-analogy/computational-thinking.mp4` explains computational thinking with one everyday example: **masak nasi goreng** (cooking fried rice). It uses the same neobrutalism kit and TikTok safe area as the brutal data-pipeline video.
+
+1. **Pembuka**: computational thinking = cara memecahkan masalah langkah demi langkah.
+2. **Contoh**: masak nasi goreng, tapi mulai dari mana?
+3. **Dekomposisi**: pecah tugas besar jadi 4 tugas kecil.
+4. **Pola**: nasi goreng, mie goreng dan kwetiau goreng punya pola yang sama.
+5. **Abstraksi**: fokus ke nasi, bumbu dan api; abaikan merek kompor atau warna wajan.
+6. **Algoritma**: langkah-langkah urut dengan perulangan ("aduk sampai panas"), lalu dijalankan seperti program.
+7. **Ringkasan**: 4 langkah dalam satu layar.
+8. **Penutup**.
+
+The source is in `src/ct/`. The music is `public/music-ct.wav`, from `python3 scripts/brutal_audio.py --music public/music-ct.wav 58 104 alt`.
+
+```sh
+npx remotion render ComputationalThinking computational-thinking.mp4
+```

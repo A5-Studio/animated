@@ -2,7 +2,10 @@
 
 Writes into public/: music-brutal.wav plus sfx/pop.wav, sfx/thud.wav, sfx/water.wav.
 Usage (from data-pipeline-analogy/): python3 scripts/brutal_audio.py
+Music for the computational-thinking video:
+  python3 scripts/brutal_audio.py --music public/music-ct.wav 58 104 alt
 """
+import sys
 import math
 import os
 import random
@@ -101,14 +104,20 @@ def noise_hit(dur, decay, hp=True):
 
 # ---------- music bed ----------
 
-def music(seconds=53.0, bpm=112):
+def music(seconds=53.0, bpm=112, variant="main"):
     buf = [0.0] * int(seconds * SR)
     beat = 60 / bpm
     bar = 4 * beat
-    # I – vi – IV – V in C
-    chords = [(48, [60, 64, 67]), (45, [60, 64, 69]), (41, [60, 65, 69]), (43, [59, 62, 67])]
-    hook = [(0, 72), (0.5, 76), (1, 79), (2, 76), (2.5, 79), (3, 81)]
-    hook2 = [(0, 74), (0.5, 76), (1, 72), (2, 69), (3, 67)]
+    if variant == "alt":
+        # vi – IV – I – V in C, a slightly more thoughtful "puzzle" feel
+        chords = [(45, [60, 64, 69]), (41, [60, 65, 69]), (48, [60, 64, 67]), (43, [59, 62, 67])]
+        hook = [(0, 76), (0.5, 72), (1, 69), (1.5, 72), (2, 76), (3, 79)]
+        hook2 = [(0, 77), (0.5, 76), (1, 74), (2, 72), (3, 71)]
+    else:
+        # I – vi – IV – V in C
+        chords = [(48, [60, 64, 67]), (45, [60, 64, 69]), (41, [60, 65, 69]), (43, [59, 62, 67])]
+        hook = [(0, 72), (0.5, 76), (1, 79), (2, 76), (2.5, 79), (3, 81)]
+        hook2 = [(0, 74), (0.5, 76), (1, 72), (2, 69), (3, 67)]
     kick_s, clap_s, hat_s = kick(), noise_hit(0.18, 0.05), noise_hit(0.05, 0.012)
     bars = int(seconds / bar) + 1
     for b in range(bars):
@@ -171,6 +180,11 @@ def water():
 
 
 if __name__ == "__main__":
+    if len(sys.argv) >= 2 and sys.argv[1] == "--music":
+        out, secs, bpm, variant = sys.argv[2], float(sys.argv[3]), float(sys.argv[4]), sys.argv[5]
+        write(out, music(secs, bpm, variant), peak=0.8)
+        print("done")
+        sys.exit(0)
     os.makedirs(os.path.join(OUT, "sfx"), exist_ok=True)
     write(os.path.join(OUT, "sfx", "pop.wav"), pop())
     write(os.path.join(OUT, "sfx", "thud.wav"), thud())

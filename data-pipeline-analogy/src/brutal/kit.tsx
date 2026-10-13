@@ -161,6 +161,8 @@ export const Mark: React.FC<{
       padding: "0 10px",
       border,
       boxDecorationBreak: "clone",
+      // A highlight never splits across lines; the line breaks before it instead.
+      whiteSpace: "nowrap",
     }}
   >
     {children}
