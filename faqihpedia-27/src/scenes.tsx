@@ -1,5 +1,4 @@
 import React from 'react';
-import { Img, staticFile } from 'remotion';
 import { At, Box, Burst, Sticker, ease, lin, pop } from './components';
 import { BODY, BORDER, C, HEAD, s, shadow } from './theme';
 
@@ -134,11 +133,11 @@ const Quote: React.FC<SceneProps> = ({ f }) => {
     <>
       <Title f={f} at={3.5} text="Quote · Pandji Pragiwaksono" bg={C.yellow} size={40} />
       {/* "jangan pernah bunuh" */}
-      <At x={180} y={230} s={P(f, 5.5) * (1 - lin(f, s(7.2), s(7.5)))} r={-8}>
+      <At x={300} y={250} s={P(f, 5.5) * (1 - lin(f, s(7.2), s(7.5)))} r={-8}>
         <Sticker bg={C.red} size={42} style={{ color: C.white }}>Jangan dibunuh!</Sticker>
       </At>
       {/* "tidak bisa mati" */}
-      <At x={820} y={240} s={P(f, 7.7) * (1 - lin(f, s(9.2), s(9.5)))} r={6}>
+      <At x={690} y={250} s={P(f, 7.7) * (1 - lin(f, s(9.2), s(9.5)))} r={6}>
         <Sticker bg={C.green} size={40}>Nggak bisa mati</Sticker>
       </At>
       {/* timeline floor */}
@@ -163,9 +162,9 @@ const Quote: React.FC<SceneProps> = ({ f }) => {
           <span style={{ fontFamily: HEAD, fontSize: 56 }}>z</span>
         </At>
       )}
-      <At x={500} y={330} s={P(f, 11.7, 220)} r={-6}>
-        <Burst size={330} color={C.pink} rot={f * 0.6}>
-          <span style={{ fontSize: 44 }}>PENYESALAN</span>
+      <At x={480} y={390} s={P(f, 11.7, 220)} r={-6}>
+        <Burst size={470} color={C.pink} rot={f * 0.6}>
+          <span style={{ fontSize: 34 }}>PENYESALAN</span>
         </Burst>
       </At>
     </>
@@ -305,12 +304,17 @@ const Kamar: React.FC<SceneProps> = ({ f }) => {
       {/* part 1: the GJLS clip + "10 penonton" */}
       <div style={{ position: 'absolute', inset: 0, transform: `translateX(${-1100 * cardOut}px)` }}>
         <Title f={f} at={44.7} text="Ada yang bilang…" bg={C.yellow} y={80} />
-        <At x={500} y={400} s={P(f, 44.9)} r={-2}>
-          <div style={{ border: `${SW}px solid ${ink}`, borderRadius: 22, boxShadow: shadow(12), overflow: 'hidden', background: C.white, width: 760 }}>
-            <div style={{ width: 760, height: 422, overflow: 'hidden', position: 'relative', borderBottom: `${SW}px solid ${ink}` }}>
-              <Img src={staticFile('gjls.png')} style={{ position: 'absolute', width: 760, left: 0, top: -332 * (760 / 924) }} />
-            </div>
-            <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 30, padding: '12px 20px' }}>GJLS Show × Anies Baswedan</div>
+        <At x={260} y={430} s={P(f, 44.9)} r={wobble(f, 2, 0.15)}>
+          <Person color={C.orange} size={240} />
+        </At>
+        <At x={650} y={330} s={P(f, 45.5)} r={2}>
+          <div style={{ position: 'relative' }}>
+            <Box bg={C.white} pad="26px 32px" radius={28} style={{ width: 460, fontFamily: HEAD, fontSize: 44, lineHeight: 1.15, textAlign: 'center' }}>
+              Walaupun penontonmu <span style={{ background: C.yellow, padding: '0 8px', border: `3px solid ${ink}`, borderRadius: 8 }}>dikit</span>…
+            </Box>
+            <svg width={80} height={70} viewBox="0 0 80 70" style={{ position: 'absolute', left: -50, bottom: 40 }}>
+              <path d="M80 6 L4 58 L80 46" fill={C.white} stroke={ink} strokeWidth={SW} strokeLinejoin="round" />
+            </svg>
           </div>
         </At>
         <At x={500} y={720} s={P(f, 47.6)} r={2}>

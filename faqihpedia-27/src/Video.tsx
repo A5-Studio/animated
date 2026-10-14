@@ -2,6 +2,7 @@ import React from 'react';
 import { AbsoluteFill, Easing, OffthreadVideo, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { At, Background, Box, Rich, Sticker, lin, pop } from './components';
 import { SCENES } from './scenes';
+import { Sfx } from './sfx';
 import { BORDER, C, HEAD, LAYOUT, MORPH, Mode, TOTAL, s, shadow } from './theme';
 
 /* ------------------------------------------------------------------ */
@@ -174,6 +175,7 @@ export const Faqihpedia27: React.FC = () => {
       <AnimCaptions f={f} o={g.anim} />
       <FullPops f={f} o={g.full} />
       <DayBadge f={f} o={1 - g.split} />
+      <Sfx />
     </AbsoluteFill>
   );
 };

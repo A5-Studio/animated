@@ -59,11 +59,12 @@ The single video layer morphs between three layouts. The schedule is `LAYOUT` in
 | `split` | illustration on top, cropped talking head on the bottom |
 | `anim` | illustration only; the voice keeps playing with our own captions |
 
-Scenes are in `src/scenes.tsx`. Each one is timed to the transcript in absolute seconds.
+Scenes are in `src/scenes.tsx`. Each one is timed to the transcript in absolute seconds. Subtle sound effects (`src/sfx.tsx`) sit on the same cue times; the sounds come from `scripts/sfx.py`.
 
 ```sh
 cd faqihpedia-27
 npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–89.5s is enough
+python3 scripts/sfx.py public/sfx            # optional: regenerate sound effects
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
