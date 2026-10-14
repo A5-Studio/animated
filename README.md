@@ -46,3 +46,14 @@ npm run studio                                         # live preview / scrub
 python3 scripts/soundtrack.py public/soundtrack.wav    # optional: regenerate audio
 npm run render                                         # add --browser-executable=<chrome> if Remotion can't download one
 ```
+
+## Risiko Claude untuk Google Workspace: Bahasa Indonesia (carousel, 10 slides 1080×1350)
+
+`claude-workspace-risiko-id/slides/` holds 10 PNG slides for an Instagram/Threads carousel. They explain, in plain Indonesian, six risks of connecting Claude to Gmail, Drive, Docs and Calendar: broad access, prompt injection, actions (send/share/delete), confident mistakes, data leaving Google, and account takeover. A slide of safe habits follows. The style matches the neobrutalist push notification video. Ready-to-paste post text is in `claude-workspace-risiko-id/caption.md`.
+
+Edit `claude-workspace-risiko-id/index.html`, then re-export:
+
+```sh
+npm install
+node scripts/carousel.mjs claude-workspace-risiko-id/index.html claude-workspace-risiko-id/slides
+```
