@@ -46,3 +46,24 @@ npm run studio                                         # live preview / scrub
 python3 scripts/soundtrack.py public/soundtrack.wav    # optional: regenerate audio
 npm run render                                         # add --browser-executable=<chrome> if Remotion can't download one
 ```
+
+## Faqihpedia · Anak Penasaran, hari ke-27 (Remotion, Reels 1080×1920, 88.5s)
+
+`faqihpedia-27/faqihpedia-27.mp4` takes a talking-head clip and adds neobrutalist illustrations in the same style as `push-notification-id`. The clip is cut right before the outro ("Itu aja video ke-27…").
+
+The single video layer morphs between three layouts. The schedule is `LAYOUT` in `src/theme.ts`:
+
+| Layout | What you see |
+|---|---|
+| `full` | talking head fills the frame, with stickers above the face |
+| `split` | illustration on top, cropped talking head on the bottom |
+| `anim` | illustration only; the voice keeps playing with our own captions |
+
+Scenes are in `src/scenes.tsx`. Each one is timed to the transcript in absolute seconds.
+
+```sh
+cd faqihpedia-27
+npm install
+cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–89.5s is enough
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
