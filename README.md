@@ -68,3 +68,23 @@ cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–89.5
 python3 scripts/sfx.py public/sfx            # optional: regenerate sound effects
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Faqihpedia · Yang Penting Ngomong #22 (Remotion, Reels 1080×1920, 72.8s)
+
+`faqihpedia-22/faqihpedia-22.mp4` is built the same way as `faqihpedia-27` (same layout engine, palette and sound effects). The topic is "pengalaman kerja ≠ durasi kerja", a line from the GJLS podcast with Anies Baswedan. The clip is cut right before the outro ("Mungkin itu saja video ke-22…" at 73.0s).
+
+| Time | Layout | Scene |
+|---|---|---|
+| 3.3–12.0 | `anim` | source: GJLS thumbnail (`public/gjls.jpg`) + the quote |
+| 16.0–27.4 | `split` | years on the job, still confused |
+| 27.4–40.6 | `anim` | the sharp one: dropped into a new field, gets A to Z |
+| 45.8–51.3 | `anim` | years go up, learning stays at zero |
+| 51.3–63.3 | `split` | learn as much as you can |
+| 63.3–end | `anim` | same years, more learned |
+
+```sh
+cd faqihpedia-22
+npm install
+cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
