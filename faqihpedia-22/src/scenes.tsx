@@ -93,20 +93,20 @@ const Podcast: React.FC<SceneProps> = ({ f }) => {
   const move = ease(f, s(6.2), s(6.8)); // quote card makes room for the thumbnail
   return (
     <>
-      <Title f={f} at={3.4} text="Inget banget dari…" bg={C.white} />
-      <At x={500} y={400} s={P(f, 6.4)} r={-1.5}>
-        <div style={{ width: 740, height: 409, border: `${SW}px solid ${ink}`, borderRadius: 20, boxShadow: shadow(12), overflow: 'hidden', background: ink }}>
+      <Title f={f} at={3.4} text="Inget banget dari…" bg={C.white} y={70} />
+      <At x={500} y={410} s={P(f, 6.4)} r={-1.5}>
+        <div style={{ width: 660, height: 495, border: `${SW}px solid ${ink}`, borderRadius: 20, boxShadow: shadow(12), overflow: 'hidden', background: ink }}>
           <Img src={staticFile('gjls.jpg')} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       </At>
-      <At x={210} y={210} s={P(f, 7.2, 220)} r={-8}>
+      <At x={200} y={190} s={P(f, 7.2, 220)} r={-8}>
         <Sticker bg={C.yellow} size={36}>Podcast GJLS</Sticker>
       </At>
-      <At x={760} y={600} s={P(f, 9.4, 220)} r={4}>
-        <Sticker bg={C.pink} size={32}>Tamu: Anies Baswedan</Sticker>
+      <At x={730} y={205} s={P(f, 9.4, 220)} r={4}>
+        <Sticker bg={C.pink} size={28}>Tamu: Anies Baswedan</Sticker>
       </At>
       {/* the line itself, big first, then tucked under the thumbnail */}
-      <At x={500} y={440 + 330 * move} s={P(f, 3.6) * (1.12 - 0.22 * move)} r={1}>
+      <At x={500} y={440 + 335 * move} s={P(f, 3.6) * (1.12 - 0.22 * move)} r={1}>
         <Box bg={C.white} pad="18px 30px" style={{ display: 'flex', alignItems: 'center', gap: 22, whiteSpace: 'nowrap', fontFamily: HEAD, fontSize: 44 }}>
           <span>Pengalaman kerja</span>
           <span style={{ background: C.red, color: C.white, border: `${SW}px solid ${ink}`, borderRadius: 12, padding: '0 14px' }}>≠</span>
