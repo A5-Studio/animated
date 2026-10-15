@@ -88,3 +88,28 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Faqihpedia · Yang Penting Ngomong #9 (Remotion, Reels 1080×1920, 77.8s)
+
+`faqihpedia-09/faqihpedia-09.mp4` is built the same way as `faqihpedia-22`. The topic is judging people on a 0–100 scale: start everyone at 50, then let what they do move them. The clip is cut right before the outro ("Mungkin itu aja sih video ke-9…" at 77.9s).
+
+New in this one:
+
+- **Punch-in zooms** on the full-frame talking head (`ZOOMS` in `src/theme.ts`), each with a `zoom` swish.
+- **Wipe transition**: a slanted color band sweeps across when the layout cuts to or from `anim`.
+- Two more sounds in `scripts/sfx.py`: `zoom` and `buzz` (for the wrong spots on the scale).
+
+| Time | Layout | Scene |
+|---|---|---|
+| 16.4–25.3 | `split` | people waiting to be placed on a line |
+| 25.3–37.8 | `anim` | 0 = really bad, 100 = really good, nobody is either |
+| 41.4–57.9 | `split` | start at 50, slide right for good deeds, left for bad |
+| 61.9–end | `anim` | new people: not too far right (too trusting), not too far left (paranoid) |
+
+```sh
+cd faqihpedia-09
+npm install
+cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–78s is enough
+python3 scripts/sfx.py public/sfx            # optional: regenerate sound effects
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
