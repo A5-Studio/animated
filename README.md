@@ -88,3 +88,54 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Faqihpedia · Yang Penting Ngomong #9 (Remotion, Reels 1080×1920, 77.8s)
+
+`faqihpedia-09/faqihpedia-09.mp4` is built the same way as `faqihpedia-22`. The topic is judging people on a 0–100 scale: start everyone at 50, then let what they do move them. The clip is cut right before the outro ("Mungkin itu aja sih video ke-9…" at 77.9s).
+
+New in this one:
+
+- **Punch-in zooms** on the full-frame talking head (`ZOOMS` in `src/theme.ts`), each with a `zoom` swish.
+- **Wipe transition**: a slanted color band sweeps across when the layout cuts to or from `anim`.
+- Two more sounds in `scripts/sfx.py`: `zoom` and `buzz` (for the wrong spots on the scale).
+
+| Time | Layout | Scene |
+|---|---|---|
+| 16.4–25.3 | `split` | people waiting to be placed on a line |
+| 25.3–37.8 | `anim` | 0 = really bad, 100 = really good, nobody is either |
+| 41.4–57.9 | `split` | start at 50, slide right for good deeds, left for bad |
+| 61.9–end | `anim` | new people: not too far right (too trusting), not too far left (paranoid) |
+
+```sh
+cd faqihpedia-09
+npm install
+cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–78s is enough
+python3 scripts/sfx.py public/sfx            # optional: regenerate sound effects
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
+
+## Faqihpedia · Yang Penting Ngomong #9, cut-out edition (Remotion, Reels 1080×1920, 77.8s)
+
+`faqihpedia-09-cutout/faqihpedia-09-cutout.mp4` is the same clip and the same cut as `faqihpedia-09`, in a different style: dark neon, Inter type, and kinetic headlines. In the four explainer scenes the person is **cut out of the room** and stands in front of the animation. Giant type sits behind them and the scale and chips sit in front.
+
+- **Matte**: `scripts/matte.py` runs [Robust Video Matting](https://github.com/PeterL1n/RobustVideoMatting) (`rvm_mobilenetv3_fp32.onnx`) on CPU and writes a grayscale matte. ffmpeg merges it with the clip into `public/person.webm` (VP9 with alpha).
+- **Transition**: a glowing scan line sweeps the room away top-down, then the person shrinks into their scene pose. Going back, they grow first, then the room scans back in.
+- Layout schedule is `LAYOUT` in `src/theme.ts`. Scenes and per-scene poses are in `src/scenes.tsx`.
+
+| Time | Scene |
+|---|---|
+| 16.4–25.3 | "SKALA" behind the person, the scale draws in |
+| 25.3–37.8 | giant 0 and 100 behind, "Nggak ada!", "Manusia itu kompleks" |
+| 41.4–57.9 | live giant score behind (50 → 85 → 25), marker on the scale |
+| 61.9–end | new people: marker at 50, ghosts drift right and left |
+
+```sh
+cd faqihpedia-09-cutout
+npm install
+cp <original clip>.mp4 public/source.mp4                       # not committed
+pip install onnxruntime numpy                                   # once
+python3 scripts/matte.py rvm_mobilenetv3_fp32.onnx public/source.mp4 alpha.mp4 77.8
+ffmpeg -i public/source.mp4 -i alpha.mp4 -t 77.8 -filter_complex "[0:v][1:v]alphamerge,format=yuva420p" \
+  -c:v libvpx-vp9 -b:v 0 -crf 30 -deadline good -cpu-used 5 -row-mt 1 -an public/person.webm
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
