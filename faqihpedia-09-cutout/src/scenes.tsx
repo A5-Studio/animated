@@ -103,8 +103,8 @@ const NolBack: React.FC<P> = ({ f }) => {
       <At x={210} y={1020} s={at(f, 26.7, 140)} o={dim}>
         <Giant text="0" c={C.red} size={560} />
       </At>
-      <At x={870} y={1020} s={at(f, 27.7, 140)} o={dim}>
-        <Giant text="100" c={C.lime} size={330} />
+      <At x={820} y={1020} s={at(f, 27.7, 140)} o={dim}>
+        <Giant text="100" c={C.lime} size={290} />
       </At>
     </>
   );
