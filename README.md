@@ -153,3 +153,25 @@ cd expertcare-telon
 npm install
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## MSCI & nasib IHSG: cartoon speech + market context (Remotion, 1080×1920, 37.5s)
+
+`ihsg-msci/ihsg-msci.mp4` uses 30.3s of audio from a speech at the Sidang Kabinet Paripurna (39.3–69.6s of the source clip: "Saya hanya katakan kepada MSCI… dan kita tidak mengenal menyerah."). A cartoon speaker at a podium lip-syncs to the voice level. Panels above it are timed to the speech:
+
+| Time | Panel |
+|---|---|
+| 1.2s | MSCI proposes moving Indonesia from Emerging to Standalone Market |
+| 10.2s | IHSG 2026: ~8,647 at the start of the year to ~5,279 on 20 Oct (about −40% YTD) |
+| 19.2s | the last week day by day: −11.57%, −3.64%, +5.65% |
+| 25.8s–end | risk for 22 Oct as scenarios (no price target), plus a "not investment advice" note and sources |
+
+IHSG levels are press reports of BEI closes (Kontan, Kompas, Pintu, Investing.com) as of 21 Oct 2026.
+
+```sh
+cd ihsg-msci
+npm install
+ffmpeg -ss 39.3 -to 69.6 -i <source clip>.mp4 -vn -ac 1 -ar 44100 \
+  -af "afade=t=in:d=0.15,afade=t=out:st=30.05:d=0.25,loudnorm=I=-14:TP=-1.5" public/speech.wav   # not committed
+python3 scripts/prep_audio.py public/speech.wav data/captions.json src/audio-data.ts
+npm run render -- --browser-executable=<chrome-headless-shell>
+```

@@ -15,8 +15,8 @@ const SHIRT = '#F7F5F0';
 const SHIRT_SHADE = '#DCD8CF';
 const PECI = '#1C1C1F';
 const HAIR = '#8E8A86';
-const WOOD = '#7A4B2A';
-const WOOD_DARK = '#5C371E';
+const WOOD = '#1E2A4A';
+const WOOD_DARK = '#141D36';
 
 export const Character: React.FC<{ mouth: number; blink: number; tilt: number; point: number }> = ({ mouth, blink, tilt, point }) => {
   const m = Math.max(0, Math.min(1, mouth));

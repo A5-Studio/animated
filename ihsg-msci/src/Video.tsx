@@ -83,7 +83,7 @@ const POINTS: { d: number; v: number; label?: string }[] = [
   { d: 0, v: 8647, label: 'Awal 2026' },
   { d: 141, v: 6162, label: '22 Mei' },
   { d: 161, v: 5867 },
-  { d: 274, v: 6037, label: '2 Okt' },
+  { d: 274, v: 6037 },
   { d: 287, v: 5864 },
   { d: 288, v: 5185, label: '16 Okt' },
   { d: 291, v: 4997 },
@@ -126,7 +126,7 @@ const Chart: React.FC<{ f: number }> = ({ f }) => {
         {POINTS.filter((p) => p.label && p.d <= dEnd).map((p) => (
           <g key={p.d}>
             <circle cx={px(p.d)} cy={py(p.v)} r={9} fill={C.bg} stroke={C.text} strokeWidth={4} />
-            <text x={px(p.d) - (p.d > 280 ? 14 : -14)} y={py(p.v) + (p.d === 288 ? 44 : -18)} textAnchor={p.d > 280 ? 'end' : 'start'} fill={C.text} fontFamily={FONT} fontSize={26} fontWeight={800}>
+            <text x={px(p.d) - (p.d > 280 ? 14 : -14)} y={py(p.v) + (p.d === 288 ? 46 : p.d === 292 ? -34 : -18)} textAnchor={p.d > 280 ? 'end' : 'start'} fill={C.text} fontFamily={FONT} fontSize={26} fontWeight={800}>
               {p.label} · {fmt(p.v)}
             </text>
           </g>
@@ -214,13 +214,16 @@ const Speaker: React.FC<{ f: number }> = ({ f }) => {
   const i = f - s(SPEECH_AT);
   const lv = i >= 0 && i < LEVEL.length ? LEVEL[i] : 0;
   const prev = i >= 1 && i - 1 < LEVEL.length ? LEVEL[i - 1] : 0;
-  const mouth = (lv + prev) / 2;
+  // the level also picks up applause; keep the mouth shut through "(tepuk tangan)"
+  const sec = i / FPS;
+  const clapping = CAPTIONS.some((c) => c.t.startsWith('(') && sec >= c.a && sec < c.b);
+  const mouth = clapping ? 0 : (lv + prev) / 2;
   const blinkPhase = f % 110;
   const blink = blinkPhase < 4 ? Math.sin((blinkPhase / 4) * Math.PI) : 0;
   // raise a finger while the voice stays loud for a moment
   let loud = 0;
   for (let k = Math.max(0, i - 20); k <= i && k < LEVEL.length; k++) loud += LEVEL[k] > 0.55 ? 1 : 0;
-  const point = interpolate(loud, [8, 16], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  const point = clapping ? 0 : interpolate(loud, [8, 16], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   return (
     <div style={{ position: 'absolute', left: 540 - 330, top: 1920 - 836, transform: `scale(1.1)`, transformOrigin: '50% 100%' }}>
       <Character mouth={mouth} blink={blink} tilt={Math.sin(f * 0.05) * 2.5 + mouth * 2} point={point} />
@@ -248,7 +251,7 @@ const Opener: React.FC<{ f: number }> = ({ f }) => {
   return (
     <AbsoluteFill style={{ opacity: o, justifyContent: 'flex-start', alignItems: 'center', paddingTop: 260, fontFamily: FONT }}>
       <div style={{ transform: `scale(${pop(f, 2)})`, textAlign: 'center' }}>
-        <div style={{ fontSize: 34, fontWeight: 800, letterSpacing: 4, color: C.amber }}>PIDATO PRESIDEN</div>
+        <div style={{ fontSize: 34, fontWeight: 800, letterSpacing: 4, color: C.amber }}>SIDANG KABINET PARIPURNA</div>
         <div style={{ fontSize: 76, fontWeight: 900, color: C.text, lineHeight: 1.05, marginTop: 10 }}>MSCI & nasib IHSG</div>
       </div>
     </AbsoluteFill>
@@ -273,6 +276,7 @@ export const IhsgMsci: React.FC = () => {
       <Panel f={f} a={PANELS.risk} b={end + 1}><Risk f={f} /></Panel>
       <Speaker f={f} />
       <Captions f={f} />
+      <div style={{ position: 'absolute', right: 30, bottom: 30, fontFamily: FONT, fontSize: 20, fontWeight: 600, color: C.dim, textAlign: 'right' }}>Audio: Sidang Kabinet Paripurna, Okt 2026<br />via kumparan / Sekretariat Presiden</div>
       <div style={{ position: 'absolute', left: 30, top: 1060, fontFamily: FONT, fontSize: 22, fontWeight: 700, color: C.dim, transform: 'rotate(-90deg)', transformOrigin: 'left top' }}>ilustrasi kartun</div>
       {AUDIO_SECONDS > 0 && (
         <Sequence from={s(SPEECH_AT)} layout="none">
@@ -290,4 +294,4 @@ export const IhsgMsci: React.FC = () => {
 
 /** the speech clip; absent until scripts/prep_audio.py has been run on it */
 const SpeechAudio: React.FC = () => (HAS_SPEECH ? <Html5Audio src={staticFile('speech.wav')} /> : null);
-const HAS_SPEECH = false;
+const HAS_SPEECH = true;

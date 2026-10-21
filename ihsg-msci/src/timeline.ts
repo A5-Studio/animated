@@ -7,11 +7,10 @@ export const SPEECH_AT = 1.2;
 export const HOLD = 6;
 export const DURATION = s(SPEECH_AT + AUDIO_SECONDS + HOLD);
 
-const D = AUDIO_SECONDS;
-/** panel scenes in seconds (absolute) */
+/** panel scenes in seconds (absolute), timed to the speech */
 export const PANELS = {
-  msci: SPEECH_AT,
-  chart: SPEECH_AT + D * 0.38,
-  week: SPEECH_AT + D * 0.62,
-  risk: SPEECH_AT + D * 0.82,
+  msci: SPEECH_AT, // "Saya hanya katakan kepada MSCI… tidak akan gentar"
+  chart: SPEECH_AT + 9.0, // applause, then "kita tidak takut"
+  week: SPEECH_AT + 18.0, // "kita punya kekuatan… keberanian"
+  risk: SPEECH_AT + 24.6, // "rela berkorban… tidak mengenal menyerah", then held
 };
