@@ -139,3 +139,17 @@ ffmpeg -i public/source.mp4 -i alpha.mp4 -t 77.8 -filter_complex "[0:v][1:v]alph
   -c:v libvpx-vp9 -b:v 0 -crf 30 -deadline good -cpu-used 5 -row-mt 1 -an public/person.webm
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Expert Care Telon Calming Rub Cream: Shopee affiliate video (Remotion, 1080×1920, 24.5s)
+
+`expertcare-telon/expertcare-telon.mp4` is a short product video built from the listing photo and description, with no talking head. It has six scenes: hook (fussy, bloated baby) → product reveal → ingredients → benefits → how to use → CTA ("Klik produk di bawah ↓"). The palette comes from the product photo (lavender, cream, terracotta, herb green).
+
+- `scripts/cutout.py` cuts the tube out of the listing photo (`public/img/product.jpg` → `public/img/tube.png`).
+- `scripts/music.py` synthesizes the background track (`public/music.wav`), so there is nothing to license.
+- Scene times are `SCENES` in `src/theme.ts`; scenes, the tube's path and the sound cues are in `src/Video.tsx`.
+
+```sh
+cd expertcare-telon
+npm install
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
