@@ -88,3 +88,21 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Gosok Berhadiah: merchant use cases (screen recording, 1920×1080, 75s)
+
+`gosok-berhadiah-demo/gosok-berhadiah-demo.mp4` is a walkthrough of the merchant scratch widget from [faqihbw/gosok-berhadiah](https://github.com/faqihbw/gosok-berhadiah). It records the real demo app and shows only the phone, next to a panel that highlights the current use case:
+
+1. **Scratch to win cash**: enter the phone number, scratch the card, win commission paid every Friday.
+2. **Android = double chance**: an Android EDC order earns 2 cards.
+3. **Grand-prize draw ticket**: a `GOSOK-XXXXX` code for the live Instagram draw.
+4. **Every prize in one place**: totals and scratch history for repeat buyers.
+5. **Clear order status**: what the merchant sees while ops verify the order.
+
+Unlike the other videos, this one is recorded in real time instead of rendered frame by frame. `record.mjs` drives the app with Playwright, adds the panel, title cards and a touch dot as overlays, and captures frames from the CDP screencast. It logs every tap and reveal to `cues.json`, and `soundtrack.py` places sound effects on those times. Math.random is seeded, so every take shows the same prizes.
+
+```sh
+npm install
+git clone https://github.com/faqihbw/gosok-berhadiah /tmp/gosok && (cd /tmp/gosok && python3 -m http.server 8000 &)
+node gosok-berhadiah-demo/record.mjs http://localhost:8000/demo/   # records, adds the soundtrack, writes the MP4
+```

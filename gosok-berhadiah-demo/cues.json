@@ -1,0 +1,125 @@
+{
+ "duration": 75.438,
+ "cues": [
+  {
+   "type": "title",
+   "t": -0.008
+  },
+  {
+   "type": "whoosh",
+   "t": 3.596
+  },
+  {
+   "type": "caption",
+   "t": 4.501
+  },
+  {
+   "type": "click",
+   "t": 5.783
+  },
+  {
+   "type": "click",
+   "t": 7.782
+  },
+  {
+   "type": "click",
+   "t": 10.518
+  },
+  {
+   "type": "scratch",
+   "t": 13.137
+  },
+  {
+   "type": "reveal",
+   "t": 15.254
+  },
+  {
+   "type": "click",
+   "t": 19.967
+  },
+  {
+   "type": "caption",
+   "t": 21.392
+  },
+  {
+   "type": "click",
+   "t": 22.644
+  },
+  {
+   "type": "click",
+   "t": 24.632
+  },
+  {
+   "type": "click",
+   "t": 27.89
+  },
+  {
+   "type": "scratch",
+   "t": 30.5
+  },
+  {
+   "type": "reveal",
+   "t": 32.584
+  },
+  {
+   "type": "click",
+   "t": 36.7
+  },
+  {
+   "type": "caption",
+   "t": 38.712
+  },
+  {
+   "type": "click",
+   "t": 39.931
+  },
+  {
+   "type": "click",
+   "t": 41.88
+  },
+  {
+   "type": "click",
+   "t": 43.913
+  },
+  {
+   "type": "scratch",
+   "t": 46.533
+  },
+  {
+   "type": "reveal",
+   "t": 48.636
+  },
+  {
+   "type": "click",
+   "t": 53.947
+  },
+  {
+   "type": "caption",
+   "t": 55.35
+  },
+  {
+   "type": "click",
+   "t": 56.563
+  },
+  {
+   "type": "click",
+   "t": 58.563
+  },
+  {
+   "type": "caption",
+   "t": 62.695
+  },
+  {
+   "type": "click",
+   "t": 63.916
+  },
+  {
+   "type": "click",
+   "t": 65.912
+  },
+  {
+   "type": "whoosh",
+   "t": 70.236
+  }
+ ]
+}
