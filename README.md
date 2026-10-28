@@ -88,3 +88,16 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Three-finger salute loop (Remotion, Reels 1080×1920, 10s)
+
+`three-finger-salute/three-finger-salute.mp4` is a seamless 10-second loop: a raised three-finger salute over green, blue and red vertical stripes, with fire and rising embers at the bottom and the line **"IF WE BURN, YOU BURN WITH US"**.
+
+Every motion (hand bob, text punch, flames, embers) is a periodic function with a whole number of cycles per 300 frames, so the last frame flows straight into the first. All drawing is in `src/Video.tsx`; colors and loop length are in `src/theme.ts`.
+
+```sh
+cd three-finger-salute
+npm install
+npm run studio                                         # live preview / scrub
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
