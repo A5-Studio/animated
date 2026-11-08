@@ -88,3 +88,24 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## TRIMS (Trivia Makan Siang) bumper (Remotion, Reels 1080×1920, 2.0s @ 60fps)
+
+`trims-bumper/trims-bumper.mp4` is the 2-second opening for the TRIMS lunch-trivia series, in the same neobrutalist style.
+
+| Time | What happens | Sound |
+|---|---|---|
+| 0.00–0.10 | sunburst + plate slams in | whoosh, kick + thud |
+| 0.23–0.57 | T R I M S tiles drop in | rising marimba note + clap per letter |
+| 0.73–0.93 | "?" spins in, "TRIVIA MAKAN SIANG" ribbon, fork + spoon | boing, swish, metal clink |
+| 1.17 | `@faqihpedia` stamp + confetti | kick + snare + "ta-da" chord, sparkles |
+| 1.77–2.00 | iris closes to black | whoosh out |
+
+Cue frames live in `src/theme.ts` (`CUE`); `scripts/jingle.py` uses the same times.
+
+```sh
+cd trims-bumper
+npm install
+python3 scripts/jingle.py public/jingle.wav   # optional: regenerate audio (needs numpy)
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
