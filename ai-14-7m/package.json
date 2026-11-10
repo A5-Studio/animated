@@ -5,7 +5,8 @@
     "studio": "remotion studio",
     "render": "remotion render Ai147M ai-14-7m.mp4",
     "still": "remotion still Ai147M",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "render:h": "remotion render Ai147MH ai-14-7m-horizontal.mp4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.532",

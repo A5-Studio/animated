@@ -120,7 +120,9 @@ export const Header: React.FC<{ step?: number; title: string; color?: string }> 
 };
 
 /** caption card in the lower third; switches between lines at the given local frames */
-export const Captions: React.FC<{ lines: { from: number; to: number; text: string }[] }> = ({ lines }) => {
+export const Captions: React.FC<{ lines: { from: number; to: number; text: string }[]; x?: number; y?: number; w?: number; size?: number }> = ({
+  lines, x = 510, y = 1480, w = 900, size = 44,
+}) => {
   const f = useCurrentFrame();
   return (
     <>
@@ -129,8 +131,8 @@ export const Captions: React.FC<{ lines: { from: number; to: number; text: strin
         const s = pop(f, l.from, 220);
         const out = lin(f, l.to - 6, l.to);
         return (
-          <At key={i} x={510} y={1480} s={(0.85 + 0.15 * s) * (1 - 0.15 * out)} o={Math.min(1, s * 1.5) * (1 - out)} r={i % 2 ? 1 : -1}>
-            <Box pad="26px 34px" style={{ width: 900, fontSize: 44, lineHeight: 1.35, fontWeight: 500, textAlign: 'center' }}>
+          <At key={i} x={x} y={y} s={(0.85 + 0.15 * s) * (1 - 0.15 * out)} o={Math.min(1, s * 1.5) * (1 - out)} r={i % 2 ? 1 : -1}>
+            <Box pad="26px 34px" style={{ width: w, fontSize: size, lineHeight: 1.35, fontWeight: 500, textAlign: 'center' }}>
               <Rich text={l.text} />
             </Box>
           </At>
