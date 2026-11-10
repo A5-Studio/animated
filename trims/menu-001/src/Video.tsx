@@ -3,9 +3,10 @@ import { AbsoluteFill, Html5Audio, Sequence, staticFile, useCurrentFrame } from 
 import { At, Box, Gingham, Rich, lin, pop } from './components';
 import { SCENES } from './scenes';
 import { C, HEAD, TIMING, TOTAL } from './theme';
+import VO from './vo.json';
 
 /** voice clips exist in public/vo (scripts/voice.py) */
-export const HAS_VO = false;
+export const HAS_VO = Object.keys(VO).length > 0;
 
 const STAGE_TOP = 180;
 
@@ -89,7 +90,7 @@ export const TrimsMenu001: React.FC = () => {
       {HAS_VO &&
         TIMING.filter((b) => b.vo).map((b) => (
           <Sequence key={`vo-${b.id}`} from={b.from} durationInFrames={b.len} layout="none">
-            <Html5Audio src={staticFile(`vo/${b.id}.wav`)} />
+            {(VO as Record<string, number>)[b.id] ? <Html5Audio src={staticFile(`vo/${b.id}.wav`)} /> : null}
           </Sequence>
         ))}
       {CUES.map(([from, kind], i) => (

@@ -1,5 +1,6 @@
 import { loadFont } from '@remotion/fonts';
 import { staticFile } from 'remotion';
+import VO from './vo.json';
 
 export const FPS = 30;
 
@@ -52,10 +53,14 @@ export const BEATS: Beat[] = [
 ];
 
 /** start frame and length in frames of each beat */
+const voDur = VO as Record<string, number>;
+/** a beat lasts as long as its voice clip plus a breath, else its scripted guess */
+const BREATH = 0.45;
 export const TIMING = (() => {
   let at = 0;
   return BEATS.map((b) => {
-    const t = { ...b, from: at, len: s(b.dur) };
+    const d = voDur[b.id] ? voDur[b.id] + BREATH : b.dur;
+    const t = { ...b, from: at, len: s(d) };
     at += t.len;
     return t;
   });
