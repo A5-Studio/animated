@@ -5,7 +5,8 @@
     "studio": "remotion studio",
     "render": "remotion render Wallts147M wallts-14-7m.mp4",
     "still": "remotion still Wallts147M",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "infografik": "remotion still WalltsInfografik wallts-14-7m-infografik.png --scale=2"
   },
   "dependencies": {
     "@remotion/cli": "4.0.532",

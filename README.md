@@ -106,6 +106,7 @@ cd uang-14-7m
 npm install
 python3 scripts/soundtrack.py public/soundtrack.wav    # optional: regenerate audio
 npm run render -- --browser-executable=/opt/pw-browsers/chromium
+npm run infografik -- --browser-executable=/opt/pw-browsers/chromium
 ```
 
 ## Rp14,7 M buat langganan AI (Remotion, Reels 1080×1920, 54s)
@@ -143,9 +144,12 @@ npm run render:h -- --browser-executable=/opt/pw-browsers/chromium   # horizonta
 | Ganti tas baru tiap hari | 107 tahun |
 | Bonus: produk terlaris, dompet Wallts BROCK Rp144.704 (10RB+ terjual) | 101.586 dompet, ±10× semua yang pernah terjual |
 
+There is also a static infographic, `wallts-14-7m/wallts-14-7m-infografik.png` (1080×1350 at 2×, Instagram feed). It is the `WalltsInfografik` still in `src/Infographic.tsx` and uses the same numbers.
+
 ```sh
 cd wallts-14-7m
 npm install
 python3 scripts/soundtrack.py public/soundtrack.wav    # optional: regenerate audio
 npm run render -- --browser-executable=/opt/pw-browsers/chromium
+npm run infografik -- --browser-executable=/opt/pw-browsers/chromium
 ```
