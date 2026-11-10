@@ -88,3 +88,7 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Faqihpedia segment kit
+
+`brand/segment-kit.html` is the visual identity guide for the three @faqihpedia segments: **TRIMS** (Trivia Makan Siang), **Marketing 0 KM** (digital marketing untuk pemula) and **Spreadsheet Gym** (latihan Google Sheets). Each keeps the Faqihpedia neobrutalist style and adds one lead color, one motif and one episode-number format. Color tokens and fixed lines for Remotion are in `brand/segments.ts`.
