@@ -106,7 +106,6 @@ cd uang-14-7m
 npm install
 python3 scripts/soundtrack.py public/soundtrack.wav    # optional: regenerate audio
 npm run render -- --browser-executable=/opt/pw-browsers/chromium
-npm run infografik -- --browser-executable=/opt/pw-browsers/chromium
 ```
 
 ## Rp14,7 M buat langganan AI (Remotion, Reels 1080×1920, 54s)
