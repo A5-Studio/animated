@@ -107,3 +107,22 @@ npm install
 python3 scripts/soundtrack.py public/soundtrack.wav    # optional: regenerate audio
 npm run render -- --browser-executable=/opt/pw-browsers/chromium
 ```
+
+## Rp14,7 M buat langganan AI (Remotion, Reels 1080×1920, 54s)
+
+`ai-14-7m/ai-14-7m.mp4` asks how long Rp14.700.000.000 lasts on the most expensive consumer plan of three popular AI apps. It is built like `uang-14-7m` (same components, palette and sound effects). Every number comes from `PLANS` in `src/theme.ts`, and subscriptions are assumed to start in November 2026.
+
+| AI | Plan tertinggi (Nov 2026) | Per bulan | Rp14,7 M cukup untuk |
+|---|---|---|---|
+| Claude | Ultra (dulu Max 20x), $200 | Rp3.625.200 | 4.054 bulan = 337 tahun, sampai 2364 |
+| ChatGPT | Pro 500, $500 | Rp9.063.000 | 1.621 bulan = 135 tahun, sampai 2161 |
+| Gemini | Google AI Ultra 20x | Rp3.399.000 (harga resmi Indonesia) | 4.324 bulan = 360 tahun, sampai 2387 |
+
+Dollar prices use the market rate of Rp18.126/US$ (6 Nov 2026) and exclude tax. To update a price or the rate, edit `src/theme.ts` and re-render.
+
+```sh
+cd ai-14-7m
+npm install
+python3 scripts/soundtrack.py public/soundtrack.wav    # optional: regenerate audio
+npm run render -- --browser-executable=/opt/pw-browsers/chromium
+```
