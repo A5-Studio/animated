@@ -88,3 +88,22 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Rp14,7 M bisa beli apa? (Remotion, Reels 1080×1920, 56s)
+
+`uang-14-7m/uang-14-7m.mp4` spends Rp14.700.000.000 three ways. It uses the same neobrutalist style as `push-notification-id`, with no voiceover: captions, counters and sound effects only. All prices are from early November 2026, and every number comes from `src/theme.ts`.
+
+| Belanja | Harga | Hasil |
+|---|---|---|
+| Beras medium | Rp13.686/kg (rata-rata nasional Bapanas, 2 Nov 2026) | 1.074.090 kg ≈ 1.074 ton, cukup buat ±13 ribu orang setahun (asumsi 80 kg/orang/tahun) |
+| Kuliah di PTN | UKT ±Rp5,2 juta/semester × 8 semester = Rp41,6 juta | 353 orang lulus S1 |
+| Pertalite | Rp10.000/liter (Pertamina, Nov 2026) | 1.470.000 liter = 58,8 juta km naik motor (40 km/L) ≈ keliling bumi 1.467× |
+
+There is no official national average for UKT. Rp5,2 juta is a figure quoted by Kompas.id, and real UKT runs from Rp0 to tens of millions depending on campus, program and bracket. To change any assumption, edit `src/theme.ts` and re-render.
+
+```sh
+cd uang-14-7m
+npm install
+python3 scripts/soundtrack.py public/soundtrack.wav    # optional: regenerate audio
+npm run render -- --browser-executable=/opt/pw-browsers/chromium
+```
