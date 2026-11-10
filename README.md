@@ -130,3 +130,21 @@ npm run render -- --browser-executable=/opt/pw-browsers/chromium     # vertical
 python3 scripts/soundtrack_h.py public/soundtrack-h.wav  # optional
 npm run render:h -- --browser-executable=/opt/pw-browsers/chromium   # horizontal
 ```
+
+## Rp14,7 M borong tas Wallts (Remotion, 1920×1080, 44s)
+
+`wallts-14-7m/wallts-14-7m.mp4` spends Rp14.700.000.000 on the most expensive Wallts product on Shopee: the Wallts Teva travel backpack at Rp373.350 (voucher price, Shopee Mall, 10 Nov 2026). The product photos in `public/` are cropped from the author's screenshot of the listing. All numbers come from `src/theme.ts`.
+
+| Fakta | Angka |
+|---|---|
+| Jumlah tas | 39.373 tas, kembalian Rp90.450 |
+| Kalau ditumpuk (±45 cm per tas) | 17.718 m ≈ 2× Gunung Everest (8.849 m) |
+| Dibanding yang sudah terjual (74) | 532× lipat |
+| Ganti tas baru tiap hari | 107 tahun |
+
+```sh
+cd wallts-14-7m
+npm install
+python3 scripts/soundtrack.py public/soundtrack.wav    # optional: regenerate audio
+npm run render -- --browser-executable=/opt/pw-browsers/chromium
+```
