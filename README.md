@@ -92,3 +92,17 @@ npm run render -- --browser-executable=<chrome-headless-shell>
 ## Faqihpedia segment kit
 
 `brand/segment-kit.html` is the visual identity guide for the three @faqihpedia segments: **TRIMS** (Trivia Makan Siang), **Marketing 0 KM** (digital marketing untuk pemula) and **Spreadsheet Gym** (latihan Google Sheets). Each keeps the Faqihpedia neobrutalist style and adds one lead color, one motif and one episode-number format. Color tokens and fixed lines for Remotion are in `brand/segments.ts`.
+
+## TRIMS · Menu #001: Siapa itu Claude? (Remotion, Reels 1080×1920, 64.5s)
+
+`trims/menu-001/trims-menu-001.mp4` is the first TRIMS (Trivia Makan Siang) episode: where the name Claude is believed to come from (Claude Shannon), Alan Turing, and Shannon's 1951 next-letter experiment. It is fully animated, with no talking head, in the TRIMS identity from `brand/segment-kit.html`.
+
+The narration was generated with [VoiceStudio](https://github.com/debpalash/voicestudio)'s OmniVoice engine. A voice is designed once (`public/vo/_ref.wav`), and every beat is cloned from it so the voice stays consistent. Foreign names are spelled phonetically in `scripts/voice.py` ("Klod Syenen"). The clip lengths are written to `src/vo.json`, and `src/theme.ts` times each beat from them.
+
+```sh
+cd trims/menu-001
+npm install
+# narration: needs VoiceStudio's omnivoice package + the k2-fsa/OmniVoice model
+python scripts/voice.py k2-fsa/OmniVoice                # or --only hook outro to redo some beats
+npm run render -- --browser-executable=<chrome-headless-shell>   # also normalises audio to -14 LUFS
+```

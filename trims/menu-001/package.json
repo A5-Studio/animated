@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render TrimsMenu001 trims-menu-001.mp4",
+    "render": "remotion render TrimsMenu001 trims-menu-001.mp4 && ffmpeg -y -i trims-menu-001.mp4 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 -c:a aac -b:a 192k out.mp4 && mv out.mp4 trims-menu-001.mp4",
     "still": "remotion still TrimsMenu001",
     "typecheck": "tsc --noEmit"
   },
