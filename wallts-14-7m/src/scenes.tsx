@@ -2,7 +2,7 @@ import React from 'react';
 import { Easing, Img, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { At, Background, Bill, Box, Captions, Sticker, ease, lin, pop, rp } from './components';
 import {
-  BODY, BORDER, C, EVEREST_M, HARGA, HEAD, JENIS, KALI_TERJUAL, PRODUK, SISA, TAHUN_GANTI, TAS, TERJUAL, TINGGI_M,
+  BODY, BORDER, C, DOMPET, EVEREST_M, LARIS, LARIS_HARGA, LARIS_JENIS, LARIS_RANK, LARIS_TERJUAL, HARGA, HEAD, JENIS, KALI_TERJUAL, PRODUK, SISA, TAHUN_GANTI, TAS, TERJUAL, TINGGI_M,
   TINGGI_TAS_CM, UANG, shadow,
 } from './theme';
 
@@ -218,14 +218,74 @@ export const Fakta: React.FC = () => {
 };
 
 /* ================================================================== */
-/* 4. Recap                                                            */
+/* 4. Bonus: the best-seller                                           */
+/* ================================================================== */
+export const Laris: React.FC = () => {
+  const f = useCurrentFrame();
+  const icons = Math.round(DOMPET / 5000); // 1 icon = 5.000 dompet
+  const shown = Math.floor(icons * lin(f, 230, 285));
+  return (
+    <>
+      <Background color={C.orange} />
+      <At x={520} y={450} s={pop(f, 0)} r={1}>
+        <Box bg={C.white} pad="16px 20px 22px" style={{ width: 760 }}>
+          <Img src={staticFile('brock.png')} style={{ width: 712, display: 'block', borderRadius: 12 }} />
+          <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 32, marginTop: 12, display: 'flex', alignItems: 'center', gap: 12 }}><Logo size={48} sh={4} />{LARIS} · {LARIS_JENIS}</div>
+          <div style={{ fontFamily: HEAD, fontSize: 76, lineHeight: 1.05, color: C.red, WebkitTextStroke: `2px ${C.ink}` }}>Rp{rp(LARIS_HARGA)}</div>
+          <div style={{ fontFamily: BODY, fontWeight: 500, fontSize: 22 }}>harga dengan voucher · Shopee Mall · 10 Nov 2026 · 10RB+ terjual</div>
+        </Box>
+      </At>
+      <At x={520} y={118} s={pop(f, 25, 220)} r={-4}>
+        <Sticker bg={C.yellow} size={34}>★ terlaris · 10RB+ terjual</Sticker>
+      </At>
+      <At x={1420} y={150} s={pop(f, 40)} r={2}>
+        <Sticker bg={C.white} size={26}>{LARIS_RANK}</Sticker>
+      </At>
+      <At x={1420} y={270} s={pop(f, 90)}>
+        <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 40, width: 'max-content' }}>Rp14,7 M ÷ Rp{rp(LARIS_HARGA)} =</div>
+      </At>
+      <At x={1420} y={390} s={pop(f, 105) * bump(f, 185)} r={-1.5}>
+        <Box bg={C.yellow} pad="10px 36px" style={{ fontFamily: HEAD, fontSize: 100, lineHeight: 1, width: 'max-content', display: 'flex', alignItems: 'baseline', gap: 18 }}>
+          {rp(count(f, 105, 185, DOMPET))}
+          <span style={{ fontSize: 50 }}>dompet</span>
+        </Box>
+      </At>
+      <At x={1420} y={515} s={pop(f, 200)} r={3}>
+        <Sticker bg={C.red} size={34} style={{ color: C.white }}>±{Math.floor(DOMPET / LARIS_TERJUAL)}× semua yang pernah terjual!</Sticker>
+      </At>
+      <At x={1420} y={720} o={lin(f, 225, 232)}>
+        <Box bg={C.white} pad="14px 16px" radius={18} sh={10}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 64px)', gap: 8 }}>
+            {Array.from({ length: icons }, (_, i) => (
+              <div key={i} style={{ width: 64, height: 46, background: i % 2 ? '#6B4A34' : C.ink, borderRadius: 8, border: `3px solid ${C.ink}`, position: 'relative', transform: `scale(${i < shown ? pop(f, 230 + (i / icons) * 55, 260) : 0})` }}>
+                <div style={{ position: 'absolute', right: 6, bottom: 5, width: 14, height: 6, borderRadius: 3, background: C.blue }} />
+              </div>
+            ))}
+          </div>
+          <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 24, textAlign: 'center', marginTop: 8 }}>1 ikon = 5.000 dompet</div>
+        </Box>
+      </At>
+      <Captions
+        {...CAP}
+        lines={[
+          { from: 15, to: 190, text: `Bonus! Produk Wallts *terlaris* di Shopee: dompet *${LARIS.replace('Wallts ', '')}*, *Rp${rp(LARIS_HARGA)}*, sudah laku *10 ribu lebih*.` },
+          { from: 190, to: 330, text: `Rp14,7 M dapet *${rp(DOMPET)} dompet*. Kira-kira *10× lipat* dari semua yang pernah terjual!` },
+        ]}
+      />
+    </>
+  );
+};
+
+/* ================================================================== */
+/* 5. Recap                                                            */
 /* ================================================================== */
 export const Recap: React.FC = () => {
   const f = useCurrentFrame();
   const stats = [
     { bg: C.yellow, big: `${rp(TAS)}`, small: 'tas Wallts Teva' },
-    { bg: C.blue, big: '17,7 km', small: 'kalau ditumpuk (2× Everest)' },
+    { bg: C.blue, big: '17,7 km', small: 'tumpukan tas ≈ 2× Everest' },
     { bg: C.green, big: `${TAHUN_GANTI} thn`, small: 'ganti tas baru tiap hari' },
+    { bg: C.orange, big: `${rp(DOMPET)}`, small: `dompet ${LARIS.replace('Wallts ', '')} (terlaris)` },
   ];
   return (
     <>
@@ -234,19 +294,24 @@ export const Recap: React.FC = () => {
         <Box bg={C.white} pad="10px 34px 10px 12px" style={{ fontFamily: HEAD, fontSize: 56, width: 'max-content', display: 'flex', alignItems: 'center', gap: 18 }}><Logo size={72} sh={4} />Rp14,7 M = …</Box>
       </At>
       {stats.map((s, i) => (
-        <At key={i} x={360 + i * 600} y={330} s={pop(f, 12 + i * 12)} r={(i - 1) * 2}>
-          <Box bg={s.bg} pad="20px 24px" style={{ width: 520, textAlign: 'center' }}>
-            <div style={{ fontFamily: HEAD, fontSize: 84, lineHeight: 1 }}>{s.big}</div>
-            <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 30, marginTop: 8 }}>{s.small}</div>
+        <At key={i} x={255 + i * 470} y={330} s={pop(f, 12 + i * 12)} r={(i % 2 ? 1 : -1) * 2}>
+          <Box bg={s.bg} pad="20px 20px" style={{ width: 430, textAlign: 'center' }}>
+            <div style={{ fontFamily: HEAD, fontSize: 70, lineHeight: 1 }}>{s.big}</div>
+            <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 27, marginTop: 8, whiteSpace: 'nowrap' }}>{s.small}</div>
           </Box>
         </At>
       ))}
-      <At x={960} y={630} s={pop(f, 55)} r={-1}>
-        <Photo w={440} />
+      <At x={700} y={630} s={pop(f, 55)} r={-1.5}>
+        <Photo w={420} />
+      </At>
+      <At x={1220} y={630} s={pop(f, 65)} r={1.5}>
+        <Box bg={C.white} pad={10} radius={20} style={{ width: 'max-content' }}>
+          <Img src={staticFile('brock.png')} style={{ width: 400, display: 'block', borderRadius: 12 }} />
+        </Box>
       </At>
       <Footnote
         y={850} from={20}
-        text={`${PRODUK} Rp${rp(HARGA)} (harga dengan voucher, Shopee Mall, 10 Nov 2026) · asumsi tinggi 1 tas ±${TINGGI_TAS_CM} cm · Everest ${rp(EVEREST_M)} m`}
+        text={`Harga dengan voucher, Shopee Mall, 10 Nov 2026: ${PRODUK} Rp${rp(HARGA)} · ${LARIS} Rp${rp(LARIS_HARGA)} · asumsi tinggi 1 tas ±${TINGGI_TAS_CM} cm · Everest ${rp(EVEREST_M)} m`}
       />
       <Captions {...CAP} lines={[{ from: 90, to: 240, text: 'Kalau kamu, Rp14,7 M mau *diborongin apa*? Tulis di komentar!' }]} />
     </>

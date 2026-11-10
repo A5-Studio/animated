@@ -46,12 +46,22 @@ export const EVEREST_M = 8_849;
 export const KALI_TERJUAL = Math.floor(TAS / TERJUAL); // 532×
 export const TAHUN_GANTI = Math.floor(TAS / 365); // tas baru tiap hari: 107 tahun
 
+// Produk terlaris: Wallts BROCK, dompet lipat pria (Shopee Mall, screenshot 10 Nov 2026).
+export const LARIS = 'Wallts BROCK';
+export const LARIS_JENIS = 'Dompet Lipat Pria';
+export const LARIS_HARGA = 144_704; // harga dengan voucher
+export const LARIS_TERJUAL = 10_000; // "10RB+ Terjual"
+export const LARIS_RANK = 'No. 5 terlaris di dompet cowok bifold';
+export const DOMPET = Math.floor(UANG / LARIS_HARGA); // 101.586 dompet
+export const DOMPET_SISA = UANG - DOMPET * LARIS_HARGA; // Rp99.456
+
 // Scene timeline, in frames at 30fps (1920×1080).
 export const SCENES = {
   hook: { from: 0, dur: 150 },
   produk: { from: 150, dur: 330 },
   tumpuk: { from: 480, dur: 300 },
   fakta: { from: 780, dur: 300 },
-  recap: { from: 1080, dur: 240 },
+  laris: { from: 1080, dur: 330 },
+  recap: { from: 1410, dur: 240 },
 };
-export const TOTAL = 1320;
+export const TOTAL = 1650;

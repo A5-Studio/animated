@@ -10,7 +10,7 @@ import sys
 import wave
 
 SR = 44100
-DUR = 44.0
+DUR = 55.0
 N = int(SR * DUR)
 buf = [0.0] * N
 random.seed(7)
@@ -189,7 +189,7 @@ def tick_roll(length):
 
 
 FPS = 30
-S = dict(hook=0, produk=150, tumpuk=480, fakta=780, recap=1080)
+S = dict(hook=0, produk=150, tumpuk=480, fakta=780, laris=1080, recap=1410)
 fr = lambda scene, f: (S[scene] + f) / FPS
 
 for i, v in enumerate(beat()):
@@ -223,8 +223,18 @@ add(fr('fakta', 15), pop(600))
 add(fr('fakta', 150), pop(800))
 add(fr('fakta', 160), ding(), 0.6)
 
-for i in range(3):
-    add(fr('recap', 12 + i * 12), pop(523.25 * 2 ** (i * 4 / 12)), 0.8)
+add(fr('laris', 0), pop(700))
+add(fr('laris', 25), ding(), 0.6)
+add(fr('laris', 40), pop(800))
+add(fr('laris', 90), pop(600))
+add(fr('laris', 105), tick_roll(2.6))
+add(fr('laris', 185), kaching())
+add(fr('laris', 200), boop(), 0.8)
+for i in range(10):
+    add(fr('laris', 230 + i * 5), pop(500 + i * 50), 0.45)
+
+for i in range(4):
+    add(fr('recap', 12 + i * 12), pop(523.25 * 2 ** (i * 3 / 12)), 0.8)
 add(fr('recap', 55), pop(900))
 add(fr('recap', 90), ding(), 0.6)
 

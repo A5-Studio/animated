@@ -1,6 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, Easing, Html5Audio, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
-import { Fakta, Hook, Produk, Recap, Tumpuk } from './scenes';
+import { Fakta, Hook, Laris, Produk, Recap, Tumpuk } from './scenes';
 import { C, SCENES } from './theme';
 
 const ORDER = [
@@ -8,10 +8,11 @@ const ORDER = [
   ['produk', Produk],
   ['tumpuk', Tumpuk],
   ['fakta', Fakta],
+  ['laris', Laris],
   ['recap', Recap],
 ] as const;
 
-const WIPE_COLORS = [C.yellow, C.blue, C.pink, C.yellow];
+const WIPE_COLORS = [C.yellow, C.blue, C.pink, C.orange, C.yellow];
 
 /** a loud color panel that slams across the cut, right to left */
 const Wipe: React.FC<{ at: number; color: string }> = ({ at, color }) => {
