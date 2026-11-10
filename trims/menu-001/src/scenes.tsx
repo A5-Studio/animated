@@ -1,5 +1,5 @@
 import React from 'react';
-import { Img, staticFile } from 'remotion';
+import { Img, OffthreadVideo, staticFile } from 'remotion';
 import { At, Box, Cup, Photo, Plate, Spark, Sticker, ease, lin, pop } from './components';
 import { BODY, BORDER, C, HEAD, MONO, shadow } from './theme';
 
@@ -37,24 +37,10 @@ const Hook: React.FC<SceneProps> = ({ t }) => {
   );
 };
 
-/* 2 · bumper --------------------------------------------------------- */
-const Bumper: React.FC<SceneProps> = ({ t, len }) => {
-  const inn = pop(t, 0, 160);
-  const out = lin(t, len - 6, len);
-  return (
-    <div style={{ position: 'absolute', inset: 0, background: C.orange, clipPath: `circle(${Math.min(1, inn) * 120 * (1 - out)}% at 50% 50%)` }}>
-      <At x={540} y={820} s={inn} r={(1 - inn) * -90}>
-        <Plate size={560} spin={t * 3} />
-      </At>
-      <At x={540} y={1170} s={pop(t, 6, 200)}>
-        <div style={{ fontFamily: HEAD, fontSize: 210, color: C.ink, letterSpacing: 4, textShadow: `10px 10px 0 ${C.white}` }}>TRIMS</div>
-      </At>
-      <At x={540} y={1330} s={pop(t, 12, 200)} r={-2}>
-        <Sticker bg={C.yellow} size={48}>Trivia Makan Siang</Sticker>
-      </At>
-    </div>
-  );
-};
+/* 2 · bumper: the TRIMS opening from trims-bumper/ (3s, with its jingle) */
+const Bumper: React.FC<SceneProps> = () => (
+  <OffthreadVideo src={staticFile('trims-bumper.mp4')} style={{ position: 'absolute', inset: 0, width: 1080, height: 1920 }} />
+);
 
 /* 3 · Claude -> Claude Shannon --------------------------------------- */
 const Shannon: React.FC<SceneProps> = ({ t, len }) => {

@@ -40,7 +40,7 @@ export const s = (sec: number) => Math.round(sec * FPS);
 export type Beat = { id: string; vo: string | null; dur: number };
 export const BEATS: Beat[] = [
   { id: 'hook', vo: 'Tiap hari pakai Claude, | tapi tahu nggak, Claude itu sebenarnya *siapa*?', dur: 3.4 },
-  { id: 'bumper', vo: null, dur: 2.0 },
+  { id: 'bumper', vo: null, dur: 3.0 }, // trims-bumper.mp4 (branch claude/determined-ride-gofg2k)
   { id: 'shannon', vo: 'Nama AI buatan Anthropic ini *diyakini* | sebagai penghormatan untuk seorang ilmuwan | bernama *Claude Shannon*.', dur: 6.5 },
   { id: 'bit', vo: 'Beliau matematikawan dan insinyur elektro | asal Amerika Serikat. | Dia yang mempopulerkan istilah *bit*, nol dan satu, | dan dijuluki *Father of Information Theory*.', dur: 9.5 },
   { id: 'turing', vo: 'Fun fact: Shannon hidup sezaman | dengan ilmuwan komputer asal Inggris yang lebih terkenal, | *Alan Turing*.', dur: 6.0 },

@@ -55,9 +55,8 @@ const at = (id: string, frac = 0, add = 0) => {
   return b.from + Math.round(b.len * frac) + add;
 };
 const CUES: [number, Kind][] = [
-  ...TIMING.slice(1).map((b) => [b.from - 4, 'whoosh'] as [number, Kind]),
+  ...TIMING.slice(1).filter((b) => b.id !== 'bumper').map((b) => [b.from - 4, 'whoosh'] as [number, Kind]),
   [at('hook', 0, 30), 'pop'], [at('hook', 0, 40), 'pop'],
-  [at('bumper', 0, 2), 'ding'],
   [at('shannon', 0, 24), 'pop'], [at('shannon', 0.25), 'pop'],
   [at('bit', 0.35, 34), 'ding'], [at('bit', 0.7), 'pop'],
   [at('turing', 0, 20), 'thud'], [at('turing', 0.4), 'pop'],
