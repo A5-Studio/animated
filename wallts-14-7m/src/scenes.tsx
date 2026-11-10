@@ -23,6 +23,14 @@ const Footnote: React.FC<{ text: string; y?: number; from?: number }> = ({ text,
   );
 };
 
+/** Wallts logo as a bordered tile */
+const Logo: React.FC<{ size: number; sh?: number }> = ({ size, sh = 6 }) => (
+  <Img
+    src={staticFile('wallts-logo.png')}
+    style={{ width: size, height: size, display: 'block', flex: 'none', borderRadius: size * 0.22, border: `${Math.max(3, size * 0.05)}px solid ${C.ink}`, boxShadow: shadow(sh), boxSizing: 'border-box' }}
+  />
+);
+
 /** product photo (3 views) on a white card */
 const Photo: React.FC<{ w: number }> = ({ w }) => (
   <Box bg={C.white} pad={10} radius={20} style={{ width: 'max-content' }}>
@@ -58,6 +66,9 @@ export const Hook: React.FC = () => {
       <At x={960} y={385} s={pop(f, 48)} r={2}>
         <Sticker bg={C.pink} size={44}>buat borong tas Wallts?!</Sticker>
       </At>
+      <At x={1460} y={385} s={pop(f, 56, 220)} r={8}>
+        <Logo size={130} sh={8} />
+      </At>
       <At x={960} y={660} s={pop(f, 60)} r={-1.5}>
         <Photo w={600} />
       </At>
@@ -79,7 +90,7 @@ export const Produk: React.FC = () => {
       <At x={520} y={460} s={pop(f, 0)} r={-1}>
         <Box bg={C.white} pad="16px 20px 22px" style={{ width: 760 }}>
           <Img src={staticFile('teva-3.png')} style={{ width: 712, display: 'block', borderRadius: 12 }} />
-          <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 32, marginTop: 10 }}>{PRODUK} · {JENIS}</div>
+          <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 32, marginTop: 12, display: 'flex', alignItems: 'center', gap: 12 }}><Logo size={48} sh={4} />{PRODUK} · {JENIS}</div>
           <div style={{ fontFamily: HEAD, fontSize: 76, lineHeight: 1.05, color: C.red, WebkitTextStroke: `2px ${C.ink}` }}>Rp{rp(HARGA)}</div>
           <div style={{ fontFamily: BODY, fontWeight: 500, fontSize: 22 }}>harga dengan voucher · Shopee Mall · 10 Nov 2026 · {TERJUAL} terjual</div>
         </Box>
@@ -220,7 +231,7 @@ export const Recap: React.FC = () => {
     <>
       <Background color={C.yellow} />
       <At x={960} y={100} s={pop(f, 0)} r={-1.5}>
-        <Box bg={C.white} pad="12px 34px" style={{ fontFamily: HEAD, fontSize: 56, width: 'max-content' }}>Rp14,7 M = …</Box>
+        <Box bg={C.white} pad="10px 34px 10px 12px" style={{ fontFamily: HEAD, fontSize: 56, width: 'max-content', display: 'flex', alignItems: 'center', gap: 18 }}><Logo size={72} sh={4} />Rp14,7 M = …</Box>
       </At>
       {stats.map((s, i) => (
         <At key={i} x={360 + i * 600} y={330} s={pop(f, 12 + i * 12)} r={(i - 1) * 2}>

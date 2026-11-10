@@ -133,7 +133,7 @@ npm run render:h -- --browser-executable=/opt/pw-browsers/chromium   # horizonta
 
 ## Rp14,7 M borong tas Wallts (Remotion, 1920×1080, 44s)
 
-`wallts-14-7m/wallts-14-7m.mp4` spends Rp14.700.000.000 on the most expensive Wallts product on Shopee: the Wallts Teva travel backpack at Rp373.350 (voucher price, Shopee Mall, 10 Nov 2026). The product photos in `public/` are cropped from the author's screenshot of the listing. All numbers come from `src/theme.ts`.
+`wallts-14-7m/wallts-14-7m.mp4` spends Rp14.700.000.000 on the most expensive Wallts product on Shopee: the Wallts Teva travel backpack at Rp373.350 (voucher price, Shopee Mall, 10 Nov 2026). The product photos in `public/` are cropped from the author's screenshot of the listing, and `public/wallts-logo.png` is the brand logo supplied by the author. All numbers come from `src/theme.ts`.
 
 | Fakta | Angka |
 |---|---|
