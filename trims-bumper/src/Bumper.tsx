@@ -136,7 +136,11 @@ const Letter: React.FC<{ f: number; i: number }> = ({ f, i }) => {
   const s = pop(f, start, 7, 280);
   const drop = (1 - pop(f, start, 12, 260)) * -380;
   // after the stamp every letter hops once in a wave, then wiggles on the beat
-  const hop = Math.max(0, Math.sin(((f - CUE.stamp - i * 3) / 14) * Math.PI)) * (f > CUE.stamp + i * 3 && f < CUE.stamp + i * 3 + 14 ? 1 : 0);
+  const hopAt = (at: number) => {
+    const t = (f - at - i * 3) / 14;
+    return t > 0 && t < 1 ? Math.sin(t * Math.PI) : 0;
+  };
+  const hop = hopAt(CUE.stamp) + hopAt(CUE.hop);
   const wiggle = f > CUE.stamp ? Math.sin((f - CUE.stamp) / 5 + i) * 3 : 0;
   const w = ch === 'I' ? 130 : ch === 'M' ? 210 : 175;
   return (
@@ -276,7 +280,8 @@ export const TrimsBumper: React.FC = () => {
   const wipeIn = easeIn(f, 0, 8) * 1400;
   const irisOut = 1 - easeIn(f, CUE.out, TOTAL - 2);
   // whole group punches on the stamp
-  const punch = 1 + 0.06 * Math.sin(lin(f, CUE.stamp, CUE.stamp + 10) * Math.PI);
+  const punch =
+    1 + 0.06 * Math.sin(lin(f, CUE.stamp, CUE.stamp + 10) * Math.PI) + 0.03 * Math.sin(lin(f, CUE.hop, CUE.hop + 10) * Math.PI);
 
   const cutK = pop(f, CUE.cutlery, 10, 260);
 

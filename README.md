@@ -89,17 +89,18 @@ cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
 
-## TRIMS (Trivia Makan Siang) bumper (Remotion, Reels 1080×1920, 2.0s @ 60fps)
+## TRIMS (Trivia Makan Siang) bumper (Remotion, Reels 1080×1920, 3.0s @ 60fps)
 
-`trims-bumper/trims-bumper.mp4` is the 2-second opening for the TRIMS lunch-trivia series, in the same neobrutalist style.
+`trims-bumper/trims-bumper.mp4` is the 3-second opening for the TRIMS lunch-trivia series, in the same neobrutalist style.
 
 | Time | What happens | Sound |
 |---|---|---|
-| 0.00–0.10 | sunburst + plate slams in | whoosh, kick + thud |
-| 0.23–0.57 | T R I M S tiles drop in | rising marimba note + clap per letter |
-| 0.73–0.93 | "?" spins in, "TRIVIA MAKAN SIANG" ribbon, fork + spoon | boing, swish, metal clink |
-| 1.17 | `@faqihpedia` stamp + confetti | kick + snare + "ta-da" chord, sparkles |
-| 1.77–2.00 | iris closes to black | whoosh out |
+| 0.00–0.13 | sunburst + plate slams in | whoosh, kick + thud |
+| 0.33–0.87 | T R I M S tiles drop in | rising marimba note + clap per letter |
+| 1.10–1.43 | "?" spins in, "TRIVIA MAKAN SIANG" ribbon, fork + spoon | boing, swish, metal clink |
+| 1.73 | `@faqihpedia` stamp + confetti | kick + snare + "ta-da" chord, sparkles |
+| 2.33 | letters hop again while the logo holds | little marimba run + clap |
+| 2.67–3.00 | iris closes to black | whoosh out |
 
 Cue frames live in `src/theme.ts` (`CUE`); `scripts/jingle.py` uses the same times.
 

@@ -1,9 +1,9 @@
 import { loadFont } from '@remotion/fonts';
 import { staticFile } from 'remotion';
 
-// 60 fps so the 2-second bounce reads smooth.
+// 60 fps so the bounce reads smooth.
 export const FPS = 60;
-export const TOTAL = 120; // 2.0 s
+export const TOTAL = 180; // 3.0 s
 
 // Same neobrutalism palette as the other Faqihpedia videos.
 export const C = {
@@ -32,11 +32,12 @@ loadFont({ family: 'Space Grotesk', url: staticFile('fonts/SpaceGrotesk.woff2'),
  * Cue frames. scripts/jingle.py places its sounds on the same times.
  */
 export const CUE = {
-  plate: 6, // plate slams in (thud at 0.10s)
-  letters: [14, 19, 24, 29, 34], // T R I M S
-  question: 44, // "?" boing
-  ribbon: 50, // "Trivia Makan Siang"
-  cutlery: 56, // fork + spoon clink
-  stamp: 70, // @faqihpedia + ta-da
-  out: 106, // iris close
+  plate: 8, // plate slams in (thud at 0.13s)
+  letters: [20, 28, 36, 44, 52], // T R I M S
+  question: 66, // "?" boing
+  ribbon: 76, // "Trivia Makan Siang"
+  cutlery: 86, // fork + spoon clink
+  stamp: 104, // @faqihpedia + ta-da
+  hop: 140, // letters hop again while the logo holds
+  out: 160, // iris close
 };

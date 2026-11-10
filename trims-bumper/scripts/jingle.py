@@ -1,15 +1,16 @@
-"""Synthesize the 2-second TRIMS opening jingle (needs numpy).
+"""Synthesize the 3-second TRIMS opening jingle (needs numpy).
 
 Usage: python3 scripts/jingle.py public/jingle.wav
 
 Cue times match the animation in src/Bumper.tsx (60 fps):
-  0.00  whoosh in            plate slams in (thud + kick)  0.10
-  0.23-0.57  T R I M S       one rising marimba note per letter + clap
-  0.73  "?" pops             cartoon boing
-  0.83  ribbon slides in     short swish
-  0.93  fork + spoon         metal clink
-  1.17  @faqihpedia stamp    kick + snare + "ta-da" chord, confetti sparkles
-  1.78  iris close           whoosh out
+  0.00  whoosh in            plate slams in (thud + kick)  0.13
+  0.33-0.87  T R I M S       one rising marimba note per letter + clap
+  1.10  "?" pops             cartoon boing
+  1.27  ribbon slides in     short swish
+  1.43  fork + spoon         metal clink
+  1.73  @faqihpedia stamp    kick + snare + "ta-da" chord, confetti sparkles
+  2.33  letters hop again    little marimba run + clap
+  2.67  iris close           whoosh out
 """
 import sys
 import wave
@@ -17,7 +18,8 @@ import wave
 import numpy as np
 
 SR = 44100
-DUR = 2.0
+DUR = 3.0
+FPS = 60
 rng = np.random.default_rng(14)
 N = int(DUR * SR)
 L = np.zeros(N)
@@ -128,42 +130,51 @@ def sparkle():
 C4, C5, D5, E5, G5, A5, C6 = 261.63, 523.25, 587.33, 659.25, 783.99, 880.0, 1046.5
 
 # --- intro ---------------------------------------------------------------
-add(whoosh(0.22, up=True), 0.0, 0.35)
-add(kick(), 0.10, 0.9)
-add(thud(), 0.10, 0.6)
+add(whoosh(0.16, up=True), 0.0, 0.35)
+add(kick(), 8 / FPS, 0.9)
+add(thud(), 8 / FPS, 0.6)
 
 # --- T R I M S: rising pentatonic, panned left -> right ---------------------
-letter_times = [14 / 60, 19 / 60, 24 / 60, 29 / 60, 34 / 60]
+letter_times = [n / FPS for n in (20, 28, 36, 44, 52)]
 for i, (tt, f) in enumerate(zip(letter_times, (C5, D5, E5, G5, A5))):
     pan = -0.6 + 0.3 * i
     add(marimba(f), tt, 0.45, pan)
     add(marimba(f * 2), tt, 0.12, pan)
     add(clap(), tt, 0.35, pan)
 add(kick(), letter_times[2], 0.5)
+add(kick(), letter_times[4], 0.5)
 
 # --- "?" boing, ribbon swish, cutlery clink ---------------------------------
-add(boing(), 44 / 60, 0.4, 0.4)
-add(whoosh(0.18, up=True), 50 / 60, 0.25, -0.3)
-add(clink(), 56 / 60, 0.22, -0.4)
-add(clink(), 58 / 60, 0.18, 0.4)
+add(boing(), 66 / FPS, 0.4, 0.4)
+add(whoosh(0.18, up=True), 76 / FPS, 0.25, -0.3)
+add(clink(), 86 / FPS, 0.22, -0.4)
+add(clink(), 89 / FPS, 0.18, 0.4)
 
 # --- @faqihpedia stamp + ta-da ---------------------------------------------
-STAMP = 70 / 60
+STAMP = 104 / FPS
 add(kick(), STAMP, 1.0)
 add(snare(), STAMP, 0.55)
 add(thud(), STAMP, 0.4)
 # short pickup "ta-" then held "DAA"
 for f, g in ((C4, 0.25), (C5, 0.22), (E5, 0.18), (G5, 0.16), (C6, 0.1)):
     add(brass(f, 0.11), STAMP - 0.13, g * 0.8)
-    add(brass(f, 2.0 - STAMP - 0.05), STAMP, g)
+    add(brass(f, 0.75), STAMP, g)
 add(marimba(C6), STAMP, 0.3)
 add(marimba(C6 * 1.5), STAMP + 0.06, 0.2)
 for k in range(14):
     add(sparkle(), STAMP + 0.04 + k * 0.04 + rng.uniform(0, 0.02), 0.1, rng.uniform(-0.9, 0.9))
 
+# --- second hop while the logo holds ---------------------------------------
+HOP = 140 / FPS
+for k, f in enumerate((G5, A5, C6)):
+    add(marimba(f), HOP + k * 0.06, 0.35, -0.5 + 0.5 * k)
+add(clap(), HOP, 0.35)
+add(kick(), HOP, 0.6)
+add(sparkle(), HOP + 0.15, 0.1, 0.5)
+
 # --- out --------------------------------------------------------------------
-add(whoosh(0.22, up=False), 1.76, 0.3)
-add(kick(), 1.88, 0.5)
+add(whoosh(0.25, up=False), 160 / FPS, 0.3)
+add(kick(), 172 / FPS, 0.5)
 
 # --- master: gentle soft-clip, normalize, tail fade -----------------------
 mix = np.stack([L, R], axis=1)
