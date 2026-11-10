@@ -120,7 +120,7 @@ npm run render -- --browser-executable=/opt/pw-browsers/chromium
 
 Dollar prices use the market rate of Rp18.126/US$ (6 Nov 2026) and exclude tax. To update a price or the rate, edit `src/theme.ts` and re-render.
 
-There is also a horizontal cut, `ai-14-7m/ai-14-7m-horizontal.mp4` (1920×1080, 61s, composition `Ai147MH`). It is laid out for landscape, not cropped from the vertical one. Each AI gets a "tier ladder" on the left listing every consumer plan from Free upward, with the top tier marked *tertinggi* to show why that plan was picked; the math runs on the right. Its scenes are in `src/scenesH.tsx`, the tier list is `TIERS` in `src/theme.ts`, and its audio comes from `scripts/soundtrack_h.py`.
+There is also a horizontal cut, `ai-14-7m/ai-14-7m-horizontal.mp4` (1920×1080, 61s, composition `Ai147MH`). It is laid out for landscape, not cropped from the vertical one. Each AI gets a "tier ladder" on the left listing every consumer plan from Free upward, with the top tier marked *tertinggi* to show why that plan was picked; the math runs on the right. It shows the apps' own logos (`public/logos/`, supplied by the author). Its scenes are in `src/scenesH.tsx`, the tier list is `TIERS` in `src/theme.ts`, and its audio comes from `scripts/soundtrack_h.py`.
 
 ```sh
 cd ai-14-7m

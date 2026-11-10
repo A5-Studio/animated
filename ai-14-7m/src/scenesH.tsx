@@ -1,13 +1,18 @@
 /* Horizontal (1920×1080) cut. Left column: the tier ladder; right column: the math. */
 import React from 'react';
-import { Easing, interpolate, useCurrentFrame } from 'remotion';
-import { AiBubble, At, Background, Bill, Box, Calendar, Captions, Sticker, ease, lin, pop, rp } from './components';
+import { Easing, Img, interpolate, staticFile, useCurrentFrame } from 'remotion';
+import { At, Background, Bill, Box, Calendar, Captions, Sticker, ease, lin, pop, rp } from './components';
 import { BODY, BORDER, C, HEAD, KURS, PLANS, Plan, TIERS, UANG, lastYear, months, shadow } from './theme';
 
 const shake = (f: number, a: number, b: number, amp = 6) => (f > a && f < b ? Math.sin(f * 2.2) * amp * (1 - (f - a) / (b - a)) : 0);
 const count = (f: number, a: number, b: number, to: number) =>
   to * interpolate(f, [a, b], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) });
-const short = (p: Plan) => (p.key === 'chatgpt' ? 'GPT' : p.app);
+/** the app's own logo (public/logos); Gemini's file has extra padding, so it is scaled up a bit */
+const Logo: React.FC<{ p: Plan; size: number }> = ({ p, size }) => (
+  <div style={{ width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none', filter: `drop-shadow(${size * 0.04}px ${size * 0.04}px 0 ${C.ink})` }}>
+    <Img src={staticFile(`logos/${p.key}.png`)} style={{ width: size, height: size, objectFit: 'contain', transform: `scale(${p.key === 'gemini' ? 1.16 : 1})` }} />
+  </div>
+);
 const juta = (n: number) => (n / 1e6).toLocaleString('id-ID', { maximumFractionDigits: 1 });
 const yrs = (p: Plan) => Math.floor(months(p) / 12);
 const bump = (f: number, at: number) => (f > at ? 1 + 0.08 * Math.sin(Math.PI * lin(f, at, at + 8)) : 1);
@@ -55,7 +60,7 @@ export const HookH: React.FC = () => {
       </At>
       {PLANS.map((p, i) => (
         <At key={p.key} x={560 + i * 400} y={620} s={pop(f, 62 + i * 8)} r={(i - 1) * 6}>
-          <AiBubble size={210} color={p.color} label={short(p)} />
+          <Logo p={p} size={200} />
         </At>
       ))}
       <At x={960} y={810} s={pop(f, 100)} r={-1.5}>
@@ -120,7 +125,10 @@ const PlanSceneH: React.FC<{ p: Plan; step: number; lines: string[] }> = ({ p, s
         <Sticker bg={C.ink} size={28} style={{ color: C.white, boxShadow: shadow(7).replace(C.ink, p.color) }}>AI #{step} dari 3</Sticker>
       </At>
       <At x={560} y={90} s={pop(f, 6)}>
-        <Box bg={p.color} pad="10px 30px" style={{ fontFamily: HEAD, fontSize: 54, width: 'max-content' }}>{p.app.toUpperCase()}</Box>
+        <Box bg={p.color} pad="8px 26px 8px 12px" style={{ fontFamily: HEAD, fontSize: 54, width: 'max-content', display: 'flex', alignItems: 'center', gap: 16 }}>
+          <Logo p={p} size={64} />
+          {p.app.toUpperCase()}
+        </Box>
       </At>
       <div style={{ position: 'absolute', left: 70, top: 175 }}>
         <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 28, marginBottom: 14, opacity: lin(f, 8, 16) }}>Semua paket {p.app}, termurah di bawah:</div>
@@ -129,9 +137,7 @@ const PlanSceneH: React.FC<{ p: Plan; step: number; lines: string[] }> = ({ p, s
       {/* right: the math */}
       <At x={1420} y={235} s={pop(f, 140)} r={-1}>
         <Box bg={C.white} pad="14px 26px" style={{ width: 820, display: 'flex', alignItems: 'center', gap: 22 }}>
-          <div style={{ flex: 'none', width: 130, height: 130, display: 'flex', alignItems: 'center', justifyContent: 'center', background: p.color, border: `${BORDER}px solid ${C.ink}`, borderRadius: 18 }}>
-            <AiBubble size={110} color={C.white} label={short(p)} />
-          </div>
+          <Logo p={p} size={130} />
           <div style={{ lineHeight: 1.15 }}>
             <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 30 }}>{p.app} {p.plan} <span style={{ background: C.red, color: C.white, border: `3px solid ${C.ink}`, borderRadius: 8, padding: '0 8px', fontSize: 22 }}>TERTINGGI</span></div>
             <div style={{ fontFamily: HEAD, fontSize: 58 }}>Rp{rp(p.idr)}/bln</div>
@@ -228,7 +234,7 @@ export const RecapH: React.FC = () => {
           <At key={p.key} x={960} y={270 + i * 190} s={pop(f, 10 + i * 15)}>
             <div style={{ width: 1500 }}>
               <div style={{ fontFamily: HEAD, fontSize: 40, marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span>{p.app} <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 30 }}>{p.plan} · Rp{rp(p.idr)}/bln</span></span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}><Logo p={p} size={48} />{p.app} <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 30 }}>{p.plan} · Rp{rp(p.idr)}/bln</span></span>
                 <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 30, opacity: lin(f, 70 + i * 10, 80 + i * 10) }}>atau {Math.floor(UANG / (p.idr * 12))} orang × 1 thn</span>
               </div>
               <div style={{ height: 100, width: Math.max(420, 1500 * (months(p) / max)) * g, background: p.color, border: `${BORDER}px solid ${C.ink}`, borderRadius: 14, boxShadow: shadow(8), display: 'flex', alignItems: 'center', paddingLeft: 24, fontFamily: HEAD, fontSize: 56, whiteSpace: 'nowrap', overflow: 'hidden', boxSizing: 'border-box' }}>
