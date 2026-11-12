@@ -3,7 +3,7 @@ import { AbsoluteFill, Audio, Easing, Sequence, getStaticFiles, interpolate, sta
 import { Background, Heart, Icon, Rainbow, Ribbon, Script, Star, usePop } from './components';
 import { BathCard, ClockFace, Frame, Media, Subtitle, hhmm, toMin } from './media';
 import {
-  C, CHAPTERS, COLLAGE, Chapter, NAME, OPENING, OUTRO, SANS, Shot, TOTAL, VO_DELAY, XFADE, chapterDur, s, shotDur,
+  C, CHAPTERS, COLLAGE, Chapter, LOUD_SHOTS, NAME, OPENING, OUTRO, SANS, SHOT_START, Shot, TOTAL, VO_DELAY, XFADE, chapterDur, s, shotDur,
 } from './theme';
 
 const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const;
@@ -108,7 +108,7 @@ const ShotView: React.FC<{ sh: Shot; accent: string; i: number }> = ({ sh, accen
     <AbsoluteFill>
       <div style={{ position: 'absolute', left: 90, top: 470, transform: `translate(${tx}px, ${ty}px) rotate(${(1 - p) * 5 * dir}deg)`, opacity: i === 0 ? p : 1 }}>
         <Frame w={FW} h={FH} accent={accent}>
-          {sh.card === 'bath' ? <BathCard /> : <Media src={sh.src!} w={FW - 36} h={FH - 36} fx={sh.fx} fy={sh.fy} />}
+          {sh.card === 'bath' ? <BathCard /> : <Media src={sh.src!} w={FW - 36} h={FH - 36} fx={sh.fx} fy={sh.fy} sound={sh.sound} />}
         </Frame>
       </div>
       <SubtitleAt sh={sh} />
@@ -212,7 +212,15 @@ export const BabyDay: React.FC = () => {
           <Enter first={i === 0}>{p.el}</Enter>
         </Sequence>
       ))}
-      {music && <Audio src={staticFile('music.wav')} volume={(fr) => interpolate(fr, [0, 20, TOTAL - 45, TOTAL], [0, vol, vol, 0], clamp)} />}
+      {music && <Audio src={staticFile('music.wav')} volume={(fr) => {
+        let v = interpolate(fr, [0, 20, TOTAL - 45, TOTAL], [0, vol, vol, 0], clamp);
+        // duck out under clips that play their own sound (Baba's TikTok)
+        for (const sh of LOUD_SHOTS) {
+          const a = s(SHOT_START[sh.id]), b = a + s(shotDur(sh));
+          v *= interpolate(fr, [a - 15, a, b - 10, b + 15], [1, 0, 0, 1], clamp);
+        }
+        return v;
+      }} />}
     </AbsoluteFill>
   );
 };

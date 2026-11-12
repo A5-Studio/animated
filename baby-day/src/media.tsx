@@ -35,7 +35,7 @@ export const FaceSticker: React.FC<{ x: number; y: number; size: number }> = ({ 
  * A photo or video cropped to cover w x h, with the baby's face covered.
  * fx/fy choose which part survives the crop; zoom is a slow Ken Burns push.
  */
-export const Media: React.FC<{ src: string; w: number; h: number; fx?: number; fy?: number; zoom?: boolean }> = ({ src, w, h, fx = 0.5, fy = 0.5, zoom = true }) => {
+export const Media: React.FC<{ src: string; w: number; h: number; fx?: number; fy?: number; zoom?: boolean; sound?: boolean }> = ({ src, w, h, fx = 0.5, fy = 0.5, zoom = true, sound = false }) => {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   const info = INFO[src];
@@ -66,7 +66,9 @@ export const Media: React.FC<{ src: string; w: number; h: number; fx?: number; f
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, transform: `scale(${z})`, transformOrigin: `${(fx * 100).toFixed(0)}% ${(fy * 100).toFixed(0)}%` }}>
         {isVideo ? (
-          <OffthreadVideo src={staticFile(path)} startFrom={Math.round((info.from ?? 0) * fps)} muted
+          <OffthreadVideo src={staticFile(path)} startFrom={Math.round((info.from ?? 0) * fps)} muted={!sound}
+            // the clip's own sound stays soft while Migu speaks over its first seconds
+            volume={(fr) => interpolate(fr, [0, fps * 2.6, fps * 3.2], [0.3, 0.3, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}
             style={{ position: 'absolute', left: dx, top: dy, width: iw, height: ih }} />
         ) : (
           <Img src={staticFile(path)} style={{ position: 'absolute', left: dx, top: dy, width: iw, height: ih }} />

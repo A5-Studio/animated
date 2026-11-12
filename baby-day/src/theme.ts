@@ -45,6 +45,7 @@ export type Shot = {
   fx?: number; // crop focus 0..1 (0 = left/top, 1 = right/bottom)
   fy?: number;
   night?: boolean; // lights go out during the shot
+  sound?: boolean; // play the clip's own audio (music ducks out)
 };
 
 export type Chapter = { time: string; title: string; accent: Accent; icon: Icon; shots: Shot[] };
@@ -73,6 +74,7 @@ export const CHAPTERS: Chapter[] = [
   { time: '10.00', title: 'Belajar', accent: 'butter', icon: 'book', shots: [
     { id: 'belajar', vo: 'Habis mandi, waktunya belajar!', src: 'foto-22-kartu-baby-vision.jpg', dur: 3.5, fy: 0.2 },
     { id: 'emosi', vo: 'Aku kenalan sama kartu emosi.', src: 'foto-03-kartu-emosi.jpg', dur: 3.5 },
+    { id: 'kartu', vo: 'Kadang belajarnya sambil ngantuk, hehe.', src: 'foto-21-tengkurap-buku.jpg', dur: 3.5 },
     { id: 'kisah', vo: 'Aku juga suka dengerin kisah Nabi.', src: 'foto-06-buku-kisah.jpg', dur: 3.5, fy: 0.2 },
   ] },
   { time: '11.00', title: 'Main', accent: 'pink', icon: 'ball', shots: [
@@ -85,7 +87,7 @@ export const CHAPTERS: Chapter[] = [
     { id: 'gendong', vo: 'Aku lagi suka bobok sambil digendong.', src: 'video-03.mp4', dur: 5, fy: 1 },
     { id: 'gendong-umma', vo: 'Digendong Umma juga enak.', src: 'foto-14-gendong-ibu.jpg', dur: 3.5, fy: 0.3 },
     { id: 'gaya', vo: 'Kalau di kasur, gayaku begini...', src: 'foto-12-tidur-telentang.jpg', dur: 3.5, fx: 0.75 },
-    { id: 'gaya-2', vo: '...atau begini, hehe.', src: 'foto-21-tengkurap-buku.jpg', dur: 3 },
+    { id: 'gaya-2', vo: '...atau begini, pules banget.', src: 'foto-11-tidur-closeup.jpg', dur: 3, fy: 0.3 },
   ] },
   { time: '15.00', title: 'Jalan-jalan', accent: 'sage', icon: 'bag', shots: [
     { id: 'klinik', vo: 'Kadang aku ke klinik, cek kesehatan.', src: 'foto-10-klinik.jpg', dur: 3.5, fx: 0.6 },
@@ -94,7 +96,7 @@ export const CHAPTERS: Chapter[] = [
     { id: 'mall', vo: 'Atau jalan-jalan ke mall sama Umma.', src: 'foto-19-gendong-ibu-mall.jpg', dur: 3.5, fy: 0.4 },
   ] },
   { time: '17.00', title: 'Senam sore', accent: 'butter', icon: 'ball', shots: [
-    { id: 'senam', vo: 'Sore-sore, senam dulu sama Baba!', src: 'video-02.mp4', dur: 7, fy: 0.45 },
+    { id: 'senam', vo: 'Sore-sore, bikin TikTok sama Baba!', src: 'video-02.mp4', dur: 11, fy: 0.45, sound: true },
   ] },
   { time: '18.00', title: 'Bobok malam', accent: 'lavender', icon: 'moon', shots: [
     { id: 'malam', vo: 'Jam enam sore, kalau lampu kamar udah gelap, aku mulai tidur.', src: 'foto-20-tidur-guling.jpg', dur: 5.5, night: true },
@@ -115,3 +117,12 @@ export const XFADE = 12;
 
 export const chapterDur = (c: Chapter) => c.shots.reduce((a, sh) => a + shotDur(sh), 0);
 export const TOTAL = s(shotDur(OPENING) + CHAPTERS.reduce((a, c) => a + chapterDur(c), 0) + shotDur(OUTRO));
+
+/** absolute start (seconds) of every shot, for audio ducking */
+export const SHOT_START: Record<string, number> = (() => {
+  const out: Record<string, number> = {};
+  let t = shotDur(OPENING);
+  CHAPTERS.forEach((c) => c.shots.forEach((sh) => { out[sh.id] = t; t += shotDur(sh); }));
+  return out;
+})();
+export const LOUD_SHOTS = CHAPTERS.flatMap((c) => c.shots).filter((sh) => sh.sound);
