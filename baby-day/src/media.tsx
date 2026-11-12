@@ -21,12 +21,12 @@ export const FaceSticker: React.FC<{ x: number; y: number; size: number }> = ({ 
   if (hasFile('face.png')) return <Img src={staticFile('face.png')} style={{ ...style, objectFit: 'contain' }} />;
   return (
     <svg viewBox="0 0 100 100" style={style}>
-      <circle cx="50" cy="54" r="42" fill="#F9DCCB" stroke={C.white} strokeWidth={4} />
+      <circle cx="50" cy="52" r="46" fill="#F9DCCB" stroke={C.white} strokeWidth={4} />
       <ellipse cx="35" cy="54" rx="6.5" ry="7.5" fill="#3A3240" /><ellipse cx="65" cy="54" rx="6.5" ry="7.5" fill="#3A3240" />
       <circle cx="37" cy="51" r="2.2" fill="#fff" /><circle cx="67" cy="51" r="2.2" fill="#fff" />
       <circle cx="25" cy="67" r="7" fill={C.pink} opacity={0.6} /><circle cx="75" cy="67" r="7" fill={C.pink} opacity={0.6} />
       <ellipse cx="50" cy="73" rx="5" ry="4" fill="#D9808E" />
-      <path d="M50 14c-13-13-28-4-19 5 4 4 13 2 19-5zm0 0c13-13 28-4 19 5-4 4-13 2-19-5z" fill={C.pink} /><circle cx="50" cy="14" r="5.5" fill="#E28F9A" />
+      <path d="M50 16c-8-8-17-3-12 3 3 3 8 1 12-3zm0 0c8-8 17-3 12 3-3 3-8 1-12-3z" fill={C.pink} /><circle cx="50" cy="16" r="3.5" fill="#E28F9A" />
     </svg>
   );
 };
