@@ -4,3 +4,4 @@ node_modules
 baby-day/public/clips/*
 !baby-day/public/clips/.gitkeep
 baby-day/public/vo/*.wav
+baby-day/out/
