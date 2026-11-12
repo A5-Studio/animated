@@ -18,7 +18,17 @@ import numpy as np
 import soundfile as sf
 import torch
 from omnivoice import OmniVoice
-from omnivoice.utils.audio import save_audio
+
+
+
+def to_np(a):
+    """OmniVoice returns tensors or arrays depending on version."""
+    return (a.squeeze().float().cpu().numpy() if hasattr(a, 'cpu') else np.asarray(a).squeeze()).astype(np.float32)
+
+
+def save_audio(path, a, sr):
+    sf.write(str(path), to_np(a), sr)
+
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / 'public' / 'vo'
@@ -94,7 +104,7 @@ def main():
         for seed in range(args.tries):
             torch.manual_seed(seed)
             a = model.generate(text=text, language='id', ref_audio=ref, ref_text=ref_text, num_step=args.steps)[0]
-            x = a.squeeze().float().cpu().numpy()
+            x = to_np(a)
             d = drift(x, sr, ref_hz)
             print(f'  take {seed}: drift {d:.2f} oct', flush=True)
             if best is None or d < best[0]:
