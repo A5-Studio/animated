@@ -73,7 +73,6 @@ export const CHAPTERS: Chapter[] = [
   { time: '10.00', title: 'Belajar', accent: 'butter', icon: 'book', shots: [
     { id: 'belajar', vo: 'Habis mandi, waktunya belajar!', src: 'foto-22-kartu-baby-vision.jpg', dur: 3.5, fy: 0.2 },
     { id: 'emosi', vo: 'Aku kenalan sama kartu emosi.', src: 'foto-03-kartu-emosi.jpg', dur: 3.5 },
-    { id: 'buku-umma', vo: 'Terus dibacain buku sama Umma.', src: 'foto-16-dibacakan-buku-ibu.jpg', dur: 3.5, fy: 0.2 },
     { id: 'kisah', vo: 'Aku juga suka dengerin kisah Nabi.', src: 'foto-06-buku-kisah.jpg', dur: 3.5, fy: 0.2 },
   ] },
   { time: '11.00', title: 'Main', accent: 'pink', icon: 'ball', shots: [

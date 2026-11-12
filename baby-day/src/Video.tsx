@@ -202,7 +202,9 @@ export const BabyDay: React.FC = () => {
     t += chapterDur(c);
   });
   parts.push({ from: t, dur: shotDur(OUTRO), el: <Outro /> });
-  const music = has('music.mp3');
+  const music = has('music.wav');
+  const voiced = getStaticFiles().some((f) => f.name.startsWith('vo/') && f.name.endsWith('.wav') && !f.name.includes('_ref'));
+  const vol = voiced ? 0.22 : 0.5; // music sits under Migu's voice once it exists
   return (
     <AbsoluteFill style={{ background: C.bg }}>
       {parts.map((p, i) => (
@@ -210,7 +212,7 @@ export const BabyDay: React.FC = () => {
           <Enter first={i === 0}>{p.el}</Enter>
         </Sequence>
       ))}
-      {music && <Audio src={staticFile('music.mp3')} volume={(fr) => interpolate(fr, [0, 20, TOTAL - 45, TOTAL], [0, 0.25, 0.25, 0], clamp)} />}
+      {music && <Audio src={staticFile('music.wav')} volume={(fr) => interpolate(fr, [0, 20, TOTAL - 45, TOTAL], [0, vol, vol, 0], clamp)} />}
     </AbsoluteFill>
   );
 };
