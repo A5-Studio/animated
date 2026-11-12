@@ -68,13 +68,14 @@ def drift(x, sr, ref_hz):
     return max((abs(np.log2(m / ref_hz)) for m in meds), default=9.0)
 
 
-REF_TEXT = 'Halo semuanya, aku Migu! Hari ini aku mau cerita, aku main, minum susu, terus bobok, hehe.'
+# Voice B, chosen by the family: designed with 'female, child, high pitch', seed 3.
+REF_TEXT = 'Halo semua, aku Migu! Ini cerita kegiatan sehari-hariku. Hehe, lucu kan?'
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('model')
-    ap.add_argument('--instruct', default='female, child, very high pitch')
+    ap.add_argument('--instruct', default='female, child, high pitch')
     ap.add_argument('--ref')
     ap.add_argument('--ref-text')
     ap.add_argument('--only', nargs='*', help='regenerate just these beats')
