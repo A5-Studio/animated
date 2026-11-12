@@ -3,7 +3,7 @@ import {
   AbsoluteFill, Easing, Img, OffthreadVideo, getStaticFiles, interpolate, spring, staticFile,
   useCurrentFrame, useVideoConfig,
 } from 'remotion';
-import { C, Moment, SANS, SCRIPT, SERIF } from './theme';
+import { C, Icon as IconKind, SANS, SCRIPT, SERIF } from './theme';
 
 /* ------------------------------ motion ------------------------------ */
 export const usePop = (delay = 0, damping = 12) => {
@@ -134,71 +134,20 @@ export const TimePill: React.FC<{ time: string; color: string; delay?: number }>
 };
 
 /* ------------------------------ icons ------------------------------ */
-export const Icon: React.FC<{ kind: Moment['icon']; size?: number }> = ({ kind, size = 120 }) => {
+export const Icon: React.FC<{ kind: IconKind; size?: number }> = ({ kind, size = 120 }) => {
   const f = useCurrentFrame();
   const bob = Math.sin(f / 12) * 6;
   const st = { stroke: C.white, strokeWidth: 3, strokeDasharray: '6 6', fill: 'none' } as const;
-  const body: Record<Moment['icon'], React.ReactNode> = {
+  const body: Record<IconKind, React.ReactNode> = {
     sun: (<g><g transform={`rotate(${f * 0.8} 50 50)`}>{Array.from({ length: 8 }).map((_, i) => <rect key={i} x="47" y="4" width="6" height="16" rx="3" fill={C.butter} transform={`rotate(${i * 45} 50 50)`} />)}</g><circle cx="50" cy="50" r="24" fill={C.butter} /><circle cx="50" cy="50" r="18" {...st} /></g>),
     bottle: (<g><rect x="40" y="8" width="20" height="14" rx="6" fill={C.pink} /><rect x="34" y="20" width="32" height="10" rx="4" fill={C.lavender} /><rect x="30" y="30" width="40" height="62" rx="14" fill={C.paper} /><rect x="30" y="58" width="40" height="34" rx="12" fill={C.pink} opacity={0.6} /><rect x="35" y="35" width="30" height="52" rx="10" {...st} stroke={C.pink} /></g>),
     duck: (<g><ellipse cx="50" cy="68" rx="36" ry="22" fill={C.butter} /><circle cx="64" cy="38" r="18" fill={C.butter} /><path d="M80 38l14 4-14 5z" fill={C.pink} /><circle cx="68" cy="34" r="3" fill={C.ink} /><path d="M24 64q14 14 34 2" {...st} /></g>),
     cloud: (<g><path d="M24 76c-11 0-18-7-18-16s7-15 16-15c3-11 12-17 22-17 12 0 20 8 22 17 2-1 5-1 7-1 11 0 17 7 17 16s-7 16-17 16z" fill={C.lavender} /><path d="M38 56q4 4 8 0M56 56q4 4 8 0" stroke={C.white} strokeWidth={3} strokeLinecap="round" fill="none" /><text x="70" y="26" fontFamily={SANS} fontWeight={800} fontSize={18} fill={C.lavender}>z</text><text x="82" y="14" fontFamily={SANS} fontWeight={800} fontSize={13} fill={C.lavender}>z</text></g>),
     ball: (<g transform={`rotate(${f * 2} 50 50)`}><circle cx="50" cy="50" r="38" fill={C.sage} /><path d="M50 12a38 38 0 0 1 0 76" fill={C.pink} /><path d="M12 50h76" stroke={C.butter} strokeWidth={12} /><circle cx="50" cy="50" r="32" {...st} /></g>),
+    book: (<g><path d="M50 26c-10-8-26-8-38-4v58c12-4 28-4 38 4z" fill={C.butter} /><path d="M50 26c10-8 26-8 38-4v58c-12-4-28-4-38 4z" fill={C.sage} /><path d="M50 30v52" stroke={C.white} strokeWidth={3} strokeDasharray="5 5" /><path d="M22 38q12-4 22 2M22 50q12-4 22 2M58 40q10-6 22-2M58 52q10-6 22-2" stroke={C.white} strokeWidth={3} fill="none" strokeLinecap="round" /></g>),
+    bag: (<g><path d="M34 36q0-20 16-20t16 20" stroke={C.lavender} strokeWidth={6} fill="none" /><rect x="18" y="34" width="64" height="54" rx="14" fill={C.pink} /><rect x="24" y="40" width="52" height="42" rx="10" {...st} /><path d="M50 72s-10-6-10-12a5 5 0 0 1 10-2 5 5 0 0 1 10 2c0 6-10 12-10 12z" fill={C.white} /></g>),
     moon: (<g><path d="M66 12a38 38 0 1 0 22 58A30 30 0 0 1 66 12z" fill={C.butter} /><path d="M60 22a28 28 0 1 0 20 44" {...st} /><circle cx="84" cy="22" r="4" fill={C.butter} /></g>),
   };
   return <svg width={size} height={size} viewBox="0 0 100 100" style={{ transform: `translateY(${bob}px)`, overflow: 'visible' }}>{body[kind]}</svg>;
 };
 
-/* ----------------------------- footage ----------------------------- */
-const hasFile = (path: string) => getStaticFiles().some((f) => f.name === path);
-
-/** rounded photo frame with a stitched border; falls back to a placeholder card */
-/** baby-face sticker that hides the real face; uses public/face.png when present */
-export const FaceCover: React.FC<{ keys: NonNullable<Moment['face']>; w: number; h: number }> = ({ keys, w, h }) => {
-  const f = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const t = f / fps;
-  const at = (k: 'x' | 'y' | 'size') =>
-    keys.length === 1 ? keys[0][k] : interpolate(t, keys.map((q) => q.t), keys.map((q) => q[k]), { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.quad) });
-  const size = at('size') * w;
-  const wobble = Math.sin(f / 9) * 3; // tiny sway so it reads as a sticker, not a glitch
-  const style: React.CSSProperties = { position: 'absolute', left: at('x') * w - size / 2, top: at('y') * h - size / 2, width: size, height: size, transform: `rotate(${wobble}deg)`, filter: 'drop-shadow(0 10px 18px rgba(110,100,120,0.25))' };
-  if (hasFile('face.png')) return <Img src={staticFile('face.png')} style={{ ...style, objectFit: 'contain' }} />;
-  return (
-    <svg viewBox="0 0 100 100" style={style}>
-      <circle cx="50" cy="54" r="40" fill="#F9DCCB" stroke={C.white} strokeWidth={4} />
-      <ellipse cx="36" cy="54" rx="6" ry="7" fill="#3A3240" /><ellipse cx="64" cy="54" rx="6" ry="7" fill="#3A3240" />
-      <circle cx="38" cy="51" r="2" fill="#fff" /><circle cx="66" cy="51" r="2" fill="#fff" />
-      <circle cx="27" cy="66" r="6" fill={C.pink} opacity={0.6} /><circle cx="73" cy="66" r="6" fill={C.pink} opacity={0.6} />
-      <ellipse cx="50" cy="72" rx="5" ry="4" fill="#D9808E" />
-      <path d="M50 16c-12-12-26-4-18 4 4 4 12 2 18-4zm0 0c12-12 26-4 18 4-4 4-12 2-18-4z" fill={C.pink} /><circle cx="50" cy="16" r="5" fill="#E28F9A" />
-    </svg>
-  );
-};
-
-export const Footage: React.FC<{ file: string; w: number; h: number; accent: string; kind: Moment['icon']; face?: Moment['face'] }> = ({ file, w, h, accent, kind, face }) => {
-  const f = useCurrentFrame();
-  const path = `clips/${file}`;
-  const isVideo = /\.(mp4|mov|webm)$/i.test(file);
-  const zoom = 1.04 + f * 0.0007; // gentle Ken Burns on photos
-  const media = !hasFile(path) ? (
-    <AbsoluteFill style={{ background: `linear-gradient(160deg, ${C.paper}, ${accent}55)`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 30 }}>
-      <Icon kind={kind} size={260} />
-      <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: 30, color: C.ink, opacity: 0.6 }}>taruh footage di public/{path}</div>
-    </AbsoluteFill>
-  ) : isVideo ? (
-    <OffthreadVideo src={staticFile(path)} muted style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-  ) : (
-    <Img src={staticFile(path)} style={{ width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${zoom})` }} />
-  );
-  return (
-    <div style={{ width: w, height: h, borderRadius: 56, padding: 18, background: C.paper, boxShadow: '0 24px 60px rgba(110,100,120,0.18)', position: 'relative' }}>
-      <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: 42, overflow: 'hidden' }}>
-        {media}
-        {face && face.length > 0 && hasFile(path) && <FaceCover keys={face} w={w - 36} h={h - 36} />}
-      </div>
-      <div style={{ position: 'absolute', inset: 30, borderRadius: 34, border: `3px dashed ${C.white}`, opacity: 0.9, pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', inset: 6, borderRadius: 50, border: `3px dashed ${accent}`, pointerEvents: 'none' }} />
-    </div>
-  );
-};
