@@ -88,3 +88,19 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Baby · A day in my life (Remotion, Reels 1080×1920, 31s)
+
+`baby-day/` puts footage or photos of a baby's day into a soft pastel nursery style (cream, sage, pink, butter, lavender; Fraunces + Dancing Script + Nunito), not the neobrutalist style of the other videos.
+
+- Moments (time, title, caption, file, length) are listed in `MOMENTS` in `src/theme.ts`.
+- Put clips or photos in `public/clips/` (not committed). A missing file shows a placeholder card.
+- Face cover: put the sticker at `public/face.png`; each moment's `face` keyframes set where it sits (x/y/size as fractions of the frame, `t` in seconds).
+- Optional background music: `public/music.mp3`.
+
+```sh
+cd baby-day
+npm install
+npm run studio                                            # live preview
+npm run render -- --browser-executable=<chrome-headless-shell>
+```

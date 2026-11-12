@@ -1,2 +1,5 @@
 node_modules/
 */public/source.mp4
+node_modules
+baby-day/public/clips/*
+!baby-day/public/clips/.gitkeep

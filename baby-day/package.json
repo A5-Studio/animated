@@ -1,0 +1,21 @@
+{
+  "name": "baby-day",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render BabyDay baby-day.mp4",
+    "still": "remotion still BabyDay",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.532",
+    "@remotion/fonts": "4.0.532",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "remotion": "4.0.532"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.8",
+    "typescript": "5.8.3"
+  }
+}
