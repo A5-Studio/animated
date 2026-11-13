@@ -4,6 +4,7 @@
   "scripts": {
     "studio": "remotion studio",
     "render": "remotion render BabyDay baby-day.mp4",
+    "render:private": "remotion render BabyDay baby-day-private.mp4 --props={\"private\":true}",
     "still": "remotion still BabyDay",
     "typecheck": "tsc --noEmit"
   },

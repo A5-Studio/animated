@@ -4,7 +4,7 @@ import {
 } from 'remotion';
 import { Icon } from './components';
 import MEDIA from './media.json';
-import { C, SANS } from './theme';
+import { C, PRIVATE, SANS } from './theme';
 
 type Info = { w: number; h: number; faces?: number[][]; from?: number; track?: number[][] };
 const INFO = MEDIA as Record<string, Info>;
@@ -14,6 +14,7 @@ const hasFile = (path: string) => getStaticFiles().some((f) => f.name === path);
 /** baby-face sticker; uses public/face.png when it exists, else a drawn one */
 export const FaceSticker: React.FC<{ x: number; y: number; size: number }> = ({ x, y, size }) => {
   const f = useCurrentFrame();
+  if (PRIVATE) return null; // family cut shows Migu's face
   const style: React.CSSProperties = {
     position: 'absolute', left: x - size / 2, top: y - size / 2, width: size, height: size,
     transform: `rotate(${Math.sin(f / 9) * 4}deg)`, filter: 'drop-shadow(0 6px 12px rgba(110,100,120,0.3))',

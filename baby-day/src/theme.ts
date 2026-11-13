@@ -1,5 +1,5 @@
 import { loadFont } from '@remotion/fonts';
-import { staticFile } from 'remotion';
+import { getInputProps, staticFile } from 'remotion';
 import VO from './vo.json';
 
 export const FPS = 30;
@@ -34,6 +34,12 @@ loadFont({ family: 'Nunito', url: staticFile('fonts/Nunito-800.woff2'), weight: 
 
 export const NAME = 'Migu';
 
+/**
+ * Private family cut: `--props='{"private":true}'` shows Migu's face (no
+ * stickers) and keeps Baba's TikTok clip. The default render is the public cut.
+ */
+export const PRIVATE = (getInputProps() as { private?: boolean }).private === true;
+
 export type Icon = 'sun' | 'bottle' | 'duck' | 'cloud' | 'ball' | 'moon' | 'book' | 'bag';
 
 export type Shot = {
@@ -48,7 +54,7 @@ export type Shot = {
   sound?: boolean; // play the clip's own audio (music ducks out)
 };
 
-export type Chapter = { time: string; title: string; accent: Accent; icon: Icon; shots: Shot[] };
+export type Chapter = { time: string; title: string; accent: Accent; icon: Icon; shots: Shot[]; private?: boolean };
 
 export const OPENING: Shot = { id: 'opening', vo: 'Halo semua, aku Migu! Ini cerita kegiatan sehari-hariku.', dur: 8 };
 export const COLLAGE = [
@@ -57,7 +63,7 @@ export const COLLAGE = [
   'foto-13-gendong-ayah-kafe.jpg', 'foto-24-foto-keluarga-finger-heart.jpg',
 ];
 
-export const CHAPTERS: Chapter[] = [
+const ALL_CHAPTERS: Chapter[] = [
   { time: '06.00', title: 'Bangun pagi', accent: 'butter', icon: 'sun', shots: [
     { id: 'bangun', vo: 'Aku biasanya udah bangun pagi-pagi.', src: 'foto-05-merangkak.jpg', dur: 4 },
     { id: 'cermin', vo: 'Eh, siapa tuh di cermin? Aku dong!', src: 'foto-01-cermin.jpg', dur: 4, fx: 0.5 },
@@ -97,11 +103,16 @@ export const CHAPTERS: Chapter[] = [
     { id: 'mall', vo: 'Atau jalan-jalan ke mall sama Umma.', src: 'foto-19-gendong-ibu-mall.jpg', dur: 3.5, fy: 0.4 },
     { id: 'bogem', vo: 'Oh iya, kalau ketemu aku, jangan cium-cium ya. Nanti aku bogem! Hehe.', src: 'foto-27-bogem.jpg', dur: 5, fy: 0.3 },
   ] },
+  { time: '17.00', title: 'Bikin TikTok', accent: 'butter', icon: 'ball', private: true, shots: [
+    { id: 'senam', vo: 'Sore-sore, bikin TikTok sama Baba!', src: 'video-02.mp4', dur: 11, fy: 0.45, sound: true },
+  ] },
   { time: '18.00', title: 'Bobok malam', accent: 'lavender', icon: 'moon', shots: [
     { id: 'malam', vo: 'Jam enam sore, kalau lampu kamar udah gelap, aku mulai tidur.', src: 'foto-20-tidur-guling.jpg', dur: 5.5, night: true },
     { id: 'dari-lahir', vo: 'Aku udah belajar ini dari lahir loh!', src: 'foto-04-tidur.jpg', dur: 4, night: true },
   ] },
 ];
+
+export const CHAPTERS = ALL_CHAPTERS.filter((c) => PRIVATE || !c.private);
 
 export const OUTRO: Shot = { id: 'outro', vo: 'Dadah semua! Sampai ketemu lagi ya.', src: 'foto-24-foto-keluarga-finger-heart.jpg', dur: 6, fy: 0.5 };
 
