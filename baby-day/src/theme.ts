@@ -80,12 +80,13 @@ export const CHAPTERS: Chapter[] = [
   { time: '11.00', title: 'Main', accent: 'pink', icon: 'ball', shots: [
     { id: 'tummy', vo: 'Tummy time sama Baba. Lihat, aku kuat angkat kepala!', src: 'video-01.mp4', dur: 7, fx: 0.2 },
     { id: 'beras', vo: 'Aku udah mulai main sensory pakai beras loh!', src: 'foto-08-sensory-beras.jpg', dur: 4.5, fy: 0.4 },
+    { id: 'sensori', vo: 'Ini mainan sensori baruku, banyak teksturnya!', src: 'foto-26-sensory-board.jpg', dur: 4, fy: 0.25 },
     { id: 'teether', vo: 'Teether? Aku gigit!', src: 'foto-07-mainan-teether.jpg', dur: 3 },
     { id: 'kapas', vo: 'Kapas juga aku pegang-pegang.', src: 'foto-18-main-kantong-kapas.jpg', dur: 3, fy: 0.2 },
   ] },
   { time: '13.00', title: 'Bobok siang', accent: 'lavender', icon: 'cloud', shots: [
     { id: 'gendong', vo: 'Aku lagi suka bobok sambil digendong.', src: 'video-03.mp4', dur: 5, fy: 1 },
-    { id: 'gendong-umma', vo: 'Digendong Umma juga enak.', src: 'foto-14-gendong-ibu.jpg', dur: 3.5, fy: 0.3 },
+    { id: 'gendong-umma', vo: 'Digendong Umma juga enak.', src: 'foto-25-gendong-umma-mall.jpg', dur: 3.5, fx: 0.6, fy: 0.55 },
     { id: 'gaya', vo: 'Kalau di kasur, gayaku begini...', src: 'foto-12-tidur-telentang.jpg', dur: 3.5, fx: 0.75 },
     { id: 'gaya-2', vo: '...atau begini, pules banget.', src: 'foto-11-tidur-closeup.jpg', dur: 3, fy: 0.3 },
   ] },
@@ -94,9 +95,7 @@ export const CHAPTERS: Chapter[] = [
     { id: 'lift', vo: 'Naik lift sama Umma dan Baba.', src: 'foto-09-lift-keluarga.jpg', dur: 3, fx: 0.4 },
     { id: 'kafe', vo: 'Nemenin Baba ngopi.', src: 'foto-13-gendong-ayah-kafe.jpg', dur: 3, fy: 0.6 },
     { id: 'mall', vo: 'Atau jalan-jalan ke mall sama Umma.', src: 'foto-19-gendong-ibu-mall.jpg', dur: 3.5, fy: 0.4 },
-  ] },
-  { time: '17.00', title: 'Senam sore', accent: 'butter', icon: 'ball', shots: [
-    { id: 'senam', vo: 'Sore-sore, bikin TikTok sama Baba!', src: 'video-02.mp4', dur: 11, fy: 0.45, sound: true },
+    { id: 'bogem', vo: 'Oh iya, kalau ketemu aku, jangan cium-cium ya. Nanti aku bogem! Hehe.', src: 'foto-27-bogem.jpg', dur: 5, fy: 0.3 },
   ] },
   { time: '18.00', title: 'Bobok malam', accent: 'lavender', icon: 'moon', shots: [
     { id: 'malam', vo: 'Jam enam sore, kalau lampu kamar udah gelap, aku mulai tidur.', src: 'foto-20-tidur-guling.jpg', dur: 5.5, night: true },
