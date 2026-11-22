@@ -88,3 +88,14 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Jangan beli AI di luar platform resminya (Remotion, Reels 1080×1920, 53s)
+
+`beli-ai-resmi/beli-ai-resmi.mp4` answers a Threads question ("Beli claude pro yang aman dimana ya?", 54 replies) in black and white only. Hook: "Akun Claude Pro Rp25 ribu? JANGAN." Then the post, the typical DM offers, three risks (banned account, chats seen by others, no guarantee), the official way (claude.ai or the official app), and the same rule for ChatGPT and Gemini.
+
+```sh
+cd beli-ai-resmi
+npm install
+python3 scripts/music.py public/music.wav 53   # optional: regenerate the music bed
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
