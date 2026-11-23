@@ -89,7 +89,7 @@ cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
 
-## Faqihpedia · TRIMS: Arti "pedia" (Remotion, Reels 1080×1920, 115.5s)
+## Faqihpedia · TRIMS: Arti "pedia" (Remotion, Reels 1080×1920, 118.8s)
 
 `faqihpedia-artipedia/faqihpedia-artipedia.mp4` explains where "-pedia" comes from (Greek *paideia*). It uses the same layout engine as `faqihpedia-22`, and it keeps the outro ("…boleh di-like dulu… Trims!").
 
@@ -100,6 +100,8 @@ It follows the **TRIMS (Trivia Makan Siang)** rules from the Faqihpedia segment 
 - **Label**: a TRIMS badge with the plate logo in the top-left corner, without an episode number.
 - **Fact card**: a yellow "LAUK HARI INI" card tilted 6°.
 - **Sound**: a spoon-on-plate "ting" whenever a fact lands.
+- **Bumper**: the 3s TRIMS bumper (`public/trims-bumper.mp4`, from `trims-bumper/`) comes right after the hook question. `scripts/splice.sh` inserts it at `BUMPER_AT` (9.5s) and normalizes the loudness.
+- **Hook logos**: the real Tokopedia and Wikipedia logos (`public/tokopedia.png`, `public/wikipedia.png`) sit on white cards. "-pedia" words are always written as one word, with only a highlight on PEDIA.
 - **Fixed lines**: the opening line ("Bahan obrolan makan siang hari ini…") is shown on screen. The closing line ("Trims udah makan siang bareng. Besok lauk baru.") is on the end card, with the black "TRIVIA MAKAN SIANG · @faqihpedia" strip.
 
 The edit also adds:
@@ -126,5 +128,6 @@ cd faqihpedia-artipedia
 npm install
 cp <tightened clip>.mp4 public/source.mp4    # not committed
 python3 scripts/music.py public/music.wav 117 # not committed, regenerate
-npm run render -- --browser-executable=<chrome-headless-shell>
+npx remotion render FaqihpediaArtipedia main.mp4 --browser-executable=<chrome-headless-shell>
+scripts/splice.sh main.mp4 faqihpedia-artipedia.mp4   # adds the bumper after the hook
 ```
