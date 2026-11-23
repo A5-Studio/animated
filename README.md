@@ -89,9 +89,20 @@ cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
 
-## Faqihpedia · TRIMS: Arti "pedia" (Remotion, Reels 1080×1920, 112.8s)
+## Faqihpedia · TRIMS: Arti "pedia" (Remotion, Reels 1080×1920, 115.5s)
 
-`faqihpedia-artipedia/faqihpedia-artipedia.mp4` explains where "-pedia" comes from (Greek *paideia*). It uses the same layout engine, palette and sound effects as `faqihpedia-22`, and it keeps the outro ("…boleh di-like dulu… Trims!"). On top of that it adds:
+`faqihpedia-artipedia/faqihpedia-artipedia.mp4` explains where "-pedia" comes from (Greek *paideia*). It uses the same layout engine as `faqihpedia-22`, and it keeps the outro ("…boleh di-like dulu… Trims!").
+
+It follows the **TRIMS (Trivia Makan Siang)** rules from the Faqihpedia segment kit:
+
+- **Palette**: sambal orange `#FF8A3D`, egg-yolk yellow `#FFD600`, rice `#FFF6E8` and ink. Red, green and blue are left out because they belong to the other segments.
+- **Motif**: an orange gingham "taplak warung" background.
+- **Label**: a TRIMS badge with the plate logo in the top-left corner, without an episode number.
+- **Fact card**: a yellow "LAUK HARI INI" card tilted 6°.
+- **Sound**: a spoon-on-plate "ting" whenever a fact lands.
+- **Fixed lines**: the opening line ("Bahan obrolan makan siang hari ini…") is shown on screen. The closing line ("Trims udah makan siang bareng. Besok lauk baru.") is on the end card, with the black "TRIVIA MAKAN SIANG · @faqihpedia" strip.
+
+The edit also adds:
 
 - **A tighter VO**: the dead air and the flubbed retake are removed, and pauses longer than 0.35s are cut down. `CUTS` in `src/theme.ts` lists where the source jumps.
 - **Punch-ins**: each jump cut alternates between a wide framing and a 1.08× framing, with a slow push-in.
@@ -114,6 +125,6 @@ npm run render -- --browser-executable=<chrome-headless-shell>
 cd faqihpedia-artipedia
 npm install
 cp <tightened clip>.mp4 public/source.mp4    # not committed
-python3 scripts/music.py public/music.wav 114 # not committed, regenerate
+python3 scripts/music.py public/music.wav 117 # not committed, regenerate
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```

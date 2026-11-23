@@ -1,10 +1,10 @@
 import React from 'react';
 import { AbsoluteFill, Easing, Html5Audio, OffthreadVideo, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { CAPS } from './caps';
-import { At, Background, Box, Burst, Rich, Sticker, lin, pop } from './components';
+import { At, Background, Box, Burst, Gingham, Rich, Sticker, lin, pop } from './components';
 import { PediaWord, SCENES } from './scenes';
 import { Sfx } from './sfx';
-import { BORDER, C, CUTS, HEAD, LAYOUT, MORPH, Mode, TOTAL, s, shadow } from './theme';
+import { BODY, BORDER, C, CUTS, END_CARD, HEAD, LAYOUT, MORPH, Mode, TOTAL, s, shadow } from './theme';
 
 /* ------------------------------------------------------------------ */
 /* layout engine: one video element that morphs between three layouts */
@@ -108,7 +108,7 @@ const Stage: React.FC<{ g: G; f: number }> = ({ g, f }) => {
 /* ------------------------------------------------------------------ */
 /* transition: an ink-edged colour band sweeps across on layout change */
 /* ------------------------------------------------------------------ */
-const SWIPE_COLORS = [C.yellow, C.pink, C.blue, C.green, C.orange, C.purple];
+const SWIPE_COLORS = [C.orange, C.yellow];
 const Swipe: React.FC<{ f: number }> = ({ f }) => (
   <>
     {LAYOUT.slice(1).map(([t], i) => {
@@ -171,12 +171,20 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
   const gone = (a: number, b: number) => f >= s(a) && f <= s(b);
   const out = (b: number) => 1 - lin(f, s(b) - 6, s(b));
   const hook = [
-    { at: 0.3, head: 'ENSIKLO', x: 330, y: 250, r: -4 },
-    { at: 1.4, head: 'TOKO', x: 760, y: 330, r: 3 },
-    { at: 2.1, head: 'WIKI', x: 360, y: 420, r: -2 },
+    { at: 0.3, head: 'ENSIKLO', x: 330, y: 300, r: -4 },
+    { at: 1.4, head: 'TOKO', x: 760, y: 380, r: 3 },
+    { at: 2.1, head: 'WIKI', x: 360, y: 470, r: -2 },
   ];
   return (
     <div style={{ position: 'absolute', inset: 0, opacity: o }}>
+      {/* TRIMS fixed opening line */}
+      {gone(0, 5.6) && (
+        <At x={540} y={205} s={P(0.1, 200) * out(5.6)} r={-1}>
+          <Box bg={C.white} pad="10px 24px" radius={14} sh={7} style={{ fontFamily: BODY, fontWeight: 700, fontSize: 36, whiteSpace: 'nowrap' }}>
+            Bahan obrolan makan siang hari ini…
+          </Box>
+        </At>
+      )}
       {/* hook: three -pedia names, then the question */}
       {gone(0, 6.3) &&
         hook.map((h) => (
@@ -230,14 +238,66 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
   );
 };
 
-/** segment badge, hidden while the split layout needs the top edge */
-const SegmentBadge: React.FC<{ f: number; o: number }> = ({ f, o }) => (
-  <At x={540} y={110} s={pop(f, 4)} r={-3} o={o * (1 - lin(f, s(111.2), s(111.2) + 6))}>
-    <Box bg={C.ink} pad="12px 24px" radius={14} sh={7} style={{ color: C.white, fontFamily: HEAD, fontSize: 34, whiteSpace: 'nowrap', boxShadow: `7px 7px 0 ${C.yellow}` }}>
-      TRIMS · <span style={{ color: C.yellow }}>ARTI “PEDIA”</span>
-    </Box>
-  </At>
+/** TRIMS logo: a plate with a question mark, between a fork and a spoon */
+export const TrimsLogo: React.FC<{ size?: number }> = ({ size = 70 }) => (
+  <svg width={size} height={size * 150 / 220} viewBox="0 0 220 150">
+    <rect x="14" y="20" width="12" height="110" rx="5" fill={C.white} stroke={C.ink} strokeWidth="5" />
+    <rect x="8" y="14" width="24" height="40" rx="4" fill={C.white} stroke={C.ink} strokeWidth="5" />
+    <line x1="16" y1="14" x2="16" y2="40" stroke={C.ink} strokeWidth="4" />
+    <line x1="24" y1="14" x2="24" y2="40" stroke={C.ink} strokeWidth="4" />
+    <circle cx="110" cy="75" r="62" fill={C.white} stroke={C.ink} strokeWidth="6" />
+    <circle cx="110" cy="75" r="44" fill={C.yellow} stroke={C.ink} strokeWidth="5" />
+    <text x="110" y="98" textAnchor="middle" fontFamily={HEAD} fontSize="64" fill={C.ink}>?</text>
+    <rect x="194" y="58" width="12" height="78" rx="5" fill={C.white} stroke={C.ink} strokeWidth="5" />
+    <ellipse cx="200" cy="38" rx="15" ry="24" fill={C.white} stroke={C.ink} strokeWidth="5" />
+  </svg>
 );
+
+/** segment label, top-left (segment kit rule); hidden while the split layout needs the top edge */
+const SegmentBadge: React.FC<{ f: number; o: number }> = ({ f, o }) => (
+  <div style={{ position: 'absolute', left: 44, top: 62, opacity: o, transform: `scale(${pop(f, 4)}) rotate(-2deg)`, transformOrigin: 'left center' }}>
+    <Box bg={C.orange} pad="8px 22px 8px 14px" radius={14} sh={7} style={{ display: 'flex', alignItems: 'center', gap: 12, fontFamily: HEAD, fontSize: 38, whiteSpace: 'nowrap' }}>
+      <TrimsLogo size={74} />
+      TRIMS
+    </Box>
+  </div>
+);
+
+/* ------------------------------------------------------------------ */
+/* TRIMS end card with the fixed closing line                          */
+/* ------------------------------------------------------------------ */
+const EndCard: React.FC<{ f: number }> = ({ f }) => {
+  const a = s(END_CARD);
+  if (f < a) return null;
+  const inP = interpolate(f, [a, a + 12], [0, 1], { extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) });
+  const P = (d: number, k = 200) => pop(f, a + d, k);
+  return (
+    <AbsoluteFill style={{ clipPath: `circle(${inP * 130}% at 50% 40%)`, background: `${Gingham(96)}, ${C.bg}` }}>
+      <At x={540} y={560} s={P(4)} r={-3}>
+        <div style={{ background: C.white, border: `${BORDER}px solid ${C.ink}`, borderRadius: '50%', boxShadow: shadow(14), padding: 40 }}>
+          <TrimsLogo size={420} />
+        </div>
+      </At>
+      <At x={540} y={950} s={P(8)} r={2}>
+        <Sticker bg={C.orange} size={110}>TRIMS</Sticker>
+      </At>
+      <At x={540} y={1180} s={P(14)} r={-1.5}>
+        <Box bg={C.white} pad="26px 40px" style={{ width: 900, textAlign: 'center', fontFamily: BODY, fontWeight: 700, fontSize: 46, lineHeight: 1.3 }}>
+          Trims udah makan siang bareng.<br />
+          <span style={{ background: C.yellow, border: `4px solid ${C.ink}`, borderRadius: 10, padding: '0 10px' }}>Besok lauk baru.</span>
+        </Box>
+      </At>
+      <div style={{
+        position: 'absolute', left: 0, right: 0, bottom: 0, height: 150, background: C.ink, color: C.white,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 56px',
+        fontFamily: BODY, fontWeight: 700, fontSize: 34, letterSpacing: 3, transform: `translateY(${(1 - P(10, 160)) * 150}px)`,
+      }}>
+        <span>TRIVIA MAKAN SIANG</span>
+        <span>@faqihpedia</span>
+      </div>
+    </AbsoluteFill>
+  );
+};
 
 /** quiet music bed: fades in, dips a little under the busier anim parts, fades out */
 const Music: React.FC = () => (
@@ -254,12 +314,13 @@ export const FaqihpediaArtipedia: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: C.bg, opacity: fadeOut, overflow: 'hidden' }}>
       <Background />
-      <Talking g={g} f={f} />
+      {f < s(END_CARD) + 13 && <Talking g={g} f={f} />}
       <Stage g={g} f={f} />
       <Captions f={f} g={g} />
       <FullStickers f={f} o={g.full} />
-      <SegmentBadge f={f} o={1 - g.split} />
+      <SegmentBadge f={f} o={(1 - g.split) * (1 - lin(f, s(111.2), s(111.2) + 6))} />
       <Swipe f={f} />
+      <EndCard f={f} />
       <Music />
       <Sfx />
     </AbsoluteFill>

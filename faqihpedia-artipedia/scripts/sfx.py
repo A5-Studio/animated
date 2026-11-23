@@ -73,6 +73,19 @@ def ding():
     return out
 
 
+def ting():
+    """TRIMS: a spoon tapping a plate. Inharmonic metal partials, fast attack, ringing decay."""
+    n = int(0.9 * SR)
+    partials = ((2350, 1.0, 6.0), (3790, 0.55, 8.0), (5420, 0.35, 11.0), (7810, 0.18, 15.0))
+    out = []
+    for i in range(n):
+        t = i / SR
+        v = sum(a * math.sin(2 * math.pi * f * t) * math.exp(-t * d) for f, a, d in partials)
+        click = random.uniform(-1, 1) * math.exp(-t * 900) * 0.6
+        out.append((v + click) * min(1, t / 0.0008))
+    return out
+
+
 def tick():
     """Tiny click for the day counter."""
     n = int(0.04 * SR)
@@ -82,6 +95,6 @@ def tick():
 if __name__ == '__main__':
     out = sys.argv[1] if len(sys.argv) > 1 else 'public/sfx'
     os.makedirs(out, exist_ok=True)
-    for name, fn in (('pop', pop), ('whoosh', whoosh), ('thud', thud), ('ding', ding), ('tick', tick)):
+    for name, fn in (('pop', pop), ('whoosh', whoosh), ('thud', thud), ('ding', ding), ('tick', tick), ('ting', ting)):
         write(os.path.join(out, f'{name}.wav'), fn())
         print('wrote', name)

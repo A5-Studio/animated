@@ -119,8 +119,12 @@ const Paideia: React.FC<SceneProps> = ({ f }) => {
   return (
     <>
       <Title f={f} at={9.4} text="Asal kata “pedia”" bg={C.white} />
-      <At x={500} y={168} s={P(f, 11.7, 220)} r={3}>
-        <Sticker bg={C.blue} size={32}>Bahasa Yunani</Sticker>
+      <At x={230} y={178} s={P(f, 11.7, 220)} r={-4}>
+        <Sticker bg={C.white} size={30}>Bahasa Yunani</Sticker>
+      </At>
+      {/* TRIMS fact card */}
+      <At x={790} y={178} s={P(f, 13.9, 220)} r={6}>
+        <Sticker bg={C.yellow} size={30}>Lauk hari ini</Sticker>
       </At>
       {/* the Greek word */}
       <At x={500} y={335} s={P(f, 13.7)} r={1.5}>
@@ -171,7 +175,7 @@ const Pediatri: React.FC<SceneProps> = ({ f }) => {
   const link = ease(f, s(28.5), s(29.6));
   return (
     <>
-      <Title f={f} at={21.4} text="Secara bahasa…" bg={C.yellow} />
+      <Title f={f} at={21.4} text="Secara bahasa…" bg={C.white} />
       {/* lines from each word to the doctor */}
       <svg width={1000} height={880} style={{ position: 'absolute', left: 0, top: 0 }}>
         {words.map((w) => (
@@ -355,7 +359,7 @@ const Tokopedia: React.FC<SceneProps> = ({ f }) => {
         </Box>
       </At>
       <At x={680} y={830} s={P(f, 82.2, 220)} r={-3}>
-        <Sticker bg={C.purple} size={30}>≈ kayak ensiklopedia</Sticker>
+        <Sticker bg={C.white} size={30}>≈ kayak ensiklopedia</Sticker>
       </At>
     </>
   );
@@ -367,13 +371,13 @@ const Tokopedia: React.FC<SceneProps> = ({ f }) => {
 const Berbagi: React.FC<SceneProps> = ({ f }) => {
   const people = [C.blue, C.pink, C.green, C.orange];
   const chips = [
-    { at: 101.0, t: 'Pengetahuan', bg: C.yellow, x: 190, y: 610, r: -6 },
+    { at: 101.0, t: 'Pengetahuan', bg: C.orange, x: 190, y: 610, r: -6 },
     { at: 102.9, t: 'Tips', bg: C.green, x: 810, y: 610, r: 6 },
     { at: 103.6, t: 'Macam-macam', bg: C.pink, x: 500, y: 800, r: -2 },
   ];
   return (
     <>
-      <Title f={f} at={93.4} text="Sesederhana apa pun…" bg={C.yellow} />
+      <Title f={f} at={93.4} text="Sesederhana apa pun…" bg={C.white} />
       <div style={{ position: 'absolute', left: 0, right: 0, top: 170, display: 'flex', justifyContent: 'center', gap: 30 }}>
         {people.map((c, i) => (
           <div key={i} style={{ position: 'relative', transform: `scale(${P(f, 96.1 + i * 0.15, 220)})` }}>
@@ -404,9 +408,9 @@ const Berbagi: React.FC<SceneProps> = ({ f }) => {
 
 export const SCENES: { from: number; to: number; bg: string; C: React.FC<SceneProps> }[] = [
   { from: 9.25, to: 21.2, bg: C.bg, C: Paideia },
-  { from: 21.2, to: 33.2, bg: C.pink, C: Pediatri },
-  { from: 35.8, to: 55.4, bg: C.green, C: Ensiklopedia },
-  { from: 55.4, to: 68.2, bg: C.blue, C: Wikipedia },
+  { from: 21.2, to: 33.2, bg: C.orange, C: Pediatri },
+  { from: 35.8, to: 55.4, bg: C.yellow, C: Ensiklopedia },
+  { from: 55.4, to: 68.2, bg: C.bg, C: Wikipedia },
   { from: 68.2, to: 86.1, bg: C.orange, C: Tokopedia },
-  { from: 93.2, to: 106.2, bg: C.purple, C: Berbagi },
+  { from: 93.2, to: 106.2, bg: C.yellow, C: Berbagi },
 ];

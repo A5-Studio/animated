@@ -3,16 +3,21 @@ import { staticFile } from 'remotion';
 
 export const FPS = 30;
 
-// Same neobrutalism palette as faqihpedia-22 / faqihpedia-27.
+/*
+ * TRIMS palette (Faqihpedia segment kit): sambal orange, egg-yolk yellow,
+ * rice white and ink. Red, green and blue belong to the other segments
+ * (Marketing 0 KM, Spreadsheet Gym), so here `blue` and `green` are mapped
+ * to warm tints, and red is kept only for the tiny "wrong" marks.
+ */
 export const C = {
-  bg: '#FFF1C9',
+  bg: '#FFF6E8', // nasi
   ink: '#111111',
   white: '#FFFFFF',
-  yellow: '#FFD600',
+  yellow: '#FFD600', // kuning telur (also the Faqihpedia accent)
   pink: '#FF7AC6',
-  blue: '#5AC8FF',
-  green: '#7CF29A',
-  orange: '#FF8A3D',
+  blue: '#FFC59A', // peach tint
+  green: '#FFE68A', // light yolk tint
+  orange: '#FF8A3D', // sambal, the TRIMS colour
   purple: '#B69CFF',
   red: '#FF5A5A',
 };
@@ -30,7 +35,9 @@ loadFont({ family: 'Space Grotesk', url: staticFile('fonts/SpaceGrotesk.woff2'),
 export const s = (sec: number) => Math.round(sec * FPS);
 
 // public/source.mp4 is the tightened cut (112.8s), "Trims!" ends at ~112.3s.
-export const TOTAL = s(112.75);
+// The TRIMS end card takes over at END_CARD and holds for a few seconds.
+export const END_CARD = 112.35;
+export const TOTAL = s(115.5);
 
 /**
  * Where the source jumps (seconds in source.mp4). Each piece gets its own

@@ -6,8 +6,8 @@ import { LAYOUT, s } from './theme';
  * Subtle sound effects under the voice. Times are the same source.mp4
  * seconds the scenes use. Files come from scripts/sfx.py.
  */
-type Kind = 'pop' | 'whoosh' | 'thud' | 'ding' | 'tick';
-const VOL: Record<Kind, number> = { pop: 0.05, whoosh: 0.07, thud: 0.08, ding: 0.05, tick: 0.025 };
+type Kind = 'pop' | 'whoosh' | 'thud' | 'ding' | 'tick' | 'ting';
+const VOL: Record<Kind, number> = { pop: 0.05, whoosh: 0.07, thud: 0.08, ding: 0.05, tick: 0.025, ting: 0.06 };
 
 const POPS = [
   0.3, 1.4, 2.1, 5.9, // hook
@@ -21,14 +21,20 @@ const POPS = [
   93.4, 96.1, 96.6, 98.0, 101.0, 102.9, 103.6, // berbagi
   108.9, // like
 ];
-const THUDS = [76.9, 111.35];
-const DINGS = [4.7, 28.5, 37.0, 48.75, 56.7, 81.8, 99.8, 111.4];
+const THUDS = [111.35];
+const DINGS = [4.7, 48.75, 81.8, 99.8];
+// TRIMS rule: a spoon-on-plate "ting" whenever a fact lands
+const TINGS = [13.9, 20.5, 28.5, 32.2, 37.0, 42.3, 56.7, 58.4, 76.9, 88.5];
 
 const CUES: [number, Kind][] = [
   ...LAYOUT.slice(1).map(([t]) => [s(t) - 5, 'whoosh'] as [number, Kind]),
   ...POPS.map((t) => [s(t), 'pop'] as [number, Kind]),
   ...THUDS.map((t) => [s(t), 'thud'] as [number, Kind]),
   ...DINGS.map((t) => [s(t), 'ding'] as [number, Kind]),
+  ...TINGS.map((t) => [s(t), 'ting'] as [number, Kind]),
+  // end card: whoosh in, then the closing ting
+  [s(112.35) - 4, 'whoosh'],
+  [s(112.35) + 14, 'ting'],
   // the A -> Z meter (scenes.tsx: 48.1s - 48.75s) and the A-Z shelf (80.9s - 81.8s)
   ...Array.from({ length: 5 }, (_, i) => [s(48.1) + Math.round((i / 5) * (s(48.75) - s(48.1))), 'tick'] as [number, Kind]),
   ...Array.from({ length: 6 }, (_, i) => [s(80.9) + Math.round((i / 6) * (s(81.8) - s(80.9))), 'tick'] as [number, Kind]),

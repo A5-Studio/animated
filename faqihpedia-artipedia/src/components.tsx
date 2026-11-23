@@ -83,17 +83,16 @@ export const Rich: React.FC<{ text: string; mark?: string }> = ({ text, mark = C
 /* ------------------------------------------------------------------ */
 /* scene furniture                                                     */
 /* ------------------------------------------------------------------ */
+/** TRIMS motif: orange gingham "taplak warung" on rice white, drifting slowly */
+export const Gingham = (size = 96, alpha = '8C') =>
+  `linear-gradient(90deg, ${C.orange}${alpha} 50%, transparent 50%) 0 0/${size}px ${size}px, ` +
+  `linear-gradient(${C.orange}${alpha} 50%, transparent 50%) 0 0/${size}px ${size}px`;
+
 export const Background: React.FC<{ color?: string }> = ({ color = C.bg }) => {
   const f = useCurrentFrame();
+  const d = (f * 0.5) % 192;
   return (
-    <AbsoluteFill
-      style={{
-        background: color,
-        backgroundImage: `linear-gradient(${C.ink}14 3px, transparent 3px), linear-gradient(90deg, ${C.ink}14 3px, transparent 3px)`,
-        backgroundSize: '90px 90px',
-        backgroundPosition: `${(f * 0.6) % 90}px ${(f * 0.6) % 90}px`,
-      }}
-    />
+    <AbsoluteFill style={{ background: `${Gingham(96)}, ${color}`, backgroundPosition: `${d}px ${d}px, ${d}px ${d}px, 0 0` }} />
   );
 };
 
