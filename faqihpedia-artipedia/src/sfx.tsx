@@ -11,7 +11,7 @@ const VOL: Record<Kind, number> = { pop: 0.05, whoosh: 0.07, thud: 0.08, ding: 0
 
 const POPS = [
   0.3, 1.4, 2.1, 5.9, // hook
-  9.4, 11.7, 13.7, 15.1, 18.4, 19.6, 20.5, // paideia
+  9.6, 11.7, 13.7, 15.1, 18.4, 19.6, 20.5, // paideia
   21.4, 23.8, 25.7, 27.2, 30.1, 30.3, 32.2, // pediatri
   33.4, // bedah lebih dalam
   36.0, 39.2, 40.7, 41.1, 41.4, 42.3, 46.8, 51.3, // ensiklopedia

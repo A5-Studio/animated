@@ -55,7 +55,7 @@ export const CUTS = [9.333, 16.988, 18.854, 22.775, 52.756, 65.956, 68.136, 72.4
 export type Mode = 'full' | 'split' | 'anim';
 export const LAYOUT: [number, Mode][] = [
   [0, 'full'], // hook: ensiklopedia, tokopedia, wikipedia
-  [9.25, 'anim'], // pedia comes from Greek paideia
+  [9.0, 'anim'], // pedia comes from Greek paideia (the TRIMS bumper is spliced in at BUMPER_AT)
   [21.2, 'split'], // pedia <-> pediatri
   [33.2, 'full'], // "kalau mau dibedah lebih dalam"
   [35.8, 'anim'], // ensiklopedia = pendidikan melingkar, A-Z
@@ -68,3 +68,6 @@ export const LAYOUT: [number, Mode][] = [
 
 /** frames a layout change takes */
 export const MORPH = 14;
+
+/** where scripts/splice.sh inserts the 3s TRIMS bumper (seconds in this render) */
+export const BUMPER_AT = 9.5;

@@ -70,7 +70,7 @@ export const Rich: React.FC<{ text: string; mark?: string }> = ({ text, mark = C
   <>
     {text.split('*').map((part, i) =>
       i % 2 ? (
-        <span key={i} style={{ background: mark, padding: '0 8px', border: `3px solid ${C.ink}`, borderRadius: 8, fontWeight: 700, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }}>
+        <span key={i} style={{ background: mark, padding: '0 4px', boxShadow: `inset 0 0 0 3px ${C.ink}`, borderRadius: 7, fontWeight: 700, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }}>
           {part}
         </span>
       ) : (

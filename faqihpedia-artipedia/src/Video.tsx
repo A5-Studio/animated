@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Easing, Html5Audio, OffthreadVideo, interpolate, staticFile, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, Easing, Html5Audio, Img, OffthreadVideo, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { CAPS } from './caps';
 import { At, Background, Box, Burst, Gingham, Rich, Sticker, lin, pop } from './components';
 import { PediaWord, SCENES } from './scenes';
@@ -170,10 +170,11 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
   const P = (sec: number, k = 220) => pop(f, s(sec), k);
   const gone = (a: number, b: number) => f >= s(a) && f <= s(b);
   const out = (b: number) => 1 - lin(f, s(b) - 6, s(b));
+  // "pedia" lands at 4.7s: every name gets a little bump
+  const bump = 1 + 0.08 * Math.sin(Math.PI * lin(f, s(4.7), s(4.7) + 8));
   const hook = [
-    { at: 0.3, head: 'ENSIKLO', x: 330, y: 300, r: -4 },
-    { at: 1.4, head: 'TOKO', x: 760, y: 380, r: 3 },
-    { at: 2.1, head: 'WIKI', x: 360, y: 470, r: -2 },
+    { at: 1.4, src: 'tokopedia.png', w: 430, x: 330, y: 455, r: 3 },
+    { at: 2.1, src: 'wikipedia.png', w: 210, x: 830, y: 395, r: -3 },
   ];
   return (
     <div style={{ position: 'absolute', inset: 0, opacity: o }}>
@@ -186,14 +187,22 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
         </At>
       )}
       {/* hook: three -pedia names, then the question */}
+      {gone(0, 6.3) && (
+        <At x={330} y={320} s={P(0.3) * out(6.3) * bump} r={-4}>
+          <PediaWord head="ENSIKLO" lit={lin(f, s(4.7), s(4.7) + 6)} size={46} />
+        </At>
+      )}
+      {/* the real Tokopedia and Wikipedia logos, on white cards */}
       {gone(0, 6.3) &&
         hook.map((h) => (
-          <At key={h.head} x={h.x} y={h.y} s={P(h.at) * out(6.3)} r={h.r}>
-            <PediaWord head={h.head} lit={lin(f, s(4.7), s(4.7) + 6)} size={46} />
+          <At key={h.src} x={h.x} y={h.y} s={P(h.at) * out(6.3) * bump} r={h.r}>
+            <Box bg={C.white} pad="14px 18px" radius={18} sh={9}>
+              <Img src={staticFile(h.src)} style={{ width: h.w, display: 'block' }} />
+            </Box>
           </At>
         ))}
-      {gone(5.8, 9.3) && (
-        <At x={540} y={330} s={P(5.9, 180) * out(9.3)} r={-3}>
+      {gone(5.8, 9.15) && (
+        <At x={540} y={330} s={P(5.9, 180) * out(9.15)} r={-3}>
           <Box bg={C.yellow} pad="14px 34px" style={{ fontFamily: HEAD, fontSize: 70, whiteSpace: 'nowrap' }}>
             “PEDIA” = <span style={{ background: C.white, border: `5px solid ${C.ink}`, borderRadius: 12, padding: '0 16px' }}>?</span>
           </Box>
@@ -210,7 +219,7 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
         <>
           <At x={540} y={270} s={P(88.5, 180) * out(93.2)} r={-3}>
             <Box bg={C.yellow} pad="10px 30px" style={{ fontFamily: HEAD, fontSize: 64, whiteSpace: 'nowrap' }}>
-              FAQIH<span style={{ background: C.white, border: `5px solid ${C.ink}`, borderRadius: 12, padding: '0 10px', marginLeft: 6 }}>PEDIA</span>
+              FAQIH<span style={{ background: C.white, boxShadow: `inset 0 0 0 5px ${C.ink}`, borderRadius: 10, padding: '0 4px' }}>PEDIA</span>
             </Box>
           </At>
           <At x={540} y={410} s={P(90.2) * out(93.2)} r={2}>

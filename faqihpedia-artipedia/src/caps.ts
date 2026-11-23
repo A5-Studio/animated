@@ -5,7 +5,7 @@ export const CAPS: [number, number, string][] = [
   [3.38, 4.74, 'di belakangnya semua ada kata'],
   [4.74, 5.78, '*pedia-nya*.'],
   [5.78, 7.34, 'Tapi kalian pernah penasaran'],
-  [7.34, 9.68, 'gak apa arti *pedia* tersebut?'],
+  [7.34, 9.35, 'gak apa arti *pedia* tersebut?'],
   [10.00, 11.60, 'Ternyata *pedia* itu diambil dari'],
   [11.60, 13.74, 'kata bahasa *Yunani*,'],
   [13.74, 15.60, '*paideia*, yang artinya pendidikan'],

@@ -69,10 +69,11 @@ const Meter: React.FC<{ w: number; h?: number; v: number; color: string; label?:
 /** "ENSIKLO" + "PEDIA" chip where the -pedia half lights up */
 export const PediaWord: React.FC<{ head: string; lit: number; size?: number; bg?: string }> = ({ head, lit, size = 40, bg = C.white }) => (
   <Box bg={bg} pad="8px 18px" radius={14} sh={7} style={{ fontFamily: HEAD, fontSize: size, whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}>
+    {/* one word, no gap: the -PEDIA half only gets a highlight */}
     <span>{head}</span>
     <span style={{
-      background: lit > 0.5 ? C.yellow : 'transparent', border: `4px solid ${lit > 0.5 ? ink : 'transparent'}`, borderRadius: 10,
-      padding: '0 8px', marginLeft: 4, transform: `scale(${1 + 0.15 * Math.sin(Math.PI * Math.min(1, lit))})`, display: 'inline-block',
+      background: lit > 0.5 ? C.yellow : 'transparent', boxShadow: lit > 0.5 ? `inset 0 0 0 4px ${ink}` : 'none', borderRadius: 8,
+      padding: '0 3px', transform: `scale(${1 + 0.12 * Math.sin(Math.PI * Math.min(1, lit))})`, display: 'inline-block',
     }}>PEDIA</span>
   </Box>
 );
@@ -112,13 +113,13 @@ const Shop: React.FC<{ w?: number }> = ({ w = 300 }) => (
 );
 
 /* ================================================================== */
-/* 1. "pedia" comes from Greek paideia (9.25 - 21.2, anim)             */
+/* 1. "pedia" comes from Greek paideia (9.0 - 21.2, anim)              */
 /* ================================================================== */
 const Paideia: React.FC<SceneProps> = ({ f }) => {
   const kids = [C.pink, C.blue, C.green];
   return (
     <>
-      <Title f={f} at={9.4} text="Asal kata “pedia”" bg={C.white} />
+      <Title f={f} at={9.6} text="Asal kata “pedia”" bg={C.white} />
       <At x={230} y={178} s={P(f, 11.7, 220)} r={-4}>
         <Sticker bg={C.white} size={30}>Bahasa Yunani</Sticker>
       </At>
@@ -204,7 +205,7 @@ const Pediatri: React.FC<SceneProps> = ({ f }) => {
       </At>
       <At x={760} y={790} s={P(f, 32.2, 220)} r={-2}>
         <Box bg={C.white} pad="6px 20px" radius={14} sh={7} style={{ fontFamily: HEAD, fontSize: 44, whiteSpace: 'nowrap' }}>
-          <span style={{ background: C.yellow, border: `4px solid ${ink}`, borderRadius: 10, padding: '0 6px' }}>PEDI</span>ATRI
+          <span style={{ background: C.yellow, boxShadow: `inset 0 0 0 4px ${ink}`, borderRadius: 8, padding: '0 3px' }}>PEDI</span>ATRI
         </Box>
       </At>
     </>
@@ -332,7 +333,7 @@ const Tokopedia: React.FC<SceneProps> = ({ f }) => {
         <div style={{ transform: `scale(${P(f, 76.2, 220)}) rotate(2deg)` }}>
           <Box bg={C.white} pad="8px 18px" radius={14} sh={7} style={{ fontFamily: HEAD, fontSize: 46, whiteSpace: 'nowrap' }}>
             <span style={{ opacity: 1 - 0.65 * lin(f, s(76.9), s(76.9) + 6), textDecoration: f >= s(76.9) ? `line-through 6px ${C.red}` : 'none' }}>ENSIKLO</span>
-            <span style={{ background: C.yellow, border: `4px solid ${ink}`, borderRadius: 10, padding: '0 8px' }}>PEDIA</span>
+            <span style={{ background: C.yellow, boxShadow: `inset 0 0 0 4px ${ink}`, borderRadius: 8, padding: '0 3px' }}>PEDIA</span>
           </Box>
         </div>
       </div>
@@ -407,7 +408,7 @@ const Berbagi: React.FC<SceneProps> = ({ f }) => {
 };
 
 export const SCENES: { from: number; to: number; bg: string; C: React.FC<SceneProps> }[] = [
-  { from: 9.25, to: 21.2, bg: C.bg, C: Paideia },
+  { from: 9.0, to: 21.2, bg: C.bg, C: Paideia },
   { from: 21.2, to: 33.2, bg: C.orange, C: Pediatri },
   { from: 35.8, to: 55.4, bg: C.yellow, C: Ensiklopedia },
   { from: 55.4, to: 68.2, bg: C.bg, C: Wikipedia },
