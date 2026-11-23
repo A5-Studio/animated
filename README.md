@@ -88,3 +88,32 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Faqihpedia · TRIMS: Arti "pedia" (Remotion, Reels 1080×1920, 112.8s)
+
+`faqihpedia-artipedia/faqihpedia-artipedia.mp4` explains where "-pedia" comes from (Greek *paideia*). It uses the same layout engine, palette and sound effects as `faqihpedia-22`, and it keeps the outro ("…boleh di-like dulu… Trims!"). On top of that it adds:
+
+- **A tighter VO**: the dead air and the flubbed retake are removed, and pauses longer than 0.35s are cut down. `CUTS` in `src/theme.ts` lists where the source jumps.
+- **Punch-ins**: each jump cut alternates between a wide framing and a 1.08× framing, with a slow push-in.
+- **Swipe transitions**: a coloured, ink-edged band sweeps across at every layout change, together with a whoosh.
+- **Captions for the whole video**: these are in `src/caps.ts`, generated from the word timings.
+- **A quiet music bed**: an original lo-fi loop made by `scripts/music.py`.
+
+| Time | Layout | Scene |
+|---|---|---|
+| 0–9.3 | `full` | hook: Ensiklopedia / Tokopedia / Wikipedia → "PEDIA = ?" |
+| 9.3–21.2 | `anim` | Greek *paideia*, *pais/paidos* = anak-anak |
+| 21.2–33.2 | `split` | -pedia ↔ dokter anak (pediatri) |
+| 35.8–55.4 | `anim` | Ensiklopedia = pendidikan melingkar, A→Z |
+| 55.4–68.2 | `split` | Wikipedia = pendidikan cepat |
+| 68.2–86.1 | `anim` | Toko + (ensiklo)pedia = Tokopedia |
+| 93.2–106.2 | `split` | sharing what I know |
+| 106.2–end | `full` | like + "TRIMS!" |
+
+```sh
+cd faqihpedia-artipedia
+npm install
+cp <tightened clip>.mp4 public/source.mp4    # not committed
+python3 scripts/music.py public/music.wav 114 # not committed, regenerate
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
