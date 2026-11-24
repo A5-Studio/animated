@@ -23,9 +23,9 @@ type G = {
 const GEOM: Record<Mode, G> = {
   // stages are 1000x880 and scaled so they sit inside SAFE (x 60-940, y 285-1500)
   full: { vx: 0, vy: 0, vw: 1080, vh: 1920, vr: 0, vb: 0, sy: 0, scx: SAFE_CX, scy: -640, ss: 0.72, full: 1, split: 0, anim: 0 },
-  // split: a 720px card (same width as the stage) so the whole head fits with headroom; caption sits on the chest
-  split: { vx: SAFE_CX - 360, vy: 960, vw: 720, vh: 920, vr: 28, vb: BORDER, sy: 518, scx: SAFE_CX, scy: 300 + 317, ss: 0.72, full: 0, split: 1, anim: 0 },
-  anim: { vx: SAFE_CX - 360, vy: 2080, vw: 720, vh: 920, vr: 28, vb: BORDER, sy: 518, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
+  // split: a zoomed-out 560px card so the whole head fits with headroom and the caption keeps ~120px below the chin
+  split: { vx: SAFE_CX - 280, vy: 960, vw: 560, vh: 920, vr: 28, vb: BORDER, sy: 513, scx: SAFE_CX, scy: 300 + 317, ss: 0.72, full: 0, split: 1, anim: 0 },
+  anim: { vx: SAFE_CX - 280, vy: 2080, vw: 560, vh: 920, vr: 28, vb: BORDER, sy: 513, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
 };
 
 const morphT = (f: number, start: number) =>
@@ -58,7 +58,8 @@ const zoomAt = (f: number) => {
 const Talking: React.FC<{ g: G; f: number }> = ({ g, f }) => {
   const inner = g.vw - 2 * g.vb;
   const k = inner / SRC_W;
-  const z = zoomAt(f);
+  // no punch-in while the head is in the small split card, so it never gets cropped
+  const z = 1 + (zoomAt(f) - 1) * (1 - g.split);
   return (
     <div
       style={{
