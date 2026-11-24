@@ -88,3 +88,31 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Faqihpedia · Ask Maps (Remotion, Reels 1080×1920, 60.3s)
+
+`faqihpedia-askmaps/faqihpedia-askmaps.mp4` shows how finding a café used to work in Google Maps and how it works now with **Ask Maps**, Google Maps' AI feature. The look follows a clean editorial reference: cream paper, soft white cards, serif headlines and short grey caption pills.
+
+- **Dead air is cut.** `scripts/cut.py` drops every pause of 0.28s or longer (keeping 0.1s on each side), keeps only the third, clean outro take, and tone-maps the iPhone HLG footage to SDR. The 78.6s of raw speech becomes 60.3s.
+- **The old way is animated.** There is no screen recording of it, so it is drawn as a map. You search "cafe dekat Blok M", pins drop, then you open places one by one: the stars, the review count, the comments and the menu are each highlighted as they're mentioned.
+- **The new way uses the real screen recording.** `scripts/screen.py` cuts it into the typed prompt (sped up, with a notification skipped) and the answer, which is shown in a phone frame.
+
+| Time | Layout | Scene |
+|---|---|---|
+| 0–4.4 | `split` | hook: "AI benar-benar mengubah keseharian kita" |
+| 4.4–20.0 | `split` | the old way, animated |
+| 20.0–22.3 | `full` | "tapi sekarang dengan AI udah berubah banget" |
+| 22.3–26.8 | `anim` | Google Maps → **Ask Maps** title |
+| 26.8–43.7 | `split` | typing the prompt + criteria chips (≤2 km, matcha ceremonial, 500+ reviews, >4.7) |
+| 43.7–49.5 | `anim` | the answer: Matcha Times Blok M |
+| 49.5–54.9 | `split` | before vs now |
+| 54.9–end | `full` | outro + "Like dulu, ya" |
+
+```sh
+cd faqihpedia-askmaps
+npm install
+python3 scripts/cut.py <IMG_5077.MOV> public/source.mp4 scripts/cuts.json      # not committed
+python3 scripts/screen.py <ScreenRecording.mp4> public/                         # ask_typing.mp4, ask_result.mp4
+python3 scripts/captions.py scripts/transcript.json src/captions.ts             # transcript = faster-whisper on source.mp4
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
