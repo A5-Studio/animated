@@ -19,6 +19,8 @@ ffmpeg -v error -y -f concat -safe 0 -i "$TMP/list.txt" -c copy "$TMP/joined.mp4
 # two-pass loudnorm: measure, then apply one linear gain so it lands on -14 LUFS
 M=$(ffmpeg -hide_banner -i "$TMP/joined.mp4" -vn -af loudnorm=I=-14:TP=-1.0:LRA=11:print_format=json -f null - 2>&1 | sed -n '/^{/,/^}/p')
 AF=$(python3 -I -c "import json,sys; m=json.loads(sys.argv[1]); print(f\"loudnorm=I=-14:TP=-1.0:LRA=11:measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true\")" "$M")
-ffmpeg -v error -y -i "$TMP/joined.mp4" -c:v copy -af "$AF" -c:a aac -b:a 192k -ar 48000 -movflags +faststart "$OUT"
+# then a limiter: the bumper's "ta-da" hit would otherwise overshoot 0 dBFS after AAC encoding
+ffmpeg -v error -y -i "$TMP/joined.mp4" -c:v copy -af "$AF" -c:a aac -b:a 192k -ar 48000 "$TMP/loud.mp4"
+ffmpeg -v error -y -i "$TMP/loud.mp4" -c:v copy -af "alimiter=limit=0.75:level=false:attack=1:release=40" -c:a aac -b:a 192k -ar 48000 -movflags +faststart "$OUT"
 rm -r "$TMP"
 echo "wrote $OUT"
