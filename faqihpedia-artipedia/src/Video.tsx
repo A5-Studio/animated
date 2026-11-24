@@ -23,9 +23,10 @@ type G = {
 const GEOM: Record<Mode, G> = {
   // stages are 1000x880 and scaled so they sit inside SAFE (x 60-940, y 285-1500)
   full: { vx: 0, vy: 0, vw: 1080, vh: 1920, vr: 0, vb: 0, sy: 0, scx: SAFE_CX, scy: -640, ss: 0.72, full: 1, split: 0, anim: 0 },
-  // split: a zoomed-out 560px card so the whole head fits with headroom and the caption keeps ~120px below the chin
-  split: { vx: SAFE_CX - 280, vy: 960, vw: 560, vh: 920, vr: 28, vb: BORDER, sy: 513, scx: SAFE_CX, scy: 300 + 317, ss: 0.72, full: 0, split: 1, anim: 0 },
-  anim: { vx: SAFE_CX - 280, vy: 2080, vw: 560, vh: 920, vr: 28, vb: BORDER, sy: 513, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
+  // split: stage and a head-and-shoulders card share one width (600px); the card is always filled with
+  // video, and the caption sits under the card on the gingham, ~150px below the chin
+  split: { vx: SAFE_CX - 300, vy: 850, vw: 600, vh: 410, vr: 28, vb: BORDER, sy: 526, scx: SAFE_CX, scy: 300 + 264, ss: 0.6, full: 0, split: 1, anim: 0 },
+  anim: { vx: SAFE_CX - 300, vy: 2080, vw: 600, vh: 410, vr: 28, vb: BORDER, sy: 526, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
 };
 
 const morphT = (f: number, start: number) =>
