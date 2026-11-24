@@ -2,7 +2,7 @@ import React from 'react';
 import { AbsoluteFill, Img, staticFile } from 'remotion';
 import { MapArt, PINS } from './scenes';
 import { C, SANS, SERIF, soft } from './theme';
-import { Pin, Sparkle, Star, Tag } from './ui';
+import { Pin, SegmentTag, Sparkle, Star, Tag } from './ui';
 
 /*
  * Cover for TikTok, IG Reels and IG Feed. Headline + key visual stay inside
@@ -69,10 +69,8 @@ export const Cover: React.FC<{ guides?: boolean; offsetY?: number; faceY?: numbe
       <div style={{ position: 'absolute', left: 0, top: 1270, width: 1080, height: 650, overflow: 'hidden' }}>
         <Img src={staticFile('thumb_face.jpg')} style={{ position: 'absolute', left: 0, top: -faceY, width: 1080 }} />
       </div>
-      <div style={{ position: 'absolute', left: 0, right: 0, top: 318, textAlign: 'center' }}>
-        <Tag style={{ fontSize: 26, display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-          <b style={{ color: C.ink }}>AI · An Info</b> — Ask Maps
-        </Tag>
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 306, textAlign: 'center' }}>
+        <SegmentTag topic="Ask Maps" size={28} />
       </div>
       <div style={{ position: 'absolute', left: 120, width: 840, top: 368, textAlign: 'center', fontFamily: SERIF, fontSize: 104, lineHeight: 1.0, whiteSpace: 'nowrap', letterSpacing: -2.5, color: C.ink }}>
         Cari kafe,<br />nggak perlu<br /><span style={{ color: C.blue }}>cek satu-satu.</span>

@@ -113,3 +113,21 @@ export const Thumb: React.FC<{ size?: number; color?: string }> = ({ size = 48, 
     <path d="M2 10h4v11H2zM8 21h9.3a2.5 2.5 0 0 0 2.4-1.9l1.6-6.6A2.5 2.5 0 0 0 18.9 9.5H14l.8-4.1A2 2 0 0 0 12.9 3L8 10z" fill={color} />
   </svg>
 );
+
+/** "AI (An Info)" segment mark: blue rounded square, serif "Ai", a small sparkle */
+export const AiMark: React.FC<{ size?: number }> = ({ size = 40 }) => (
+  <svg width={size} height={size} viewBox="0 0 40 40" style={{ display: 'block', flex: 'none' }}>
+    <rect width="40" height="40" rx="11" fill={C.blue} />
+    <text x="17.5" y="29" textAnchor="middle" fontFamily='"Newsreader", Georgia, serif' fontSize="25" fontWeight="500" fill="#fff" letterSpacing="-0.5">Ai</text>
+    <path d="M31 6.5c.3 2.6 2.3 4.6 4.9 4.9-2.6.3-4.6 2.3-4.9 4.9-.3-2.6-2.3-4.6-4.9-4.9 2.6-.3 4.6-2.3 4.9-4.9z" fill="#fff" />
+  </svg>
+);
+
+/** the segment tag: mark + "AI · An Info", optionally followed by the episode topic */
+export const SegmentTag: React.FC<{ topic?: string; size?: number }> = ({ topic, size = 26 }) => (
+  <span style={{ display: 'inline-flex', alignItems: 'center', gap: size * 0.42, fontFamily: SANS, fontSize: size, fontWeight: 500, color: C.sub, background: '#ECE8DF', borderRadius: size * 0.6, padding: `${size * 0.22}px ${size * 0.6}px ${size * 0.22}px ${size * 0.24}px` }}>
+    <AiMark size={size * 1.45} />
+    <b style={{ color: C.ink, fontWeight: 700 }}>AI · An Info</b>
+    {topic && <span>— {topic}</span>}
+  </span>
+);

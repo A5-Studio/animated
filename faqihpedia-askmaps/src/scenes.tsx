@@ -1,7 +1,7 @@
 import React from 'react';
 import { OffthreadVideo, Sequence, staticFile } from 'remotion';
 import {
-  At, Bar, Card, Chat, Check, Cup, Pin, Search, Sparkle, Star, Stars, Tag, Thumb, ease, lin, mix, out, pop,
+  At, Bar, Card, Chat, SegmentTag, Check, Cup, Pin, Search, Sparkle, Star, Stars, Tag, Thumb, ease, lin, mix, out, pop,
 } from './ui';
 import { C, SANS, SERIF, s, soft } from './theme';
 
@@ -30,7 +30,7 @@ const Hook: React.FC<{ f: number }> = ({ f }) => {
   return (
     <>
       <At x={540} y={250} o={out(f, 0, 10)}>
-        <Tag>Faqihpedia · AI sehari-hari</Tag>
+        <SegmentTag size={28} />
       </At>
       <div style={{ position: 'absolute', left: 0, right: 0, top: 330, textAlign: 'center', fontFamily: SERIF, color: C.ink, fontSize: 104, lineHeight: 1.08, letterSpacing: -2 }}>
         <div>
