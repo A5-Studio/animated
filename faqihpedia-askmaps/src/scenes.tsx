@@ -57,7 +57,7 @@ const Hook: React.FC<{ f: number }> = ({ f }) => {
 const MAP_W = 960;
 const MAP_H = 830;
 
-const PINS: [number, number][] = [
+export const PINS: [number, number][] = [
   [250, 235], [470, 205], [612, 250], [330, 330], [540, 372], [735, 300],
   [175, 420], [420, 470], [650, 455], [830, 415], [290, 600], [565, 625],
 ];
@@ -69,7 +69,7 @@ const PLACES = [
 ];
 const SWITCH = [8.6, 9.78, 10.42]; // "kita buka ini lokasinya satu-satu"
 
-const MapArt: React.FC = () => (
+export const MapArt: React.FC = () => (
   <svg width={MAP_W} height={MAP_H} viewBox={`0 0 ${MAP_W} ${MAP_H}`} style={{ position: 'absolute', left: 0, top: 0 }}>
     <rect width={MAP_W} height={MAP_H} fill={C.land} />
     <path d="M690 360 L880 330 L905 470 L760 520 L680 470 Z" fill={C.park} />
