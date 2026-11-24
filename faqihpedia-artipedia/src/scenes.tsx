@@ -408,7 +408,7 @@ const Berbagi: React.FC<SceneProps> = ({ f }) => {
 };
 
 export const SCENES: { from: number; to: number; bg: string; C: React.FC<SceneProps> }[] = [
-  { from: 9.0, to: 21.2, bg: C.bg, C: Paideia },
+  { from: 9.5, to: 21.2, bg: C.bg, C: Paideia },
   { from: 21.2, to: 33.2, bg: C.orange, C: Pediatri },
   { from: 35.8, to: 55.4, bg: C.yellow, C: Ensiklopedia },
   { from: 55.4, to: 68.2, bg: C.bg, C: Wikipedia },

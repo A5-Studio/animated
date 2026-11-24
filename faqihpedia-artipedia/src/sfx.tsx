@@ -1,6 +1,6 @@
 import React from 'react';
 import { Html5Audio, Sequence, staticFile } from 'remotion';
-import { LAYOUT, s } from './theme';
+import { BUMPER_AT, LAYOUT, s } from './theme';
 
 /*
  * Subtle sound effects under the voice. Times are the same source.mp4
@@ -27,7 +27,7 @@ const DINGS = [4.7, 48.75, 81.8, 99.8];
 const TINGS = [13.9, 20.5, 28.5, 32.2, 37.0, 42.3, 56.7, 58.4, 76.9, 88.5];
 
 const CUES: [number, Kind][] = [
-  ...LAYOUT.slice(1).map(([t]) => [s(t) - 5, 'whoosh'] as [number, Kind]),
+  ...LAYOUT.slice(1).filter(([t]) => t !== BUMPER_AT).map(([t]) => [s(t) - 5, 'whoosh'] as [number, Kind]),
   ...POPS.map((t) => [s(t), 'pop'] as [number, Kind]),
   ...THUDS.map((t) => [s(t), 'thud'] as [number, Kind]),
   ...DINGS.map((t) => [s(t), 'ding'] as [number, Kind]),

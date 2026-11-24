@@ -4,7 +4,7 @@ import { CAPS } from './caps';
 import { At, Background, Box, Burst, Gingham, Rich, Sticker, lin, pop } from './components';
 import { PediaWord, SCENES } from './scenes';
 import { Sfx } from './sfx';
-import { BODY, BORDER, C, CUTS, END_CARD, HEAD, LAYOUT, MORPH, Mode, SAFE, SAFE_CX, TOTAL, s, shadow } from './theme';
+import { BODY, BORDER, BUMPER_AT, C, CUTS, END_CARD, HEAD, LAYOUT, MORPH, Mode, SAFE, SAFE_CX, TOTAL, s, shadow } from './theme';
 
 /* ------------------------------------------------------------------ */
 /* layout engine: one video element that morphs between three layouts */
@@ -36,7 +36,8 @@ const geomAt = (f: number): G => {
   const cur = GEOM[LAYOUT[i][1]];
   if (i === 0) return cur;
   const prev = GEOM[LAYOUT[i - 1][1]];
-  const t = morphT(f, s(LAYOUT[i][0]));
+  // the change that lines up with the bumper is instant: the bumper hides it, so nothing leaks before it
+  const t = LAYOUT[i][0] === BUMPER_AT ? 1 : morphT(f, s(LAYOUT[i][0]));
   const out = {} as G;
   (Object.keys(cur) as (keyof G)[]).forEach((k) => (out[k] = prev[k] + (cur[k] - prev[k]) * t));
   return out;
@@ -113,6 +114,7 @@ const SWIPE_COLORS = [C.orange, C.yellow];
 const Swipe: React.FC<{ f: number }> = ({ f }) => (
   <>
     {LAYOUT.slice(1).map(([t], i) => {
+      if (t === BUMPER_AT) return null; // the bumper is the transition there
       const a = s(t) - 3;
       if (f < a || f > a + 14) return null;
       const p = interpolate(f, [a, a + 14], [0, 1], { easing: Easing.inOut(Easing.quad) });
@@ -204,8 +206,8 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
             </Box>
           </At>
         ))}
-      {gone(5.8, 9.15) && (
-        <At x={SAFE_CX} y={470} s={P(5.9, 180) * out(9.15)} r={-3}>
+      {gone(5.8, 9.45) && (
+        <At x={SAFE_CX} y={470} s={P(5.9, 180) * out(9.45)} r={-3}>
           <Box bg={C.yellow} pad="14px 34px" style={{ fontFamily: HEAD, fontSize: 70, whiteSpace: 'nowrap' }}>
             “PEDIA” = <span style={{ background: C.white, border: `5px solid ${C.ink}`, borderRadius: 12, padding: '0 16px' }}>?</span>
           </Box>
