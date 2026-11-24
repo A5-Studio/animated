@@ -43,7 +43,7 @@ const OldWay: React.FC = () => (
 );
 
 const NewWay: React.FC = () => (
-  <div style={{ position: 'absolute', left: 560, top: 725, width: 400, height: 525 }}>
+  <div style={{ position: 'absolute', left: 560, top: 720, width: 400, height: 520 }}>
     <div style={{ position: 'absolute', inset: 0, borderRadius: 44, background: '#141414', boxShadow: '0 24px 60px rgba(0,0,0,0.22)' }}>
       <div style={{ position: 'absolute', left: 10, top: 10, right: 10, bottom: 10, borderRadius: 36, overflow: 'hidden', background: '#fff' }}>
         <Img src={staticFile('thumb_result.jpg')} style={{ width: 380, display: 'block' }} />
@@ -61,12 +61,12 @@ const NewWay: React.FC = () => (
   </div>
 );
 
-export const Cover: React.FC<{ guides?: boolean; offsetY?: number; faceY?: number }> = ({ guides = false, offsetY = 0, faceY = 455 }) => (
+export const Cover: React.FC<{ guides?: boolean; offsetY?: number; faceY?: number }> = ({ guides = false, offsetY = 0, faceY = 560 }) => (
   <AbsoluteFill style={{ background: C.bg }}>
     <div style={{ position: 'absolute', left: 0, top: -offsetY, width: 1080, height: 1920 }}>
       <AbsoluteFill style={{ background: `radial-gradient(1200px 900px at 50% 30%, ${C.paper}, ${C.bg})` }} />
-      {/* face: the split layout from the video (4:5 shows less of it, so it is framed on eyes + mouth) */}
-      <div style={{ position: 'absolute', left: 0, top: 1270, width: 1080, height: 650, overflow: 'hidden' }}>
+      {/* face: the split layout from the video, framed so eyes + mouth stay inside the IG 4:5 crop (y < 1635) */}
+      <div style={{ position: 'absolute', left: 0, top: 1250, width: 1080, height: 670, overflow: 'hidden' }}>
         <Img src={staticFile('thumb_face.jpg')} style={{ position: 'absolute', left: 0, top: -faceY, width: 1080 }} />
       </div>
       <div style={{ position: 'absolute', left: 0, right: 0, top: 306, textAlign: 'center' }}>
@@ -88,4 +88,4 @@ export const Cover: React.FC<{ guides?: boolean; offsetY?: number; faceY?: numbe
 
 export const Thumbnail: React.FC = () => <Cover />;
 export const ThumbnailGuides: React.FC = () => <Cover guides />;
-export const Thumbnail4x5: React.FC = () => <Cover offsetY={285} faceY={640} />;
+export const Thumbnail4x5: React.FC = () => <Cover offsetY={285} />;

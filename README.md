@@ -108,7 +108,7 @@ npm run render -- --browser-executable=<chrome-headless-shell>
 | 49.5–54.9 | `split` | before vs now |
 | 54.9–end | `full` | outro + "Like dulu, ya" |
 
-**Cover** (`faqihpedia-askmaps/thumbnail/`): `cover.png` (1080×1920, the cover for TikTok and Reels) and `cover-4x5.png` (1080×1350, for an IG feed post). Headline and visuals stay inside the shared safe box x 120–960, y 285–1250; `cover-safe-area-check.png` shows it over the TikTok UI and the IG 3:4 and 4:5 crops. Render with `npx remotion still Thumbnail|Thumbnail4x5|ThumbnailGuides <out>.png`.
+**Cover** (`faqihpedia-askmaps/thumbnail/cover.png`, 1080×1920): one file for TikTok, IG Reels and the IG feed. Headline and visuals stay inside the shared safe box x 120–960, y 285–1250. The face is framed so the eyes and mouth stay inside IG's 3:4 grid and 4:5 feed crops. `cover-safe-area-check.png` shows the overlays. Render with `npx remotion still Thumbnail thumbnail/cover.png`.
 
 The segment standard ("AI (An Info)") is documented separately: story beats, editing rules, style, safe areas and a checklist.
 
