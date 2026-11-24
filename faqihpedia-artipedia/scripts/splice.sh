@@ -16,6 +16,9 @@ ffmpeg -v error -y -i "$BUMPER" -af "afade=t=in:d=0.01" "${ENC[@]}" "$TMP/b.mp4"
 ffmpeg -v error -y -ss "$AT" -i "$MAIN" -af "afade=t=in:d=0.04" "${ENC[@]}" "$TMP/c.mp4"
 printf "file '%s'\n" "$TMP/a.mp4" "$TMP/b.mp4" "$TMP/c.mp4" > "$TMP/list.txt"
 ffmpeg -v error -y -f concat -safe 0 -i "$TMP/list.txt" -c copy "$TMP/joined.mp4"
-ffmpeg -v error -y -i "$TMP/joined.mp4" -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -c:a aac -b:a 192k -ar 48000 -movflags +faststart "$OUT"
+# two-pass loudnorm: measure, then apply one linear gain so it lands on -14 LUFS
+M=$(ffmpeg -hide_banner -i "$TMP/joined.mp4" -vn -af loudnorm=I=-14:TP=-1.0:LRA=11:print_format=json -f null - 2>&1 | sed -n '/^{/,/^}/p')
+AF=$(python3 -I -c "import json,sys; m=json.loads(sys.argv[1]); print(f\"loudnorm=I=-14:TP=-1.0:LRA=11:measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true\")" "$M")
+ffmpeg -v error -y -i "$TMP/joined.mp4" -c:v copy -af "$AF" -c:a aac -b:a 192k -ar 48000 -movflags +faststart "$OUT"
 rm -r "$TMP"
 echo "wrote $OUT"
