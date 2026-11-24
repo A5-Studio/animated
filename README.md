@@ -133,7 +133,7 @@ npx remotion render FaqihpediaArtipedia main.mp4 --browser-executable=<chrome-he
 scripts/splice.sh main.mp4 faqihpedia-artipedia.mp4   # adds the bumper after the hook
 ```
 
-The cover is `faqihpedia-artipedia/thumbnail.png` (the `Thumbnail` still in `src/Thumbnail.tsx`). It follows the TRIMS cover rules: gingham background, label top-left, a title of at most 6 words, the "LAUK HARI INI" card, the face on the TRIMS plate, and the black series strip. Everything that matters sits inside the same `SAFE` box.
+The cover is `faqihpedia-artipedia/thumbnail.png` (the `Thumbnail` still in `src/Thumbnail.tsx`). It follows the TRIMS cover rules: gingham background, label top-left, a title of at most 6 words, the "LAUK HARI INI" card, a real video frame with the face across the bottom half, and the black series strip. Everything that matters sits inside the same `SAFE` box.
 
 ```sh
 npx remotion still Thumbnail thumbnail.png --browser-executable=<chrome-headless-shell>
