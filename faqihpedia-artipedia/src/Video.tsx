@@ -23,8 +23,9 @@ type G = {
 const GEOM: Record<Mode, G> = {
   // stages are 1000x880 and scaled so they sit inside SAFE (x 60-940, y 285-1500)
   full: { vx: 0, vy: 0, vw: 1080, vh: 1920, vr: 0, vb: 0, sy: 0, scx: SAFE_CX, scy: -640, ss: 0.72, full: 1, split: 0, anim: 0 },
-  split: { vx: 40, vy: 960, vw: 1000, vh: 920, vr: 28, vb: BORDER, sy: 590, scx: SAFE_CX, scy: 300 + 317, ss: 0.72, full: 0, split: 1, anim: 0 },
-  anim: { vx: 40, vy: 2080, vw: 1000, vh: 920, vr: 28, vb: BORDER, sy: 590, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
+  // split: a 720px card (same width as the stage) so the whole head fits with headroom; caption sits on the chest
+  split: { vx: SAFE_CX - 360, vy: 960, vw: 720, vh: 920, vr: 28, vb: BORDER, sy: 518, scx: SAFE_CX, scy: 300 + 317, ss: 0.72, full: 0, split: 1, anim: 0 },
+  anim: { vx: SAFE_CX - 360, vy: 2080, vw: 720, vh: 920, vr: 28, vb: BORDER, sy: 518, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
 };
 
 const morphT = (f: number, start: number) =>
@@ -136,9 +137,8 @@ const Swipe: React.FC<{ f: number }> = ({ f }) => (
 /* captions, whole video                                               */
 /* ------------------------------------------------------------------ */
 const Captions: React.FC<{ f: number; g: G }> = ({ f, g }) => {
-  // full/anim: bottom of the safe area. split: between the illustration and the face,
-  // so the face (lower in the frame) stays clear and everything is inside SAFE
-  const y = (g.full + g.anim) * (SAFE.bottom - 90) + g.split * 1000;
+  // same spot in every layout: just above SAFE.bottom (on the chest in split, below the chin)
+  const y = SAFE.bottom - 78; // a two-line box (~150px) still ends above SAFE.bottom
   const w = SAFE.right - SAFE.left - 40;
   const fs = 44;
   return (
