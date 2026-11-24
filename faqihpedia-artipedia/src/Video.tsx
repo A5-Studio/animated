@@ -4,7 +4,7 @@ import { CAPS } from './caps';
 import { At, Background, Box, Burst, Gingham, Rich, Sticker, lin, pop } from './components';
 import { PediaWord, SCENES } from './scenes';
 import { Sfx } from './sfx';
-import { BODY, BORDER, C, CUTS, END_CARD, HEAD, LAYOUT, MORPH, Mode, TOTAL, s, shadow } from './theme';
+import { BODY, BORDER, C, CUTS, END_CARD, HEAD, LAYOUT, MORPH, Mode, SAFE, SAFE_CX, TOTAL, s, shadow } from './theme';
 
 /* ------------------------------------------------------------------ */
 /* layout engine: one video element that morphs between three layouts */
@@ -21,9 +21,10 @@ type G = {
 };
 
 const GEOM: Record<Mode, G> = {
-  full: { vx: 0, vy: 0, vw: 1080, vh: 1920, vr: 0, vb: 0, sy: 0, scx: 540, scy: -640, ss: 1, full: 1, split: 0, anim: 0 },
-  split: { vx: 40, vy: 1000, vw: 1000, vh: 880, vr: 28, vb: BORDER, sy: 470, scx: 540, scy: 505, ss: 1, full: 0, split: 1, anim: 0 },
-  anim: { vx: 40, vy: 2080, vw: 1000, vh: 880, vr: 28, vb: BORDER, sy: 470, scx: 540, scy: 790, ss: 1.04, full: 0, split: 0, anim: 1 },
+  // stages are 1000x880 and scaled so they sit inside SAFE (x 60-940, y 285-1500)
+  full: { vx: 0, vy: 0, vw: 1080, vh: 1920, vr: 0, vb: 0, sy: 0, scx: SAFE_CX, scy: -640, ss: 0.72, full: 1, split: 0, anim: 0 },
+  split: { vx: 40, vy: 960, vw: 1000, vh: 920, vr: 28, vb: BORDER, sy: 590, scx: SAFE_CX, scy: 300 + 317, ss: 0.72, full: 0, split: 1, anim: 0 },
+  anim: { vx: 40, vy: 2080, vw: 1000, vh: 920, vr: 28, vb: BORDER, sy: 590, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
 };
 
 const morphT = (f: number, start: number) =>
@@ -133,9 +134,11 @@ const Swipe: React.FC<{ f: number }> = ({ f }) => (
 /* captions, whole video                                               */
 /* ------------------------------------------------------------------ */
 const Captions: React.FC<{ f: number; g: G }> = ({ f, g }) => {
-  const y = 1560 * g.full + 1760 * g.split + 1580 * g.anim;
-  const w = 900 - 60 * g.split;
-  const fs = 46 - 6 * g.split;
+  // full/anim: bottom of the safe area. split: between the illustration and the face,
+  // so the face (lower in the frame) stays clear and everything is inside SAFE
+  const y = (g.full + g.anim) * (SAFE.bottom - 90) + g.split * 1000;
+  const w = SAFE.right - SAFE.left - 40;
+  const fs = 44;
   return (
     <>
       {CAPS.map(([a, b, text], i) => {
@@ -145,7 +148,7 @@ const Captions: React.FC<{ f: number; g: G }> = ({ f, g }) => {
         const p = pop(f, from, 260);
         const out = lin(f, to - 3, to);
         return (
-          <At key={i} x={540} y={y} s={(0.88 + 0.12 * p) * (1 - 0.06 * out)} o={Math.min(1, p * 1.6) * (1 - out)} r={i % 2 ? 1 : -1}>
+          <At key={i} x={SAFE_CX} y={y} s={(0.88 + 0.12 * p) * (1 - 0.06 * out)} o={Math.min(1, p * 1.6) * (1 - out)} r={i % 2 ? 1 : -1}>
             <Box pad="20px 30px" style={{ width: w, fontSize: fs, lineHeight: 1.3, fontWeight: 600, textAlign: 'center' }}>
               <Rich text={text} />
             </Box>
@@ -173,14 +176,14 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
   // "pedia" lands at 4.7s: every name gets a little bump
   const bump = 1 + 0.08 * Math.sin(Math.PI * lin(f, s(4.7), s(4.7) + 8));
   const hook = [
-    { at: 1.4, src: 'tokopedia.png', w: 430, x: 330, y: 455, r: 3 },
-    { at: 2.1, src: 'wikipedia.png', w: 210, x: 830, y: 395, r: -3 },
+    { at: 1.4, src: 'tokopedia.png', w: 270, x: 780, y: 615, r: 3 },
+    { at: 2.1, src: 'wikipedia.png', w: 130, x: 780, y: 790, r: -3 },
   ];
   return (
     <div style={{ position: 'absolute', inset: 0, opacity: o }}>
       {/* TRIMS fixed opening line */}
       {gone(0, 5.6) && (
-        <At x={540} y={205} s={P(0.1, 200) * out(5.6)} r={-1}>
+        <At x={SAFE_CX} y={385} s={P(0.1, 200) * out(5.6)} r={-1}>
           <Box bg={C.white} pad="10px 24px" radius={14} sh={7} style={{ fontFamily: BODY, fontWeight: 700, fontSize: 36, whiteSpace: 'nowrap' }}>
             Bahan obrolan makan siang hari ini…
           </Box>
@@ -188,8 +191,8 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
       )}
       {/* hook: three -pedia names, then the question */}
       {gone(0, 6.3) && (
-        <At x={330} y={320} s={P(0.3) * out(6.3) * bump} r={-4}>
-          <PediaWord head="ENSIKLO" lit={lin(f, s(4.7), s(4.7) + 6)} size={46} />
+        <At x={780} y={500} s={P(0.3) * out(6.3) * bump} r={-4}>
+          <PediaWord head="ENSIKLO" lit={lin(f, s(4.7), s(4.7) + 6)} size={36} />
         </At>
       )}
       {/* the real Tokopedia and Wikipedia logos, on white cards */}
@@ -202,7 +205,7 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
           </At>
         ))}
       {gone(5.8, 9.15) && (
-        <At x={540} y={330} s={P(5.9, 180) * out(9.15)} r={-3}>
+        <At x={SAFE_CX} y={470} s={P(5.9, 180) * out(9.15)} r={-3}>
           <Box bg={C.yellow} pad="14px 34px" style={{ fontFamily: HEAD, fontSize: 70, whiteSpace: 'nowrap' }}>
             “PEDIA” = <span style={{ background: C.white, border: `5px solid ${C.ink}`, borderRadius: 12, padding: '0 16px' }}>?</span>
           </Box>
@@ -210,26 +213,26 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
       )}
       {/* dig deeper */}
       {gone(33.3, 35.8) && (
-        <At x={540} y={330} s={P(33.4) * out(35.8)} r={2}>
+        <At x={SAFE_CX} y={460} s={P(33.4) * out(35.8)} r={2}>
           <Sticker bg={C.purple} size={54}>Bedah lebih dalam</Sticker>
         </At>
       )}
       {/* the account name */}
       {gone(86.3, 93.2) && (
         <>
-          <At x={540} y={270} s={P(88.5, 180) * out(93.2)} r={-3}>
+          <At x={SAFE_CX} y={440} s={P(88.5, 180) * out(93.2)} r={-3}>
             <Box bg={C.yellow} pad="10px 30px" style={{ fontFamily: HEAD, fontSize: 64, whiteSpace: 'nowrap' }}>
               FAQIH<span style={{ background: C.white, boxShadow: `inset 0 0 0 5px ${C.ink}`, borderRadius: 10, padding: '0 4px' }}>PEDIA</span>
             </Box>
           </At>
-          <At x={540} y={410} s={P(90.2) * out(93.2)} r={2}>
+          <At x={SAFE_CX} y={570} s={P(90.2) * out(93.2)} r={2}>
             <Sticker bg={C.green} size={40}>Dokumentasi yang aku tahu</Sticker>
           </At>
         </>
       )}
       {/* outro */}
       {gone(106.3, 111.3) && (
-        <At x={540} y={330} s={P(108.9) * out(111.3)} r={-2}>
+        <At x={SAFE_CX} y={460} s={P(108.9) * out(111.3)} r={-2}>
           <Box bg={C.white} pad="12px 30px" style={{ display: 'flex', alignItems: 'center', gap: 18, fontFamily: HEAD, fontSize: 50, whiteSpace: 'nowrap' }}>
             <span style={{ transform: `scale(${1 + 0.15 * Math.max(0, Math.sin((f - s(109.0)) * 0.35))})`, display: 'flex' }}><Heart /></span>
             LIKE DULU YA
@@ -237,7 +240,7 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
         </At>
       )}
       {f >= s(111.3) && (
-        <At x={540} y={360} s={P(111.35, 200)} r={-6}>
+        <At x={SAFE_CX} y={520} s={P(111.35, 200)} r={-6}>
           <Burst size={460} color={C.yellow} rot={f * 0.8}>
             <span style={{ fontSize: 66 }}>TRIMS!</span>
           </Burst>
@@ -264,9 +267,9 @@ export const TrimsLogo: React.FC<{ size?: number }> = ({ size = 70 }) => (
 
 /** segment label, top-left (segment kit rule); hidden while the split layout needs the top edge */
 const SegmentBadge: React.FC<{ f: number; o: number }> = ({ f, o }) => (
-  <div style={{ position: 'absolute', left: 44, top: 62, opacity: o, transform: `scale(${pop(f, 4)}) rotate(-2deg)`, transformOrigin: 'left center' }}>
-    <Box bg={C.orange} pad="8px 22px 8px 14px" radius={14} sh={7} style={{ display: 'flex', alignItems: 'center', gap: 12, fontFamily: HEAD, fontSize: 38, whiteSpace: 'nowrap' }}>
-      <TrimsLogo size={74} />
+  <div style={{ position: 'absolute', left: SAFE.left, top: SAFE.top + 8, opacity: o, transform: `scale(${pop(f, 4)}) rotate(-2deg)`, transformOrigin: 'left center' }}>
+    <Box bg={C.orange} pad="6px 18px 6px 12px" radius={12} sh={6} style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: HEAD, fontSize: 30, whiteSpace: 'nowrap' }}>
+      <TrimsLogo size={58} />
       TRIMS
     </Box>
   </div>
@@ -282,16 +285,16 @@ const EndCard: React.FC<{ f: number }> = ({ f }) => {
   const P = (d: number, k = 200) => pop(f, a + d, k);
   return (
     <AbsoluteFill style={{ clipPath: `circle(${inP * 130}% at 50% 40%)`, background: `${Gingham(96)}, ${C.bg}` }}>
-      <At x={540} y={560} s={P(4)} r={-3}>
+      <At x={SAFE_CX} y={590} s={P(4)} r={-3}>
         <div style={{ background: C.white, border: `${BORDER}px solid ${C.ink}`, borderRadius: '50%', boxShadow: shadow(14), padding: 40 }}>
           <TrimsLogo size={420} />
         </div>
       </At>
-      <At x={540} y={950} s={P(8)} r={2}>
+      <At x={SAFE_CX} y={960} s={P(8)} r={2}>
         <Sticker bg={C.orange} size={110}>TRIMS</Sticker>
       </At>
-      <At x={540} y={1180} s={P(14)} r={-1.5}>
-        <Box bg={C.white} pad="26px 40px" style={{ width: 900, textAlign: 'center', fontFamily: BODY, fontWeight: 700, fontSize: 46, lineHeight: 1.3 }}>
+      <At x={SAFE_CX} y={1170} s={P(14)} r={-1.5}>
+        <Box bg={C.white} pad="26px 40px" style={{ width: 840, textAlign: 'center', fontFamily: BODY, fontWeight: 700, fontSize: 44, lineHeight: 1.3 }}>
           Trims udah makan siang bareng.<br />
           <span style={{ background: C.yellow, border: `4px solid ${C.ink}`, borderRadius: 10, padding: '0 10px' }}>Besok lauk baru.</span>
         </Box>

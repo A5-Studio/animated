@@ -102,6 +102,7 @@ It follows the **TRIMS (Trivia Makan Siang)** rules from the Faqihpedia segment 
 - **Sound**: a spoon-on-plate "ting" whenever a fact lands.
 - **Bumper**: the 3s TRIMS bumper (`public/trims-bumper.mp4`, from `trims-bumper/`) comes right after the hook question. `scripts/splice.sh` inserts it at `BUMPER_AT` (9.5s) and normalizes the loudness.
 - **Hook logos**: the real Tokopedia and Wikipedia logos (`public/tokopedia.png`, `public/wikipedia.png`) sit on white cards. "-pedia" words are always written as one word, with only a highlight on PEDIA.
+- **Safe area**: captions, stickers, titles and illustrations stay inside `SAFE` (x 60–940, y 285–1500 in `src/theme.ts`). That keeps them clear of the TikTok and Reels UI (top bar, caption/music area, action buttons on the right) and inside the Instagram feed's 4:5 crop and the profile grid's 3:4 crop. In the split layout the caption sits between the illustration and the face.
 - **Fixed lines**: the opening line ("Bahan obrolan makan siang hari ini…") is shown on screen. The closing line ("Trims udah makan siang bareng. Besok lauk baru.") is on the end card, with the black "TRIVIA MAKAN SIANG · @faqihpedia" strip.
 
 The edit also adds:
@@ -132,7 +133,7 @@ npx remotion render FaqihpediaArtipedia main.mp4 --browser-executable=<chrome-he
 scripts/splice.sh main.mp4 faqihpedia-artipedia.mp4   # adds the bumper after the hook
 ```
 
-The cover is `faqihpedia-artipedia/thumbnail.png` (the `Thumbnail` still in `src/Thumbnail.tsx`). It follows the TRIMS cover rules: gingham background, label top-left, a title of at most 6 words, the "LAUK HARI INI" card, the face on the TRIMS plate, and the black series strip. The label and title stay inside the 3:4 Instagram grid crop.
+The cover is `faqihpedia-artipedia/thumbnail.png` (the `Thumbnail` still in `src/Thumbnail.tsx`). It follows the TRIMS cover rules: gingham background, label top-left, a title of at most 6 words, the "LAUK HARI INI" card, the face on the TRIMS plate, and the black series strip. Everything that matters sits inside the same `SAFE` box.
 
 ```sh
 npx remotion still Thumbnail thumbnail.png --browser-executable=<chrome-headless-shell>

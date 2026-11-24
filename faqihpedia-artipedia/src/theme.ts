@@ -66,6 +66,16 @@ export const LAYOUT: [number, Mode][] = [
   [106.2, 'full'], // like + trims
 ];
 
+/**
+ * Safe area shared by TikTok, Instagram Reels and the Instagram feed (1080x1920).
+ *  - TikTok: top tabs ~150px, caption/music ~420px at the bottom, action buttons ~140px on the right
+ *  - Reels: header ~220px, caption/audio ~420px at the bottom, icons on the right
+ *  - Feed: reels are cropped to 4:5 (y 285-1635), the profile grid to 3:4 (y 240-1680)
+ * Every caption, sticker, title and illustration stays inside this box.
+ */
+export const SAFE = { left: 60, right: 940, top: 285, bottom: 1500 };
+export const SAFE_CX = (SAFE.left + SAFE.right) / 2; // 500
+
 /** frames a layout change takes */
 export const MORPH = 14;
 
