@@ -2,11 +2,11 @@ import React from 'react';
 import { AbsoluteFill, Img, staticFile } from 'remotion';
 import { MapArt, PINS } from './scenes';
 import { C, SANS, SERIF, soft } from './theme';
-import { Pin, SegmentTag, Sparkle, Star, Tag } from './ui';
+import { Chat, Cup, Pin, SegmentTag, Sparkle, Star, Tag } from './ui';
 
 /*
  * Cover for TikTok, IG Reels and IG Feed. Headline + key visual stay inside
- * the shared safe box x 120-960, y 285-1250 (see SAFE); only the face sits below.
+ * the shared safe box x 120-960, y 285-1250 (see SAFE); only decoration sits below.
  */
 export const SAFE = { x: 120, y: 285, w: 840, h: 965 };
 
@@ -61,13 +61,25 @@ const NewWay: React.FC = () => (
   </div>
 );
 
-export const Cover: React.FC<{ guides?: boolean; offsetY?: number; faceY?: number }> = ({ guides = false, offsetY = 0, faceY = 560 }) => (
+export const Cover: React.FC<{ guides?: boolean; offsetY?: number }> = ({ guides = false, offsetY = 0 }) => (
   <AbsoluteFill style={{ background: C.bg }}>
     <div style={{ position: 'absolute', left: 0, top: -offsetY, width: 1080, height: 1920 }}>
       <AbsoluteFill style={{ background: `radial-gradient(1200px 900px at 50% 30%, ${C.paper}, ${C.bg})` }} />
-      {/* face: the split layout from the video, framed so eyes + mouth stay inside the IG 4:5 crop (y < 1635) */}
+      {/* lower band: not critical (sits under the TikTok/Reels caption UI) but shown in the IG 3:4 and 4:5 crops */}
       <div style={{ position: 'absolute', left: 0, top: 1250, width: 1080, height: 670, overflow: 'hidden' }}>
-        <Img src={staticFile('thumb_face.jpg')} style={{ position: 'absolute', left: 0, top: -faceY, width: 1080 }} />
+        <div style={{ position: 'absolute', left: 60, top: 0, opacity: 0.45 }}><MapArt /></div>
+        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(${C.bg} 0%, rgba(244,241,234,0.55) 30%, rgba(244,241,234,0.35) 100%)` }} />
+      </div>
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 1300, textAlign: 'center', fontFamily: SANS, fontSize: 26, fontWeight: 600, letterSpacing: 2, color: C.sub }}>
+        SEKALI TANYA, SEMUA KRITERIA
+      </div>
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 1352, display: 'flex', justifyContent: 'center', gap: 14, fontFamily: SANS }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: C.card, borderRadius: 40, padding: '14px 24px', boxShadow: soft, fontSize: 28, fontWeight: 600, color: C.ink }}><Pin size={26} /> ≤ 2 km MRT Blok M</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: C.card, borderRadius: 40, padding: '14px 24px', boxShadow: soft, fontSize: 28, fontWeight: 600, color: C.ink }}><Cup size={36} color={C.matcha} liquid={C.matcha} /> Matcha ceremonial</div>
+      </div>
+      <div style={{ position: 'absolute', left: 0, right: 0, top: 1446, display: 'flex', justifyContent: 'center', gap: 14, fontFamily: SANS }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: C.card, borderRadius: 40, padding: '14px 24px', boxShadow: soft, fontSize: 28, fontWeight: 600, color: C.ink }}><Chat size={28} /> 500+ ulasan</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: C.card, borderRadius: 40, padding: '14px 24px', boxShadow: soft, fontSize: 28, fontWeight: 600, color: C.ink }}><Star size={30} /> Rating &gt; 4,7</div>
       </div>
       <div style={{ position: 'absolute', left: 0, right: 0, top: 306, textAlign: 'center' }}>
         <SegmentTag topic="Ask Maps" size={28} />
