@@ -58,8 +58,8 @@ const zoomAt = (f: number) => {
 const Talking: React.FC<{ g: G; f: number }> = ({ g, f }) => {
   const inner = g.vw - 2 * g.vb;
   const k = inner / SRC_W;
-  // no punch-in while the head is in the small split card, so it never gets cropped
-  const z = 1 + (zoomAt(f) - 1) * (1 - g.split);
+  // punch-ins stay on in every layout; in the split card the head keeps its headroom even at 1.08x
+  const z = zoomAt(f);
   return (
     <div
       style={{
