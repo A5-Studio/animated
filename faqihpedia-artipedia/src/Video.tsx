@@ -23,10 +23,10 @@ type G = {
 const GEOM: Record<Mode, G> = {
   // stages are 1000x880 and scaled so they sit inside SAFE (x 60-940, y 285-1500)
   full: { vx: 0, vy: 0, vw: 1080, vh: 1920, vr: 0, vb: 0, sy: 0, scx: SAFE_CX, scy: -640, ss: 0.72, full: 1, split: 0, anim: 0 },
-  // split: stage and a head-and-shoulders card share one width (600px); the card is always filled with
-  // video, and the caption sits under the card on the gingham, ~150px below the chin
-  split: { vx: SAFE_CX - 300, vy: 850, vw: 600, vh: 410, vr: 28, vb: BORDER, sy: 526, scx: SAFE_CX, scy: 300 + 264, ss: 0.6, full: 0, split: 1, anim: 0 },
-  anim: { vx: SAFE_CX - 300, vy: 2080, vw: 600, vh: 410, vr: 28, vb: BORDER, sy: 526, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
+  // split: stage and a head-and-shoulders card share one width (760px, centred); the card is always
+  // filled with video, and the caption sits under the card (allowed to dip a little below SAFE.bottom)
+  split: { vx: 540 - 380, vy: 975, vw: 760, vh: 520, vr: 28, vb: BORDER, sy: 543, scx: 540, scy: 285 + 334, ss: 0.76, full: 0, split: 1, anim: 0 },
+  anim: { vx: 540 - 380, vy: 2080, vw: 760, vh: 520, vr: 28, vb: BORDER, sy: 543, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
 };
 
 const morphT = (f: number, start: number) =>
@@ -140,7 +140,9 @@ const Swipe: React.FC<{ f: number }> = ({ f }) => (
 /* ------------------------------------------------------------------ */
 const Captions: React.FC<{ f: number; g: G }> = ({ f, g }) => {
   // same spot in every layout: just above SAFE.bottom (on the chest in split, below the chin)
-  const y = SAFE.bottom - 78; // a two-line box (~150px) still ends above SAFE.bottom
+  // full/anim: just above SAFE.bottom. split: right under the video card
+  const y = (g.full + g.anim) * (SAFE.bottom - 78) + g.split * 1570;
+  const x = (g.full + g.anim) * SAFE_CX + g.split * 540;
   const w = SAFE.right - SAFE.left - 40;
   const fs = 44;
   return (
@@ -152,7 +154,7 @@ const Captions: React.FC<{ f: number; g: G }> = ({ f, g }) => {
         const p = pop(f, from, 260);
         const out = lin(f, to - 3, to);
         return (
-          <At key={i} x={SAFE_CX} y={y} s={(0.88 + 0.12 * p) * (1 - 0.06 * out)} o={Math.min(1, p * 1.6) * (1 - out)} r={i % 2 ? 1 : -1}>
+          <At key={i} x={x} y={y} s={(0.88 + 0.12 * p) * (1 - 0.06 * out)} o={Math.min(1, p * 1.6) * (1 - out)} r={i % 2 ? 1 : -1}>
             <Box pad="20px 30px" style={{ width: w, fontSize: fs, lineHeight: 1.3, fontWeight: 600, textAlign: 'center' }}>
               <Rich text={text} />
             </Box>
