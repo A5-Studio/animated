@@ -110,3 +110,5 @@ python3 scripts/music.py public/music.wav 135.6
 npx remotion render TrimsEps2 main.mp4 --browser-executable=<chrome-headless-shell>
 scripts/splice.sh main.mp4 trims-eps2-claude.mp4 3.7   # bumper after the hook line, then -14 LUFS
 ```
+
+The cover is `trims-eps2-claude/thumbnail.png` (the `Thumbnail` still in `src/Thumbnail.tsx`, rendered with `npx remotion still Thumbnail thumbnail.png`). It follows the episode 1 cover rules, and its photo is the raised-brow frame at 1.4s (`public/thumb-frame.jpg`).
