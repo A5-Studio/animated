@@ -58,7 +58,7 @@ export const LAYOUT: [number, Mode][] = [
   [39.0, 'anim'], // 1951: Theseus, the mouse with no brain
   [52.8, 'anim'], // the maze is the brain: metal, electromagnets, relays
   [66.95, 'split'], // 0 = off, 1 = on, the mouse finds the exit
-  [76.3, 'full'], // "cari sendiri deh"
+  [76.3, 'split'], // "cari sendiri deh": the YouTube search
   [83.95, 'split'], // same era as Alan Turing
   [92.0, 'split'], // The Imitation Game
   [99.6, 'anim'], // they met at Bell Labs, secret projects

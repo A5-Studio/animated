@@ -34,7 +34,7 @@ export const Photo: React.FC<{ src: string; w: number; h: number; label?: string
     </div>
     {label && (
       <div style={{ marginTop: 8, textAlign: 'center' }}>
-        <span style={{ display: 'inline-block', background: labelBg, border: `4px solid ${ink}`, borderRadius: 10, padding: '2px 14px', fontFamily: HEAD, fontSize: 30, whiteSpace: 'nowrap' }}>{label}</span>
+        <span style={{ display: 'inline-block', background: labelBg, border: `4px solid ${ink}`, borderRadius: 10, padding: '2px 14px', fontFamily: HEAD, fontSize: label.length > 12 ? 24 : 30, whiteSpace: 'nowrap' }}>{label}</span>
       </div>
     )}
   </div>
@@ -275,16 +275,13 @@ const Name: React.FC<SceneProps> = ({ f }) => {
   ];
   return (
     <>
-      <At x={500} y={300} s={P(f, 19.4)} r={-2}>
-        <Photo src="img/claude-shannon.png" w={440} h={330} pos="35% 30%" />
+      <At x={500} y={290} s={P(f, 19.4)} r={-2}>
+        <Photo src="img/claude-shannon.png" w={440} h={330} pos="35% 30%" label="1916 – 2001" labelBg={C.white} />
       </At>
-      <At x={500} y={565} s={P(f, 19.9, 200)} r={1.5}>
+      <At x={500} y={600} s={P(f, 19.9, 200)} r={1.5}>
         <Box bg={C.yellow} pad="10px 36px" style={{ fontFamily: HEAD, fontSize: 76, whiteSpace: 'nowrap' }}>
           CLAUDE SHANNON
         </Box>
-      </At>
-      <At x={500} y={655} s={P(f, 20.6, 220)} r={-1}>
-        <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 30, background: C.white, border: `4px solid ${ink}`, borderRadius: 10, padding: '2px 14px' }}>1916 – 2001</span>
       </At>
       {chips.map((c) => (
         <At key={c.t} x={c.x} y={c.y} s={P(f, c.at, 220)} r={c.r}>
@@ -493,10 +490,10 @@ const SameEra: React.FC<SceneProps> = ({ f }) => (
   <>
     <Title f={f} at={84.1} text="Fakta unik" bg={C.white} y={70} />
     <At x={260} y={390} s={P(f, 85.3)} r={-4}>
-      <Photo src="img/claude-shannon.png" w={300} h={330} pos="30% 30%" label="AMERIKA" labelBg={C.white} />
+      <Photo src="img/claude-shannon.png" w={300} h={330} pos="30% 30%" label="AS · 1916–2001" labelBg={C.white} />
     </At>
     <At x={740} y={390} s={P(f, 86.6)} r={4}>
-      <Photo src="img/alan-turing.png" w={300} h={330} pos="50% 25%" label="INGGRIS" labelBg={C.white} />
+      <Photo src="img/alan-turing.png" w={300} h={330} pos="50% 25%" label="INGGRIS · 1912–1954" labelBg={C.white} />
     </At>
     <At x={500} y={390} s={P(f, 86.0, 220)} r={-8}>
       <Sticker bg={C.yellow} size={40}>Sezaman</Sticker>
@@ -512,31 +509,48 @@ const SameEra: React.FC<SceneProps> = ({ f }) => (
 /* ================================================================== */
 /* 9. The Imitation Game (92.0 - 99.6, split)                           */
 /* ================================================================== */
-const Clapper: React.FC<{ open: number }> = ({ open }) => (
-  <div style={{ width: 560 }}>
-    <div style={{ height: 70, background: C.white, border: `${SW}px solid ${ink}`, borderRadius: 10, transform: `rotate(${-14 * open}deg)`, transformOrigin: '0 100%', backgroundImage: `repeating-linear-gradient(120deg, ${ink} 0 34px, ${C.white} 34px 68px)` }} />
-    <div style={{ marginTop: 6, background: ink, color: C.white, border: `${SW}px solid ${ink}`, borderRadius: 14, boxShadow: shadow(10).replace(ink, C.orange), padding: '22px 28px', fontFamily: HEAD }}>
-      <div style={{ fontSize: 26, color: C.yellow }}>FILM · 2014</div>
-      <div style={{ fontSize: 56, lineHeight: 1.05 }}>THE IMITATION GAME</div>
-    </div>
-  </div>
-);
 const Film: React.FC<SceneProps> = ({ f }) => (
   <>
-    <At x={210} y={270} s={P(f, 92.4)} r={-5}>
-      <Photo src="img/alan-turing.png" w={240} h={260} pos="50% 25%" label="ALAN TURING" labelBg={C.yellow} />
+    <At x={230} y={300} s={P(f, 92.4)} r={-5}>
+      <Photo src="img/alan-turing.png" w={260} h={290} pos="50% 25%" label="ALAN TURING" labelBg={C.yellow} />
     </At>
-    <At x={640} y={110} s={P(f, 93.0, 220)} r={3}>
-      <Sticker bg={C.white} size={36}>Kisahnya difilmkan</Sticker>
+    <At x={230} y={545} s={P(f, 93.0, 220)} r={3}>
+      <Sticker bg={C.white} size={32}>Kisahnya difilmkan</Sticker>
     </At>
-    <At x={600} y={590} s={P(f, 95.1)} r={2}>
-      <Clapper open={1 - ease(f, s(95.6), s(95.9))} />
+    <At x={680} y={420} s={P(f, 95.1)} r={3}>
+      <div style={{ background: C.white, border: `${SW}px solid ${ink}`, borderRadius: 16, boxShadow: shadow(12), padding: 12 }}>
+        <Img src={staticFile('img/imitation-game-poster.png')} style={{ width: 380, height: 598, objectFit: 'cover', display: 'block', borderRadius: 6, border: `4px solid ${ink}` }} />
+      </div>
+    </At>
+    <At x={680} y={790} s={P(f, 95.6, 220)} r={-2}>
+      <Sticker bg={C.yellow} size={30}>The Imitation Game · 2014</Sticker>
     </At>
     {f >= s(97.4) && (
-      <At x={790} y={300} s={P(f, 97.5, 220)} r={-6}>
-        <Burst size={280} color={C.yellow} rot={f}><span style={{ fontSize: 34, lineHeight: 1.05 }}>COBA<br />NONTON!</span></Burst>
+      <At x={230} y={745} s={P(f, 97.5, 220)} r={-6}>
+        <Burst size={250} color={C.orange} rot={f}><span style={{ fontSize: 32, lineHeight: 1.05 }}>COBA<br />NONTON!</span></Burst>
       </At>
     )}
+  </>
+);
+
+/* ================================================================== */
+/* 8b. look it up yourself: the YouTube search (76.3 - 83.95, split)   */
+/* ================================================================== */
+const LookItUp: React.FC<SceneProps> = ({ f }) => (
+  <>
+    <Title f={f} at={76.6} text="Mau lebih detail?" bg={C.purple} />
+    <At x={500} y={455} s={P(f, 79.6)} r={-1.5}>
+      <div style={{ background: C.white, border: `${SW}px solid ${ink}`, borderRadius: 20, boxShadow: shadow(12), padding: 10 }}>
+        <Img src={staticFile('img/youtube-theseus.png')} style={{ width: 880, display: 'block', borderRadius: 10 }} />
+      </div>
+    </At>
+    {/* ring around the search query */}
+    <At x={405} y={228} s={P(f, 80.4, 220)}>
+      <div style={{ width: 440, height: 62, borderRadius: 34, border: `7px solid ${C.orange}`, boxShadow: `0 0 0 4px ${ink}` }} />
+    </At>
+    <At x={500} y={820} s={P(f, 82.4, 220)} r={2}>
+      <Sticker bg={C.yellow} size={40}>Cari sendiri ya!</Sticker>
+    </At>
   </>
 );
 
@@ -620,6 +634,7 @@ export const SCENES: { from: number; to: number; bg: string; C: React.FC<ScenePr
   { from: 39.0, to: 52.8, bg: C.orange, C: Theseus },
   { from: 52.8, to: 66.95, bg: C.yellow, C: MazeBrain },
   { from: 66.95, to: 76.3, bg: C.bg, C: OnOff },
+  { from: 76.3, to: 83.95, bg: C.bg, C: LookItUp },
   { from: 83.95, to: 92.0, bg: C.yellow, C: SameEra },
   { from: 92.0, to: 99.6, bg: C.orange, C: Film },
   { from: 99.6, to: 116.2, bg: C.bg, C: BellLabs },

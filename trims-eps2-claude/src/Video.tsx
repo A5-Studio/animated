@@ -11,7 +11,7 @@ import { BODY, BORDER, BUMPER_AT, C, CUTS, END_CARD, HEAD, LAYOUT, MORPH, Mode, 
 /* ------------------------------------------------------------------ */
 const SRC_W = 1080; // source video is 1080x1920
 const SRC_H = 1920;
-const FACE = { x: 540, y: 720 }; // roughly where the face sits in the source
+const FACE = { x: 520, y: 940 }; // head centre in the source (hair top ~420, chin ~1470)
 
 type G = {
   vx: number; vy: number; vw: number; vh: number; vr: number; vb: number; // video box
@@ -25,8 +25,8 @@ const GEOM: Record<Mode, G> = {
   full: { vx: 0, vy: 0, vw: 1080, vh: 1920, vr: 0, vb: 0, sy: 0, scx: SAFE_CX, scy: -640, ss: 0.72, full: 1, split: 0, anim: 0 },
   // split: stage and a head-and-shoulders card share one width (760px, centred); the card is always
   // filled with video, and the caption sits under the card (allowed to dip a little below SAFE.bottom)
-  split: { vx: 540 - 380, vy: 975, vw: 760, vh: 520, vr: 28, vb: BORDER, sy: 543, scx: 540, scy: 285 + 334, ss: 0.76, full: 0, split: 1, anim: 0 },
-  anim: { vx: 540 - 380, vy: 2080, vw: 760, vh: 520, vr: 28, vb: BORDER, sy: 543, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
+  split: { vx: 540 - 340, vy: 900, vw: 680, vh: 700, vr: 28, vb: BORDER, sy: 375, scx: 540, scy: 285 + 299, ss: 0.68, full: 0, split: 1, anim: 0 },
+  anim: { vx: 540 - 340, vy: 2080, vw: 680, vh: 700, vr: 28, vb: BORDER, sy: 375, scx: SAFE_CX, scy: 385 + 387, ss: 0.88, full: 0, split: 0, anim: 1 },
 };
 
 const morphT = (f: number, start: number) =>
@@ -60,7 +60,7 @@ const Talking: React.FC<{ g: G; f: number }> = ({ g, f }) => {
   const inner = g.vw - 2 * g.vb;
   const k = inner / SRC_W;
   // punch-ins stay on in every layout; in the split card the head keeps its headroom even at 1.08x
-  const z = zoomAt(f);
+  const z = 1 + (zoomAt(f) - 1) * g.full; // punch-ins only full-frame: the split card always shows the whole head
   return (
     <div
       style={{
@@ -141,7 +141,7 @@ const Swipe: React.FC<{ f: number }> = ({ f }) => (
 const Captions: React.FC<{ f: number; g: G }> = ({ f, g }) => {
   // same spot in every layout: just above SAFE.bottom (on the chest in split, below the chin)
   // full/anim: just above SAFE.bottom. split: right under the video card
-  const y = (g.full + g.anim) * (SAFE.bottom - 78) + g.split * 1570;
+  const y = g.full * 1650 + g.anim * (SAFE.bottom - 78) + g.split * 1665;
   const x = (g.full + g.anim) * SAFE_CX + g.split * 540;
   const w = SAFE.right - SAFE.left - 40;
   const fs = 44;
@@ -179,13 +179,11 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
   const P = (sec: number, k = 220) => pop(f, s(sec), k);
   const gone = (a: number, b: number) => f >= s(a) && f <= s(b);
   const out = (b: number) => 1 - lin(f, s(b) - 6, s(b));
-  const query = 'tikus theseus claude shannon';
-  const typed = Math.max(0, Math.min(query.length, Math.floor((f - s(79.6)) / 1.6)));
   return (
     <div style={{ position: 'absolute', inset: 0, opacity: o }}>
       {/* TRIMS fixed opening line */}
       {gone(0, 3.7) && (
-        <At x={SAFE_CX} y={385} s={P(0.1, 200) * out(3.7)} r={-1}>
+        <At x={SAFE_CX} y={402} s={P(0.1, 200) * out(3.7)} r={-1}>
           <Box bg={C.white} pad="10px 24px" radius={14} sh={7} style={{ fontFamily: BODY, fontWeight: 700, fontSize: 36, whiteSpace: 'nowrap' }}>
             Bahan obrolan makan siang hari ini…
           </Box>
@@ -193,45 +191,31 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
       )}
       {/* hook: the Claude tile next to the face, then the year */}
       {gone(0, 5.3) && (
-        <At x={790} y={600} s={P(0.4) * out(5.3)} r={5}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
-            <ClaudeTile size={190} />
-            <Sticker bg={C.white} size={30}>Claude</Sticker>
+        <At x={935} y={760} s={P(0.4) * out(5.3)} r={5}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+            <ClaudeTile size={150} />
+            <Sticker bg={C.white} size={26}>Claude</Sticker>
           </div>
         </At>
       )}
-      {gone(1.9, 5.3) && (
-        <At x={250} y={600} s={P(2.0, 200) * out(5.3)} r={-6}>
-          <Box bg={C.yellow} pad="8px 26px" style={{ fontFamily: HEAD, fontSize: 70, whiteSpace: 'nowrap' }}>1950-an?!</Box>
+      {gone(1.9, 3.75) && (
+        <At x={SAFE_CX} y={505} s={P(2.0, 200) * out(3.75)} r={-4}>
+          <Box bg={C.yellow} pad="8px 26px" style={{ fontFamily: HEAD, fontSize: 64, whiteSpace: 'nowrap' }}>1950-an?!</Box>
         </At>
       )}
       {gone(3.8, 5.3) && (
-        <At x={SAFE_CX} y={440} s={P(3.9, 200) * out(5.3)} r={-3}>
+        <At x={SAFE_CX} y={430} s={P(3.9, 200) * out(5.3)} r={-3}>
           <Sticker bg={C.orange} size={56}>Serius!</Sticker>
-        </At>
-      )}
-      {/* go look it up yourself: a search bar typing the query */}
-      {gone(76.5, 83.9) && (
-        <At x={SAFE_CX} y={450} s={P(76.6) * out(83.9)} r={-1.5}>
-          <Sticker bg={C.purple} size={44}>Mau lebih detail?</Sticker>
-        </At>
-      )}
-      {gone(79.5, 83.9) && (
-        <At x={SAFE_CX} y={570} s={P(79.5) * out(83.9)} r={1}>
-          <Box bg={C.white} pad="14px 26px" radius={40} sh={8} style={{ width: 760, display: 'flex', alignItems: 'center', gap: 18, fontFamily: BODY, fontWeight: 700, fontSize: 38 }}>
-            <svg width={40} height={40} viewBox="0 0 40 40"><circle cx="17" cy="17" r="11" fill="none" stroke={C.ink} strokeWidth={5} /><line x1="25" y1="25" x2="36" y2="36" stroke={C.ink} strokeWidth={6} strokeLinecap="round" /></svg>
-            <span>{query.slice(0, typed)}<span style={{ opacity: Math.floor(f / 8) % 2 ? 1 : 0 }}>|</span></span>
-          </Box>
         </At>
       )}
       {/* outro: comment, like, trims */}
       {gone(126.4, 128.5) && (
-        <At x={SAFE_CX} y={460} s={P(126.5) * out(128.5)} r={2}>
+        <At x={SAFE_CX} y={350} s={P(126.5) * out(128.5)} r={2}>
           <Box bg={C.yellow} pad="12px 30px" style={{ fontFamily: HEAD, fontSize: 48, whiteSpace: 'nowrap' }}>Shannon / Turing? Tulis di komen</Box>
         </At>
       )}
       {gone(128.6, 131.8) && (
-        <At x={SAFE_CX} y={460} s={P(128.8) * out(131.8)} r={-2}>
+        <At x={SAFE_CX} y={350} s={P(128.8) * out(131.8)} r={-2}>
           <Box bg={C.white} pad="12px 30px" style={{ display: 'flex', alignItems: 'center', gap: 18, fontFamily: HEAD, fontSize: 50, whiteSpace: 'nowrap' }}>
             <span style={{ transform: `scale(${1 + 0.15 * Math.max(0, Math.sin((f - s(129.0)) * 0.35))})`, display: 'flex' }}><Heart /></span>
             LIKE DULU YA

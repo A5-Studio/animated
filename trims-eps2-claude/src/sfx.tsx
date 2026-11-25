@@ -18,9 +18,9 @@ const POPS = [
   39.3, 41.8, 42.4, 45.3, 46.7, 47.8, 48.9, 50.4, // theseus
   53.0, 54.0, 58.6, 60.6, 62.4, // maze brain
   68.6, 69.9, 71.2, // on / off
-  76.6, 79.5, // look it up
+  76.6, 79.6, 80.4, 82.4, // look it up
   84.1, 85.3, 86.0, 86.6, 89.6, // same era
-  92.4, 93.0, 95.1, // film
+  92.4, 93.0, 95.1, 95.6, // film
   99.9, 101.0, 101.6, 103.6, 105.3, 109.4, 113.9, 114.9, // bell labs
   117.3, 118.9, 120.4, 121.6, 123.6, // versus
   126.5, 128.8, // outro
@@ -39,9 +39,8 @@ const CUES: [number, Kind][] = [
   // end card: whoosh in, then the closing ting
   [s(END_CARD) - 4, 'whoosh'],
   [s(END_CARD) + 14, 'ting'],
-  // binary typing (scenes.tsx Bit: 34.0s, one digit per 1.4 frames) and the search bar (Video.tsx: 79.6s)
+  // binary typing (scenes.tsx Bit: 34.0s, one digit per 1.4 frames)
   ...Array.from({ length: 10 }, (_, i) => [s(34.0) + i * 2, 'tick'] as [number, Kind]),
-  ...Array.from({ length: 14 }, (_, i) => [s(79.6) + i * 3, 'tick'] as [number, Kind]),
 ];
 
 export const Sfx: React.FC = () => (
