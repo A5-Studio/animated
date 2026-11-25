@@ -88,3 +88,25 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## TRIMS EPS 2 · Asal nama Claude (Remotion, Reels 1080×1920, ~138.6s)
+
+`trims-eps2-claude/trims-eps2-claude.mp4` is the second TRIMS (Trivia Makan Siang) episode. It uses the same template as TRIMS episode 1 (`faqihpedia-artipedia` on branch `claude/busy-carson-6bpe0t`): gingham background, TRIMS badge, morphing full/split/anim layouts, captions, spoon "ting" on facts, music bed, the 3s bumper after the hook, and the end card.
+
+Topic: Anthropic never officially said where the name Claude comes from, but forums believe it comes from Claude Shannon (bit, the Theseus maze mouse from 1951, meeting Alan Turing at Bell Labs).
+
+`public/source.mp4` (not committed) is the tightened talking-head cut from three takes (`IMG_5135.MOV` plus two `IMG_5115.mov` inserts in the Drive folder TRIMS/EPS 2):
+
+- the pauses are cut down to at most ~0.3s
+- the voice is cleaned up: high-pass, FFT denoise, EQ (−2.5 dB at 220 Hz, +2.5 dB at 3.2 kHz), de-esser, compressor and a soft gate
+- the final mix is normalized to −14 LUFS by `scripts/splice.sh`
+
+Images: `public/img/claude-logo.png` and `public/img/bell-labs.jpg` come from the Drive folder. The Shannon, Turing and 1948 paper images come from `trims/menu-001` (branch `claude/busy-keller-8bt82y`).
+
+```sh
+cd trims-eps2-claude
+npm install
+python3 scripts/music.py public/music.wav 135.6
+npx remotion render TrimsEps2 main.mp4 --browser-executable=<chrome-headless-shell>
+scripts/splice.sh main.mp4 trims-eps2-claude.mp4 5.35   # bumper after "ya kalian gak salah denger", then -14 LUFS
+```
