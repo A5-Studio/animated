@@ -1,0 +1,1834 @@
+[
+ {
+  "start": 0.0,
+  "end": 5.26,
+  "text": " Cloud ternyata udah ada dari tahun 1950-an. Ya, kalian gak salah denger.",
+  "words": [
+   {
+    "s": 0.0,
+    "e": 0.78,
+    "w": " Cloud"
+   },
+   {
+    "s": 0.78,
+    "e": 1.16,
+    "w": " ternyata"
+   },
+   {
+    "s": 1.16,
+    "e": 1.42,
+    "w": " udah"
+   },
+   {
+    "s": 1.42,
+    "e": 1.68,
+    "w": " ada"
+   },
+   {
+    "s": 1.68,
+    "e": 1.92,
+    "w": " dari"
+   },
+   {
+    "s": 1.92,
+    "e": 2.18,
+    "w": " tahun"
+   },
+   {
+    "s": 2.18,
+    "e": 3.1,
+    "w": " 1950"
+   },
+   {
+    "s": 3.1,
+    "e": 3.74,
+    "w": "-an."
+   },
+   {
+    "s": 3.84,
+    "e": 4.02,
+    "w": " Ya,"
+   },
+   {
+    "s": 4.24,
+    "e": 4.5,
+    "w": " kalian"
+   },
+   {
+    "s": 4.5,
+    "e": 4.66,
+    "w": " gak"
+   },
+   {
+    "s": 4.66,
+    "e": 4.84,
+    "w": " salah"
+   },
+   {
+    "s": 4.84,
+    "e": 5.26,
+    "w": " denger."
+   }
+  ]
+ },
+ {
+  "start": 5.46,
+  "end": 12.48,
+  "text": " Sebenernya gak pernah ada penyataan resmi dari Anthropic selaku pembuat cloud kalau mereka ngasih nama itu dari nama seorang ilmuwan.",
+  "words": [
+   {
+    "s": 5.46,
+    "e": 5.72,
+    "w": " Sebenernya"
+   },
+   {
+    "s": 5.72,
+    "e": 5.9,
+    "w": " gak"
+   },
+   {
+    "s": 5.9,
+    "e": 6.06,
+    "w": " pernah"
+   },
+   {
+    "s": 6.06,
+    "e": 6.4,
+    "w": " ada"
+   },
+   {
+    "s": 6.4,
+    "e": 6.8,
+    "w": " penyataan"
+   },
+   {
+    "s": 6.8,
+    "e": 7.06,
+    "w": " resmi"
+   },
+   {
+    "s": 7.06,
+    "e": 7.34,
+    "w": " dari"
+   },
+   {
+    "s": 7.34,
+    "e": 7.8,
+    "w": " Anthropic"
+   },
+   {
+    "s": 7.8,
+    "e": 8.26,
+    "w": " selaku"
+   },
+   {
+    "s": 8.26,
+    "e": 8.7,
+    "w": " pembuat"
+   },
+   {
+    "s": 8.7,
+    "e": 8.96,
+    "w": " cloud"
+   },
+   {
+    "s": 8.96,
+    "e": 9.22,
+    "w": " kalau"
+   },
+   {
+    "s": 9.22,
+    "e": 9.56,
+    "w": " mereka"
+   },
+   {
+    "s": 9.56,
+    "e": 9.94,
+    "w": " ngasih"
+   },
+   {
+    "s": 9.94,
+    "e": 10.3,
+    "w": " nama"
+   },
+   {
+    "s": 10.3,
+    "e": 10.72,
+    "w": " itu"
+   },
+   {
+    "s": 10.72,
+    "e": 11.24,
+    "w": " dari"
+   },
+   {
+    "s": 11.24,
+    "e": 11.48,
+    "w": " nama"
+   },
+   {
+    "s": 11.48,
+    "e": 11.84,
+    "w": " seorang"
+   },
+   {
+    "s": 11.84,
+    "e": 12.48,
+    "w": " ilmuwan."
+   }
+  ]
+ },
+ {
+  "start": 12.78,
+  "end": 19.26,
+  "text": " Tapi forum-forum di internet meyakini kalau cloud, AI dari Anthropic, itu terinspirasi dari nama seorang ilmuwan.",
+  "words": [
+   {
+    "s": 12.78,
+    "e": 13.04,
+    "w": " Tapi"
+   },
+   {
+    "s": 13.04,
+    "e": 13.34,
+    "w": " forum"
+   },
+   {
+    "s": 13.34,
+    "e": 13.6,
+    "w": "-forum"
+   },
+   {
+    "s": 13.6,
+    "e": 13.82,
+    "w": " di"
+   },
+   {
+    "s": 13.82,
+    "e": 14.02,
+    "w": " internet"
+   },
+   {
+    "s": 14.02,
+    "e": 14.64,
+    "w": " meyakini"
+   },
+   {
+    "s": 14.64,
+    "e": 14.9,
+    "w": " kalau"
+   },
+   {
+    "s": 14.9,
+    "e": 15.3,
+    "w": " cloud,"
+   },
+   {
+    "s": 15.36,
+    "e": 15.64,
+    "w": " AI"
+   },
+   {
+    "s": 15.64,
+    "e": 15.94,
+    "w": " dari"
+   },
+   {
+    "s": 15.94,
+    "e": 16.5,
+    "w": " Anthropic,"
+   },
+   {
+    "s": 16.72,
+    "e": 16.76,
+    "w": " itu"
+   },
+   {
+    "s": 16.76,
+    "e": 17.36,
+    "w": " terinspirasi"
+   },
+   {
+    "s": 17.36,
+    "e": 17.64,
+    "w": " dari"
+   },
+   {
+    "s": 17.64,
+    "e": 18.06,
+    "w": " nama"
+   },
+   {
+    "s": 18.06,
+    "e": 18.74,
+    "w": " seorang"
+   },
+   {
+    "s": 18.74,
+    "e": 19.26,
+    "w": " ilmuwan."
+   }
+  ]
+ },
+ {
+  "start": 19.3,
+  "end": 25.18,
+  "text": " Nama lengkapnya Cloud Shannon, ilmuwan asal Amerika Serikat di bidang matematika dan elektronika.",
+  "words": [
+   {
+    "s": 19.3,
+    "e": 19.54,
+    "w": " Nama"
+   },
+   {
+    "s": 19.54,
+    "e": 20.14,
+    "w": " lengkapnya"
+   },
+   {
+    "s": 20.14,
+    "e": 20.44,
+    "w": " Cloud"
+   },
+   {
+    "s": 20.44,
+    "e": 20.96,
+    "w": " Shannon,"
+   },
+   {
+    "s": 21.28,
+    "e": 21.54,
+    "w": " ilmuwan"
+   },
+   {
+    "s": 21.54,
+    "e": 21.88,
+    "w": " asal"
+   },
+   {
+    "s": 21.88,
+    "e": 22.24,
+    "w": " Amerika"
+   },
+   {
+    "s": 22.24,
+    "e": 23.16,
+    "w": " Serikat"
+   },
+   {
+    "s": 23.16,
+    "e": 23.42,
+    "w": " di"
+   },
+   {
+    "s": 23.42,
+    "e": 23.6,
+    "w": " bidang"
+   },
+   {
+    "s": 23.6,
+    "e": 24.16,
+    "w": " matematika"
+   },
+   {
+    "s": 24.16,
+    "e": 24.4,
+    "w": " dan"
+   },
+   {
+    "s": 24.4,
+    "e": 25.18,
+    "w": " elektronika."
+   }
+  ]
+ },
+ {
+  "start": 25.18,
+  "end": 31.6,
+  "text": " Bluey ini juga dikenal sebagai father of information theory karena yang mempopulerkan istilah bit atau binary digit",
+  "words": [
+   {
+    "s": 25.18,
+    "e": 25.68,
+    "w": " Bluey"
+   },
+   {
+    "s": 25.68,
+    "e": 25.76,
+    "w": " ini"
+   },
+   {
+    "s": 25.76,
+    "e": 25.98,
+    "w": " juga"
+   },
+   {
+    "s": 25.98,
+    "e": 26.28,
+    "w": " dikenal"
+   },
+   {
+    "s": 26.28,
+    "e": 26.7,
+    "w": " sebagai"
+   },
+   {
+    "s": 26.7,
+    "e": 27.08,
+    "w": " father"
+   },
+   {
+    "s": 27.08,
+    "e": 27.3,
+    "w": " of"
+   },
+   {
+    "s": 27.3,
+    "e": 27.88,
+    "w": " information"
+   },
+   {
+    "s": 27.88,
+    "e": 28.36,
+    "w": " theory"
+   },
+   {
+    "s": 28.36,
+    "e": 28.72,
+    "w": " karena"
+   },
+   {
+    "s": 28.72,
+    "e": 28.92,
+    "w": " yang"
+   },
+   {
+    "s": 28.92,
+    "e": 29.66,
+    "w": " mempopulerkan"
+   },
+   {
+    "s": 29.66,
+    "e": 30.02,
+    "w": " istilah"
+   },
+   {
+    "s": 30.02,
+    "e": 30.3,
+    "w": " bit"
+   },
+   {
+    "s": 30.3,
+    "e": 30.78,
+    "w": " atau"
+   },
+   {
+    "s": 30.78,
+    "e": 31.22,
+    "w": " binary"
+   },
+   {
+    "s": 31.22,
+    "e": 31.6,
+    "w": " digit"
+   }
+  ]
+ },
+ {
+  "start": 31.6,
+  "end": 38.76,
+  "text": " yang mengubah informasi menjadi bentuk binar atau bentuk 0 dan 1 supaya lebih mudah dipahami sama komputer.",
+  "words": [
+   {
+    "s": 31.6,
+    "e": 32.26,
+    "w": " yang"
+   },
+   {
+    "s": 32.26,
+    "e": 32.66,
+    "w": " mengubah"
+   },
+   {
+    "s": 32.66,
+    "e": 33.38,
+    "w": " informasi"
+   },
+   {
+    "s": 33.38,
+    "e": 33.7,
+    "w": " menjadi"
+   },
+   {
+    "s": 33.7,
+    "e": 34.0,
+    "w": " bentuk"
+   },
+   {
+    "s": 34.0,
+    "e": 34.42,
+    "w": " binar"
+   },
+   {
+    "s": 34.42,
+    "e": 34.64,
+    "w": " atau"
+   },
+   {
+    "s": 34.64,
+    "e": 35.06,
+    "w": " bentuk"
+   },
+   {
+    "s": 35.06,
+    "e": 35.26,
+    "w": " 0"
+   },
+   {
+    "s": 35.26,
+    "e": 35.5,
+    "w": " dan"
+   },
+   {
+    "s": 35.5,
+    "e": 36.0,
+    "w": " 1"
+   },
+   {
+    "s": 36.0,
+    "e": 36.44,
+    "w": " supaya"
+   },
+   {
+    "s": 36.44,
+    "e": 36.66,
+    "w": " lebih"
+   },
+   {
+    "s": 36.66,
+    "e": 36.92,
+    "w": " mudah"
+   },
+   {
+    "s": 36.92,
+    "e": 37.32,
+    "w": " dipahami"
+   },
+   {
+    "s": 37.32,
+    "e": 37.64,
+    "w": " sama"
+   },
+   {
+    "s": 37.64,
+    "e": 38.76,
+    "w": " komputer."
+   }
+  ]
+ },
+ {
+  "start": 38.76,
+  "end": 45.12,
+  "text": " Di tahun 1951, Bluey ini udah bikin demo robot tikus yang bisa keluar dari labirin sendiri.",
+  "words": [
+   {
+    "s": 38.76,
+    "e": 39.2,
+    "w": " Di"
+   },
+   {
+    "s": 39.2,
+    "e": 39.42,
+    "w": " tahun"
+   },
+   {
+    "s": 39.42,
+    "e": 40.78,
+    "w": " 1951,"
+   },
+   {
+    "s": 41.16,
+    "e": 41.4,
+    "w": " Bluey"
+   },
+   {
+    "s": 41.4,
+    "e": 41.48,
+    "w": " ini"
+   },
+   {
+    "s": 41.48,
+    "e": 41.68,
+    "w": " udah"
+   },
+   {
+    "s": 41.68,
+    "e": 42.04,
+    "w": " bikin"
+   },
+   {
+    "s": 42.04,
+    "e": 42.5,
+    "w": " demo"
+   },
+   {
+    "s": 42.5,
+    "e": 43.12,
+    "w": " robot"
+   },
+   {
+    "s": 43.12,
+    "e": 43.4,
+    "w": " tikus"
+   },
+   {
+    "s": 43.4,
+    "e": 43.58,
+    "w": " yang"
+   },
+   {
+    "s": 43.58,
+    "e": 43.76,
+    "w": " bisa"
+   },
+   {
+    "s": 43.76,
+    "e": 44.0,
+    "w": " keluar"
+   },
+   {
+    "s": 44.0,
+    "e": 44.22,
+    "w": " dari"
+   },
+   {
+    "s": 44.22,
+    "e": 44.62,
+    "w": " labirin"
+   },
+   {
+    "s": 44.62,
+    "e": 45.12,
+    "w": " sendiri."
+   }
+  ]
+ },
+ {
+  "start": 45.3,
+  "end": 52.9,
+  "text": " Bahkan tikusnya ini sama sekali gak punya otak. Tikusnya cuma kayu, di bawahnya ada magnet, terus ada roda biar bisa bergerak.",
+  "words": [
+   {
+    "s": 45.3,
+    "e": 45.54,
+    "w": " Bahkan"
+   },
+   {
+    "s": 45.54,
+    "e": 46.02,
+    "w": " tikusnya"
+   },
+   {
+    "s": 46.02,
+    "e": 46.16,
+    "w": " ini"
+   },
+   {
+    "s": 46.16,
+    "e": 46.36,
+    "w": " sama"
+   },
+   {
+    "s": 46.36,
+    "e": 46.64,
+    "w": " sekali"
+   },
+   {
+    "s": 46.64,
+    "e": 46.84,
+    "w": " gak"
+   },
+   {
+    "s": 46.84,
+    "e": 47.02,
+    "w": " punya"
+   },
+   {
+    "s": 47.02,
+    "e": 47.58,
+    "w": " otak."
+   },
+   {
+    "s": 47.74,
+    "e": 48.08,
+    "w": " Tikusnya"
+   },
+   {
+    "s": 48.08,
+    "e": 48.3,
+    "w": " cuma"
+   },
+   {
+    "s": 48.3,
+    "e": 48.8,
+    "w": " kayu,"
+   },
+   {
+    "s": 48.9,
+    "e": 49.02,
+    "w": " di"
+   },
+   {
+    "s": 49.02,
+    "e": 49.38,
+    "w": " bawahnya"
+   },
+   {
+    "s": 49.38,
+    "e": 49.58,
+    "w": " ada"
+   },
+   {
+    "s": 49.58,
+    "e": 50.04,
+    "w": " magnet,"
+   },
+   {
+    "s": 50.28,
+    "e": 50.42,
+    "w": " terus"
+   },
+   {
+    "s": 50.42,
+    "e": 50.66,
+    "w": " ada"
+   },
+   {
+    "s": 50.66,
+    "e": 50.94,
+    "w": " roda"
+   },
+   {
+    "s": 50.94,
+    "e": 51.22,
+    "w": " biar"
+   },
+   {
+    "s": 51.22,
+    "e": 51.78,
+    "w": " bisa"
+   },
+   {
+    "s": 51.78,
+    "e": 52.9,
+    "w": " bergerak."
+   }
+  ]
+ },
+ {
+  "start": 52.9,
+  "end": 57.88,
+  "text": " Nah yang bisa bikin robot tikusnya itu keluar dari labirin adalah si labirinnya itu sendiri.",
+  "words": [
+   {
+    "s": 52.9,
+    "e": 53.1,
+    "w": " Nah"
+   },
+   {
+    "s": 53.1,
+    "e": 53.38,
+    "w": " yang"
+   },
+   {
+    "s": 53.38,
+    "e": 53.8,
+    "w": " bisa"
+   },
+   {
+    "s": 53.8,
+    "e": 54.18,
+    "w": " bikin"
+   },
+   {
+    "s": 54.18,
+    "e": 54.48,
+    "w": " robot"
+   },
+   {
+    "s": 54.48,
+    "e": 54.94,
+    "w": " tikusnya"
+   },
+   {
+    "s": 54.94,
+    "e": 55.14,
+    "w": " itu"
+   },
+   {
+    "s": 55.14,
+    "e": 55.32,
+    "w": " keluar"
+   },
+   {
+    "s": 55.32,
+    "e": 55.58,
+    "w": " dari"
+   },
+   {
+    "s": 55.58,
+    "e": 55.96,
+    "w": " labirin"
+   },
+   {
+    "s": 55.96,
+    "e": 56.46,
+    "w": " adalah"
+   },
+   {
+    "s": 56.46,
+    "e": 56.88,
+    "w": " si"
+   },
+   {
+    "s": 56.88,
+    "e": 57.4,
+    "w": " labirinnya"
+   },
+   {
+    "s": 57.4,
+    "e": 57.52,
+    "w": " itu"
+   },
+   {
+    "s": 57.52,
+    "e": 57.88,
+    "w": " sendiri."
+   }
+  ]
+ },
+ {
+  "start": 57.98,
+  "end": 66.66,
+  "text": " Karena labirinnya itu dari logam, di bawahnya ada elektromagnet, terus ada banyak relay telepon yang memutuskan switch on ke off.",
+  "words": [
+   {
+    "s": 57.98,
+    "e": 58.18,
+    "w": " Karena"
+   },
+   {
+    "s": 58.18,
+    "e": 58.68,
+    "w": " labirinnya"
+   },
+   {
+    "s": 58.68,
+    "e": 58.8,
+    "w": " itu"
+   },
+   {
+    "s": 58.8,
+    "e": 59.22,
+    "w": " dari"
+   },
+   {
+    "s": 59.22,
+    "e": 60.04,
+    "w": " logam,"
+   },
+   {
+    "s": 60.24,
+    "e": 60.32,
+    "w": " di"
+   },
+   {
+    "s": 60.32,
+    "e": 60.68,
+    "w": " bawahnya"
+   },
+   {
+    "s": 60.68,
+    "e": 60.98,
+    "w": " ada"
+   },
+   {
+    "s": 60.98,
+    "e": 61.98,
+    "w": " elektromagnet,"
+   },
+   {
+    "s": 62.08,
+    "e": 62.26,
+    "w": " terus"
+   },
+   {
+    "s": 62.26,
+    "e": 62.88,
+    "w": " ada"
+   },
+   {
+    "s": 62.88,
+    "e": 63.24,
+    "w": " banyak"
+   },
+   {
+    "s": 63.24,
+    "e": 63.58,
+    "w": " relay"
+   },
+   {
+    "s": 63.58,
+    "e": 64.12,
+    "w": " telepon"
+   },
+   {
+    "s": 64.12,
+    "e": 64.34,
+    "w": " yang"
+   },
+   {
+    "s": 64.34,
+    "e": 65.4,
+    "w": " memutuskan"
+   },
+   {
+    "s": 65.4,
+    "e": 65.74,
+    "w": " switch"
+   },
+   {
+    "s": 65.74,
+    "e": 66.1,
+    "w": " on"
+   },
+   {
+    "s": 66.1,
+    "e": 66.32,
+    "w": " ke"
+   },
+   {
+    "s": 66.32,
+    "e": 66.66,
+    "w": " off."
+   }
+  ]
+ },
+ {
+  "start": 67.1,
+  "end": 70.94,
+  "text": " Makanya tadi kan ada bit nom memaklili off dan 1 memaklili on.",
+  "words": [
+   {
+    "s": 67.1,
+    "e": 67.28,
+    "w": " Makanya"
+   },
+   {
+    "s": 67.28,
+    "e": 67.5,
+    "w": " tadi"
+   },
+   {
+    "s": 67.5,
+    "e": 67.62,
+    "w": " kan"
+   },
+   {
+    "s": 67.62,
+    "e": 67.84,
+    "w": " ada"
+   },
+   {
+    "s": 67.84,
+    "e": 68.36,
+    "w": " bit"
+   },
+   {
+    "s": 68.36,
+    "e": 68.66,
+    "w": " nom"
+   },
+   {
+    "s": 68.66,
+    "e": 69.2,
+    "w": " memaklili"
+   },
+   {
+    "s": 69.2,
+    "e": 69.52,
+    "w": " off"
+   },
+   {
+    "s": 69.52,
+    "e": 69.8,
+    "w": " dan"
+   },
+   {
+    "s": 69.8,
+    "e": 70.08,
+    "w": " 1"
+   },
+   {
+    "s": 70.08,
+    "e": 70.6,
+    "w": " memaklili"
+   },
+   {
+    "s": 70.6,
+    "e": 70.94,
+    "w": " on."
+   }
+  ]
+ },
+ {
+  "start": 71.18,
+  "end": 76.2,
+  "text": " Nah itu yang akan berubah berganti-gantian sampai tikusnya bisa keluar dari labirinnya.",
+  "words": [
+   {
+    "s": 71.18,
+    "e": 71.28,
+    "w": " Nah"
+   },
+   {
+    "s": 71.28,
+    "e": 71.54,
+    "w": " itu"
+   },
+   {
+    "s": 71.54,
+    "e": 71.86,
+    "w": " yang"
+   },
+   {
+    "s": 71.86,
+    "e": 72.34,
+    "w": " akan"
+   },
+   {
+    "s": 72.34,
+    "e": 72.66,
+    "w": " berubah"
+   },
+   {
+    "s": 72.66,
+    "e": 73.04,
+    "w": " berganti"
+   },
+   {
+    "s": 73.04,
+    "e": 73.38,
+    "w": "-gantian"
+   },
+   {
+    "s": 73.38,
+    "e": 73.72,
+    "w": " sampai"
+   },
+   {
+    "s": 73.72,
+    "e": 74.2,
+    "w": " tikusnya"
+   },
+   {
+    "s": 74.2,
+    "e": 74.58,
+    "w": " bisa"
+   },
+   {
+    "s": 74.58,
+    "e": 74.92,
+    "w": " keluar"
+   },
+   {
+    "s": 74.92,
+    "e": 75.14,
+    "w": " dari"
+   },
+   {
+    "s": 75.14,
+    "e": 76.2,
+    "w": " labirinnya."
+   }
+  ]
+ },
+ {
+  "start": 76.2,
+  "end": 83.38,
+  "text": " Kalau kalian mau lebih detail tentang bagaimana si tikus Teseo ini keluar dari labirin, cara kerjanya gimana bisa cari sendiri.",
+  "words": [
+   {
+    "s": 76.2,
+    "e": 76.6,
+    "w": " Kalau"
+   },
+   {
+    "s": 76.6,
+    "e": 76.92,
+    "w": " kalian"
+   },
+   {
+    "s": 76.92,
+    "e": 77.16,
+    "w": " mau"
+   },
+   {
+    "s": 77.16,
+    "e": 77.4,
+    "w": " lebih"
+   },
+   {
+    "s": 77.4,
+    "e": 77.9,
+    "w": " detail"
+   },
+   {
+    "s": 77.9,
+    "e": 78.62,
+    "w": " tentang"
+   },
+   {
+    "s": 78.62,
+    "e": 79.14,
+    "w": " bagaimana"
+   },
+   {
+    "s": 79.14,
+    "e": 79.42,
+    "w": " si"
+   },
+   {
+    "s": 79.42,
+    "e": 79.7,
+    "w": " tikus"
+   },
+   {
+    "s": 79.7,
+    "e": 80.06,
+    "w": " Teseo"
+   },
+   {
+    "s": 80.06,
+    "e": 80.8,
+    "w": " ini"
+   },
+   {
+    "s": 80.8,
+    "e": 81.06,
+    "w": " keluar"
+   },
+   {
+    "s": 81.06,
+    "e": 81.26,
+    "w": " dari"
+   },
+   {
+    "s": 81.26,
+    "e": 81.56,
+    "w": " labirin,"
+   },
+   {
+    "s": 81.74,
+    "e": 81.76,
+    "w": " cara"
+   },
+   {
+    "s": 81.76,
+    "e": 82.08,
+    "w": " kerjanya"
+   },
+   {
+    "s": 82.08,
+    "e": 82.46,
+    "w": " gimana"
+   },
+   {
+    "s": 82.46,
+    "e": 82.74,
+    "w": " bisa"
+   },
+   {
+    "s": 82.74,
+    "e": 83.06,
+    "w": " cari"
+   },
+   {
+    "s": 83.06,
+    "e": 83.38,
+    "w": " sendiri."
+   }
+  ]
+ },
+ {
+  "start": 84.0,
+  "end": 92.08,
+  "text": " Fakta uniknya, Claude ini juga hidup sejaman sama Alan Turing, ilmuwan dari Inggris yang juga mengkonsep mesin yang berbicara berfikir.",
+  "words": [
+   {
+    "s": 84.0,
+    "e": 84.34,
+    "w": " Fakta"
+   },
+   {
+    "s": 84.34,
+    "e": 85.1,
+    "w": " uniknya,"
+   },
+   {
+    "s": 85.24,
+    "e": 85.34,
+    "w": " Claude"
+   },
+   {
+    "s": 85.34,
+    "e": 85.56,
+    "w": " ini"
+   },
+   {
+    "s": 85.56,
+    "e": 85.72,
+    "w": " juga"
+   },
+   {
+    "s": 85.72,
+    "e": 86.12,
+    "w": " hidup"
+   },
+   {
+    "s": 86.12,
+    "e": 86.5,
+    "w": " sejaman"
+   },
+   {
+    "s": 86.5,
+    "e": 86.94,
+    "w": " sama"
+   },
+   {
+    "s": 86.94,
+    "e": 87.24,
+    "w": " Alan"
+   },
+   {
+    "s": 87.24,
+    "e": 87.54,
+    "w": " Turing,"
+   },
+   {
+    "s": 87.76,
+    "e": 88.02,
+    "w": " ilmuwan"
+   },
+   {
+    "s": 88.02,
+    "e": 88.3,
+    "w": " dari"
+   },
+   {
+    "s": 88.3,
+    "e": 88.7,
+    "w": " Inggris"
+   },
+   {
+    "s": 88.7,
+    "e": 88.9,
+    "w": " yang"
+   },
+   {
+    "s": 88.9,
+    "e": 89.24,
+    "w": " juga"
+   },
+   {
+    "s": 89.24,
+    "e": 90.18,
+    "w": " mengkonsep"
+   },
+   {
+    "s": 90.18,
+    "e": 90.5,
+    "w": " mesin"
+   },
+   {
+    "s": 90.5,
+    "e": 90.68,
+    "w": " yang"
+   },
+   {
+    "s": 90.68,
+    "e": 90.98,
+    "w": " berbicara"
+   },
+   {
+    "s": 90.98,
+    "e": 92.08,
+    "w": " berfikir."
+   }
+  ]
+ },
+ {
+  "start": 92.2,
+  "end": 97.54,
+  "text": " Kisahnya Alan Turing ini bahkan udah difilmin dan lebih terkenal judul filmnya di Imitation Game. Coba nonton.",
+  "words": [
+   {
+    "s": 92.2,
+    "e": 92.52,
+    "w": " Kisahnya"
+   },
+   {
+    "s": 92.52,
+    "e": 92.68,
+    "w": " Alan"
+   },
+   {
+    "s": 92.68,
+    "e": 92.92,
+    "w": " Turing"
+   },
+   {
+    "s": 92.92,
+    "e": 93.1,
+    "w": " ini"
+   },
+   {
+    "s": 93.1,
+    "e": 93.28,
+    "w": " bahkan"
+   },
+   {
+    "s": 93.28,
+    "e": 93.48,
+    "w": " udah"
+   },
+   {
+    "s": 93.48,
+    "e": 93.94,
+    "w": " difilmin"
+   },
+   {
+    "s": 93.94,
+    "e": 94.16,
+    "w": " dan"
+   },
+   {
+    "s": 94.16,
+    "e": 94.4,
+    "w": " lebih"
+   },
+   {
+    "s": 94.4,
+    "e": 95.08,
+    "w": " terkenal"
+   },
+   {
+    "s": 95.08,
+    "e": 95.44,
+    "w": " judul"
+   },
+   {
+    "s": 95.44,
+    "e": 95.84,
+    "w": " filmnya"
+   },
+   {
+    "s": 95.84,
+    "e": 96.02,
+    "w": " di"
+   },
+   {
+    "s": 96.02,
+    "e": 96.46,
+    "w": " Imitation"
+   },
+   {
+    "s": 96.46,
+    "e": 96.78,
+    "w": " Game."
+   },
+   {
+    "s": 96.92,
+    "e": 97.12,
+    "w": " Coba"
+   },
+   {
+    "s": 97.12,
+    "e": 97.54,
+    "w": " nonton."
+   }
+  ]
+ },
+ {
+  "start": 97.76,
+  "end": 104.88,
+  "text": " Fakta unik yang lain, Claude sama Alan Turing ini pernah ketemu di Amerika Serikat, tepatnya di Bell Labs,",
+  "words": [
+   {
+    "s": 97.76,
+    "e": 98.0,
+    "w": " Fakta"
+   },
+   {
+    "s": 98.0,
+    "e": 98.22,
+    "w": " unik"
+   },
+   {
+    "s": 98.22,
+    "e": 98.44,
+    "w": " yang"
+   },
+   {
+    "s": 98.44,
+    "e": 98.72,
+    "w": " lain,"
+   },
+   {
+    "s": 98.9,
+    "e": 99.36,
+    "w": " Claude"
+   },
+   {
+    "s": 99.36,
+    "e": 99.8,
+    "w": " sama"
+   },
+   {
+    "s": 99.8,
+    "e": 100.52,
+    "w": " Alan"
+   },
+   {
+    "s": 100.52,
+    "e": 100.74,
+    "w": " Turing"
+   },
+   {
+    "s": 100.74,
+    "e": 100.92,
+    "w": " ini"
+   },
+   {
+    "s": 100.92,
+    "e": 101.1,
+    "w": " pernah"
+   },
+   {
+    "s": 101.1,
+    "e": 101.96,
+    "w": " ketemu"
+   },
+   {
+    "s": 101.96,
+    "e": 102.28,
+    "w": " di"
+   },
+   {
+    "s": 102.28,
+    "e": 102.6,
+    "w": " Amerika"
+   },
+   {
+    "s": 102.6,
+    "e": 103.08,
+    "w": " Serikat,"
+   },
+   {
+    "s": 103.26,
+    "e": 103.6,
+    "w": " tepatnya"
+   },
+   {
+    "s": 103.6,
+    "e": 104.22,
+    "w": " di"
+   },
+   {
+    "s": 104.22,
+    "e": 104.46,
+    "w": " Bell"
+   },
+   {
+    "s": 104.46,
+    "e": 104.88,
+    "w": " Labs,"
+   }
+  ]
+ },
+ {
+  "start": 104.88,
+  "end": 114.62,
+  "text": " tepat kerjanya si Shannon. Tapi sayangnya mereka nggak bisa ngobrolin proyek masing-masing karena mereka sama-sama lagi ngerjain proyek rahasia dari negara masing-masing.",
+  "words": [
+   {
+    "s": 104.88,
+    "e": 105.36,
+    "w": " tepat"
+   },
+   {
+    "s": 105.36,
+    "e": 105.76,
+    "w": " kerjanya"
+   },
+   {
+    "s": 105.76,
+    "e": 106.24,
+    "w": " si"
+   },
+   {
+    "s": 106.24,
+    "e": 106.48,
+    "w": " Shannon."
+   },
+   {
+    "s": 107.18,
+    "e": 107.28,
+    "w": " Tapi"
+   },
+   {
+    "s": 107.28,
+    "e": 107.62,
+    "w": " sayangnya"
+   },
+   {
+    "s": 107.62,
+    "e": 107.84,
+    "w": " mereka"
+   },
+   {
+    "s": 107.84,
+    "e": 108.04,
+    "w": " nggak"
+   },
+   {
+    "s": 108.04,
+    "e": 109.04,
+    "w": " bisa"
+   },
+   {
+    "s": 109.04,
+    "e": 109.92,
+    "w": " ngobrolin"
+   },
+   {
+    "s": 109.92,
+    "e": 110.24,
+    "w": " proyek"
+   },
+   {
+    "s": 110.24,
+    "e": 110.5,
+    "w": " masing"
+   },
+   {
+    "s": 110.5,
+    "e": 110.74,
+    "w": "-masing"
+   },
+   {
+    "s": 110.74,
+    "e": 111.06,
+    "w": " karena"
+   },
+   {
+    "s": 111.06,
+    "e": 111.34,
+    "w": " mereka"
+   },
+   {
+    "s": 111.34,
+    "e": 111.58,
+    "w": " sama"
+   },
+   {
+    "s": 111.58,
+    "e": 111.76,
+    "w": "-sama"
+   },
+   {
+    "s": 111.76,
+    "e": 111.98,
+    "w": " lagi"
+   },
+   {
+    "s": 111.98,
+    "e": 112.46,
+    "w": " ngerjain"
+   },
+   {
+    "s": 112.46,
+    "e": 112.88,
+    "w": " proyek"
+   },
+   {
+    "s": 112.88,
+    "e": 113.16,
+    "w": " rahasia"
+   },
+   {
+    "s": 113.16,
+    "e": 113.42,
+    "w": " dari"
+   },
+   {
+    "s": 113.42,
+    "e": 113.72,
+    "w": " negara"
+   },
+   {
+    "s": 113.72,
+    "e": 114.0,
+    "w": " masing"
+   },
+   {
+    "s": 114.0,
+    "e": 114.62,
+    "w": "-masing."
+   }
+  ]
+ },
+ {
+  "start": 114.72,
+  "end": 121.0,
+  "text": " Menurut kalian, siapa yang lebih berpengaruh antara Claude Shannon atau Alan Turing ke perkembangan AI model ini?",
+  "words": [
+   {
+    "s": 114.72,
+    "e": 115.0,
+    "w": " Menurut"
+   },
+   {
+    "s": 115.0,
+    "e": 115.24,
+    "w": " kalian,"
+   },
+   {
+    "s": 115.36,
+    "e": 115.58,
+    "w": " siapa"
+   },
+   {
+    "s": 115.58,
+    "e": 115.74,
+    "w": " yang"
+   },
+   {
+    "s": 115.74,
+    "e": 116.02,
+    "w": " lebih"
+   },
+   {
+    "s": 116.02,
+    "e": 116.8,
+    "w": " berpengaruh"
+   },
+   {
+    "s": 116.8,
+    "e": 117.26,
+    "w": " antara"
+   },
+   {
+    "s": 117.26,
+    "e": 117.54,
+    "w": " Claude"
+   },
+   {
+    "s": 117.54,
+    "e": 117.84,
+    "w": " Shannon"
+   },
+   {
+    "s": 117.84,
+    "e": 118.12,
+    "w": " atau"
+   },
+   {
+    "s": 118.12,
+    "e": 118.36,
+    "w": " Alan"
+   },
+   {
+    "s": 118.36,
+    "e": 119.16,
+    "w": " Turing"
+   },
+   {
+    "s": 119.16,
+    "e": 119.6,
+    "w": " ke"
+   },
+   {
+    "s": 119.6,
+    "e": 120.12,
+    "w": " perkembangan"
+   },
+   {
+    "s": 120.12,
+    "e": 120.42,
+    "w": " AI"
+   },
+   {
+    "s": 120.42,
+    "e": 120.68,
+    "w": " model"
+   },
+   {
+    "s": 120.68,
+    "e": 121.0,
+    "w": " ini?"
+   }
+  ]
+ },
+ {
+  "start": 121.28,
+  "end": 125.34,
+  "text": " Karena mereka sama-sama mengkonsep mesin yang bisa berfikir. Silahkan tulis di komen.",
+  "words": [
+   {
+    "s": 121.28,
+    "e": 121.3,
+    "w": " Karena"
+   },
+   {
+    "s": 121.3,
+    "e": 121.6,
+    "w": " mereka"
+   },
+   {
+    "s": 121.6,
+    "e": 121.88,
+    "w": " sama"
+   },
+   {
+    "s": 121.88,
+    "e": 122.14,
+    "w": "-sama"
+   },
+   {
+    "s": 122.14,
+    "e": 123.12,
+    "w": " mengkonsep"
+   },
+   {
+    "s": 123.12,
+    "e": 123.4,
+    "w": " mesin"
+   },
+   {
+    "s": 123.4,
+    "e": 123.54,
+    "w": " yang"
+   },
+   {
+    "s": 123.54,
+    "e": 123.74,
+    "w": " bisa"
+   },
+   {
+    "s": 123.74,
+    "e": 124.32,
+    "w": " berfikir."
+   },
+   {
+    "s": 124.44,
+    "e": 124.68,
+    "w": " Silahkan"
+   },
+   {
+    "s": 124.68,
+    "e": 124.88,
+    "w": " tulis"
+   },
+   {
+    "s": 124.88,
+    "e": 125.02,
+    "w": " di"
+   },
+   {
+    "s": 125.02,
+    "e": 125.34,
+    "w": " komen."
+   }
+  ]
+ },
+ {
+  "start": 125.6,
+  "end": 129.36,
+  "text": " Kalau baru tahu, boleh ketinggalin like dulu sebelum scroll ke konten lain.",
+  "words": [
+   {
+    "s": 125.6,
+    "e": 125.72,
+    "w": " Kalau"
+   },
+   {
+    "s": 125.72,
+    "e": 126.0,
+    "w": " baru"
+   },
+   {
+    "s": 126.0,
+    "e": 126.36,
+    "w": " tahu,"
+   },
+   {
+    "s": 126.68,
+    "e": 126.82,
+    "w": " boleh"
+   },
+   {
+    "s": 126.82,
+    "e": 127.26,
+    "w": " ketinggalin"
+   },
+   {
+    "s": 127.26,
+    "e": 127.42,
+    "w": " like"
+   },
+   {
+    "s": 127.42,
+    "e": 127.7,
+    "w": " dulu"
+   },
+   {
+    "s": 127.7,
+    "e": 128.28,
+    "w": " sebelum"
+   },
+   {
+    "s": 128.28,
+    "e": 128.58,
+    "w": " scroll"
+   },
+   {
+    "s": 128.58,
+    "e": 128.8,
+    "w": " ke"
+   },
+   {
+    "s": 128.8,
+    "e": 129.06,
+    "w": " konten"
+   },
+   {
+    "s": 129.06,
+    "e": 129.36,
+    "w": " lain."
+   }
+  ]
+ },
+ {
+  "start": 129.94,
+  "end": 130.18,
+  "text": " Dreams.",
+  "words": [
+   {
+    "s": 129.94,
+    "e": 130.18,
+    "w": " Dreams."
+   }
+  ]
+ }
+]

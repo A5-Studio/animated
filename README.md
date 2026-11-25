@@ -112,3 +112,30 @@ scripts/splice.sh main.mp4 trims-eps2-claude.mp4 3.7   # bumper after the hook l
 ```
 
 The cover is `trims-eps2-claude/thumbnail.png` (the `Thumbnail` still in `src/Thumbnail.tsx`, rendered with `npx remotion still Thumbnail thumbnail.png`). It follows the episode 1 cover rules, and its photo is the raised-brow frame at 1.4s (`public/thumb-frame.jpg`).
+
+## AI (An Info) · Asal nama Claude (Remotion, Reels 1080×1920, ~131s)
+
+`aninfo-claude-shannon/aninfo-claude-shannon.mp4` is the TRIMS EPS 2 story (`trims-eps2-claude`) re-edited in the AI (An Info) segment look from `faqihpedia-askmaps` (branch `claude/loving-bohr-odpu6a`) and the "AI (An Info): Segment Standard" doc. The content and its order are unchanged, so it runs 2:11, past the standard's 50–65 s. The look follows the standard:
+
+- cream paper with soft white cards, Newsreader serif headlines and Inter for UI text
+- real photos as the hero, one blue accent per scene, and amber rings on the word being said
+- grey caption pills of at most 22 characters (`scripts/captions.py`, with a fix list for misheard names)
+- the "AI · An Info" mark on the hook and the cover
+- very quiet SFX, no music bed, no bumper
+
+Deviations, both kept from feedback on the TRIMS cut:
+
+- **Split:** shows source rows 410–1490 full-width in the bottom 1080 px (the visual takes the top 840 px), so the whole head is visible.
+- **Full-frame captions:** sit at y 1650, under the chin. The standard's y 1470 lands on this footage's chin.
+
+`public/source.mp4` (not committed) is the same file as `trims-eps2-claude/public/source.mp4`.
+
+```sh
+cd aninfo-claude-shannon
+npm install
+ln ../trims-eps2-claude/public/source.mp4 public/source.mp4            # a hard link; Remotion does not serve symlinks
+python3 scripts/captions.py scripts/transcript.json src/captions.ts    # transcript = faster-whisper on source.mp4
+npx remotion render AnInfoClaude main.mp4 --browser-executable=<chrome-headless-shell>
+# then a two-pass loudnorm to -14 LUFS (same as trims-eps2-claude/scripts/splice.sh, without the bumper)
+npx remotion still Thumbnail thumbnail/cover.png
+```
