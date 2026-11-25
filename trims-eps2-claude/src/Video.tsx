@@ -210,12 +210,12 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
       )}
       {/* outro: comment, like, trims */}
       {gone(126.4, 128.5) && (
-        <At x={SAFE_CX} y={350} s={P(126.5) * out(128.5)} r={2}>
-          <Box bg={C.yellow} pad="12px 30px" style={{ fontFamily: HEAD, fontSize: 48, whiteSpace: 'nowrap' }}>Shannon / Turing? Tulis di komen</Box>
+        <At x={SAFE_CX} y={475} s={P(126.5) * out(128.5)} r={2}>
+          <Box bg={C.yellow} pad="12px 30px" style={{ fontFamily: HEAD, fontSize: 42, whiteSpace: 'nowrap' }}>Shannon / Turing? Tulis di komen</Box>
         </At>
       )}
       {gone(128.6, 131.8) && (
-        <At x={SAFE_CX} y={350} s={P(128.8) * out(131.8)} r={-2}>
+        <At x={SAFE_CX} y={475} s={P(128.8) * out(131.8)} r={-2}>
           <Box bg={C.white} pad="12px 30px" style={{ display: 'flex', alignItems: 'center', gap: 18, fontFamily: HEAD, fontSize: 50, whiteSpace: 'nowrap' }}>
             <span style={{ transform: `scale(${1 + 0.15 * Math.max(0, Math.sin((f - s(129.0)) * 0.35))})`, display: 'flex' }}><Heart /></span>
             LIKE DULU YA
