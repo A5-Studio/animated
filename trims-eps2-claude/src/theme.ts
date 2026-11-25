@@ -51,7 +51,7 @@ export const CUTS = [
 export type Mode = 'full' | 'split' | 'anim';
 export const LAYOUT: [number, Mode][] = [
   [0, 'full'], // hook: Claude in the 1950s? + "ya kalian gak salah denger"
-  [5.35, 'anim'], // = BUMPER_AT: no official statement from Anthropic
+  [5.35, 'anim'], // no official statement from Anthropic
   [12.7, 'split'], // forums believe: Claude Shannon
   [19.25, 'anim'], // full name card
   [25.35, 'split'], // father of information theory, bit
@@ -74,4 +74,4 @@ export const SAFE_CX = (SAFE.left + SAFE.right) / 2; // 500
 export const MORPH = 14;
 
 /** where scripts/splice.sh inserts the 3s TRIMS bumper (seconds in this render) */
-export const BUMPER_AT = 5.35;
+export const BUMPER_AT = 3.7; // right after the hook line, before "ya kalian gak salah denger"

@@ -108,5 +108,5 @@ cd trims-eps2-claude
 npm install
 python3 scripts/music.py public/music.wav 135.6
 npx remotion render TrimsEps2 main.mp4 --browser-executable=<chrome-headless-shell>
-scripts/splice.sh main.mp4 trims-eps2-claude.mp4 5.35   # bumper after "ya kalian gak salah denger", then -14 LUFS
+scripts/splice.sh main.mp4 trims-eps2-claude.mp4 3.7   # bumper after the hook line, then -14 LUFS
 ```

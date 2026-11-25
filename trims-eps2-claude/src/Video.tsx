@@ -190,8 +190,8 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
         </At>
       )}
       {/* hook: the Claude tile next to the face, then the year */}
-      {gone(0, 5.3) && (
-        <At x={935} y={760} s={P(0.4) * out(5.3)} r={5}>
+      {gone(0, 3.7) && (
+        <At x={935} y={760} s={P(0.4) * out(3.7)} r={5}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
             <ClaudeTile size={150} />
             <Sticker bg={C.white} size={26}>Claude</Sticker>
