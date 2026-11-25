@@ -519,18 +519,12 @@ const Film: React.FC<SceneProps> = ({ f }) => (
     <At x={230} y={545} s={P(f, 93.0, 220)} r={3}>
       <Sticker bg={C.white} size={32}>Kisahnya difilmkan</Sticker>
     </At>
-    {/* both posters, fanned: the face one first, then the Bombe one on top */}
-    {[
-      { src: 'img/imitation-game-poster-face.jpg', at: 94.6, x: 590, y: 400, r: -7 },
-      { src: 'img/imitation-game-poster.jpg', at: 95.2, x: 790, y: 440, r: 6 },
-    ].map((q) => (
-      <At key={q.src} x={q.x} y={q.y} s={P(f, q.at)} r={q.r}>
-        <div style={{ background: C.white, border: `${SW}px solid ${ink}`, borderRadius: 16, boxShadow: shadow(12), padding: 10 }}>
-          <Img src={staticFile(q.src)} style={{ width: 290, height: 428, objectFit: 'cover', display: 'block', borderRadius: 6, border: `4px solid ${ink}` }} />
-        </div>
-      </At>
-    ))}
-    <At x={690} y={770} s={P(f, 95.6, 220)} r={-2}>
+    <At x={690} y={420} s={P(f, 95.1)} r={3}>
+      <div style={{ background: C.white, border: `${SW}px solid ${ink}`, borderRadius: 16, boxShadow: shadow(12), padding: 12 }}>
+        <Img src={staticFile('img/imitation-game-poster.jpg')} style={{ width: 380, height: 559, objectFit: 'cover', display: 'block', borderRadius: 6, border: `4px solid ${ink}` }} />
+      </div>
+    </At>
+    <At x={690} y={790} s={P(f, 95.6, 220)} r={-2}>
       <Sticker bg={C.yellow} size={30}>The Imitation Game · 2014</Sticker>
     </At>
     {f >= s(97.4) && (
