@@ -33,14 +33,14 @@ loadFont({ family: 'Space Grotesk', url: staticFile('fonts/SpaceGrotesk.woff2'),
 /** seconds -> frames */
 export const s = (sec: number) => Math.round(sec * FPS);
 
-// public/source.mp4 is the tightened cut (132.5s); "Trims!" ends at ~132.1s.
-export const END_CARD = 132.3;
-export const TOTAL = s(135.6);
+// public/source.mp4 is the tightened cut (130.5s); "Trims!" ends at ~130.2s.
+export const END_CARD = 130.333;
+export const TOTAL = s(133.633);
 
 /** where the source jumps (seconds in source.mp4): each piece gets its own punch-in */
 export const CUTS = [
-  3.7, 5.233, 12.6, 16.567, 19.2, 25.25, 28.434, 38.6, 45.167, 47.467, 52.267, 66.8, 76.333, 83.9, 84.933, 95.0, 97.1,
-  99.1, 108.733, 116.533, 126.266, 127.333, 131.633,
+  3.7, 5.233, 12.6, 16.567, 19.2, 25.25, 28.434, 38.6, 45.167, 47.467, 52.267, 66.8, 76.333, 83.9, 84.933, 95.0, 96.833,
+  97.533, 106.766, 114.566, 124.299, 125.366, 129.666,
 ];
 
 /**
@@ -61,9 +61,9 @@ export const LAYOUT: [number, Mode][] = [
   [76.3, 'split'], // "cari sendiri deh": the YouTube search
   [83.95, 'split'], // same era as Alan Turing
   [92.0, 'split'], // The Imitation Game
-  [99.6, 'anim'], // they met at Bell Labs, secret projects
-  [116.2, 'split'], // who is more influential?
-  [126.35, 'full'], // komen, like, trims
+  [97.633, 'anim'], // they met at Bell Labs, secret projects
+  [114.233, 'split'], // who is more influential?
+  [124.383, 'full'], // komen, like, trims
 ];
 
 /** Safe area shared by TikTok, Reels and the IG feed (1080x1920). Same box as episode 1. */

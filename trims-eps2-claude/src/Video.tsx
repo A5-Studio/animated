@@ -209,21 +209,21 @@ const FullStickers: React.FC<{ f: number; o: number }> = ({ f, o }) => {
         </At>
       )}
       {/* outro: comment, like, trims */}
-      {gone(126.4, 128.5) && (
-        <At x={SAFE_CX} y={475} s={P(126.5) * out(128.5)} r={2}>
+      {gone(124.433, 126.533) && (
+        <At x={SAFE_CX} y={475} s={P(124.533) * out(126.533)} r={2}>
           <Box bg={C.yellow} pad="12px 30px" style={{ fontFamily: HEAD, fontSize: 42, whiteSpace: 'nowrap' }}>Shannon / Turing? Tulis di komen</Box>
         </At>
       )}
-      {gone(128.6, 131.8) && (
-        <At x={SAFE_CX} y={475} s={P(128.8) * out(131.8)} r={-2}>
+      {gone(126.633, 129.833) && (
+        <At x={SAFE_CX} y={475} s={P(126.833) * out(129.833)} r={-2}>
           <Box bg={C.white} pad="12px 30px" style={{ display: 'flex', alignItems: 'center', gap: 18, fontFamily: HEAD, fontSize: 50, whiteSpace: 'nowrap' }}>
-            <span style={{ transform: `scale(${1 + 0.15 * Math.max(0, Math.sin((f - s(129.0)) * 0.35))})`, display: 'flex' }}><Heart /></span>
+            <span style={{ transform: `scale(${1 + 0.15 * Math.max(0, Math.sin((f - s(127.033)) * 0.35))})`, display: 'flex' }}><Heart /></span>
             LIKE DULU YA
           </Box>
         </At>
       )}
-      {f >= s(131.85) && (
-        <At x={SAFE_CX} y={520} s={P(131.9, 200)} r={-6}>
+      {f >= s(129.883) && (
+        <At x={SAFE_CX} y={520} s={P(129.933, 200)} r={-6}>
           <Burst size={460} color={C.yellow} rot={f * 0.8}>
             <span style={{ fontSize: 66 }}>TRIMS!</span>
           </Burst>
@@ -313,7 +313,7 @@ export const TrimsEps2: React.FC = () => {
       <Stage g={g} f={f} />
       <Captions f={f} g={g} />
       <FullStickers f={f} o={g.full} />
-      <SegmentBadge f={f} o={(1 - g.split) * (1 - lin(f, s(131.8), s(131.8) + 6))} />
+      <SegmentBadge f={f} o={(1 - g.split) * (1 - lin(f, s(129.833), s(129.833) + 6))} />
       <Swipe f={f} />
       <EndCard f={f} />
       <Music />

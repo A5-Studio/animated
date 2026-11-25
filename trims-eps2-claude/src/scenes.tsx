@@ -509,7 +509,7 @@ const SameEra: React.FC<SceneProps> = ({ f }) => (
 );
 
 /* ================================================================== */
-/* 9. The Imitation Game (92.0 - 99.6, split)                           */
+/* 9. The Imitation Game (92.0 - 97.633, split)                           */
 /* ================================================================== */
 const Film: React.FC<SceneProps> = ({ f }) => (
   <>
@@ -527,8 +527,8 @@ const Film: React.FC<SceneProps> = ({ f }) => (
     <At x={690} y={790} s={P(f, 95.6, 220)} r={-2}>
       <Sticker bg={C.yellow} size={30}>The Imitation Game · 2014</Sticker>
     </At>
-    {f >= s(97.4) && (
-      <At x={230} y={745} s={P(f, 97.5, 220)} r={-6}>
+    {f >= s(96.8) && (
+      <At x={230} y={745} s={P(f, 96.85, 220)} r={-6}>
         <Burst size={250} color={C.orange} rot={f}><span style={{ fontSize: 32, lineHeight: 1.05 }}>COBA<br />NONTON!</span></Burst>
       </At>
     )}
@@ -558,7 +558,7 @@ const LookItUp: React.FC<SceneProps> = ({ f }) => (
 );
 
 /* ================================================================== */
-/* 10. they met at Bell Labs, but on secret projects (99.6 - 116.2)    */
+/* 10. they met at Bell Labs, but on secret projects (97.633 - 114.233)    */
 /* ================================================================== */
 const Avatar: React.FC<{ src: string; pos: string; size?: number }> = ({ src, pos, size = 170 }) => (
   <div style={{ width: size, height: size, borderRadius: '50%', overflow: 'hidden', border: `${SW}px solid ${ink}`, boxShadow: shadow(8), background: C.white }}>
@@ -566,33 +566,33 @@ const Avatar: React.FC<{ src: string; pos: string; size?: number }> = ({ src, po
   </div>
 );
 const BellLabs: React.FC<SceneProps> = ({ f }) => {
-  const meet = ease(f, s(101.2), s(102.9));
-  const secret = f >= s(108.9);
+  const meet = ease(f, s(99.233), s(100.933));
+  const secret = f >= s(106.933);
   return (
     <>
-      <Title f={f} at={99.9} text="Pernah ketemu!" bg={C.yellow} />
-      <At x={500} y={470} s={P(f, 105.3)} r={-2}>
+      <Title f={f} at={97.933} text="Pernah ketemu!" bg={C.yellow} />
+      <At x={500} y={470} s={P(f, 103.333)} r={-2}>
         <Photo src="img/bell-labs.jpg" w={500} h={290} label="BELL LABS · NEW YORK · 1943" labelBg={C.orange} />
       </At>
       {/* the two of them walk toward each other */}
-      <At x={150 + 60 * meet} y={330 - 140 * lin(f, s(105.0), s(105.5))} s={P(f, 101.0) * (1 - 0.3 * lin(f, s(105.0), s(105.5)))} r={-4}>
+      <At x={150 + 60 * meet} y={330 - 140 * lin(f, s(103.033), s(103.533))} s={P(f, 99.033) * (1 - 0.3 * lin(f, s(103.033), s(103.533)))} r={-4}>
         <Avatar src="img/shannon-portrait.png" pos="50% 15%" />
       </At>
-      <At x={850 - 60 * meet} y={330 - 140 * lin(f, s(105.0), s(105.5))} s={P(f, 101.6) * (1 - 0.3 * lin(f, s(105.0), s(105.5)))} r={4}>
+      <At x={850 - 60 * meet} y={330 - 140 * lin(f, s(103.033), s(103.533))} s={P(f, 99.633) * (1 - 0.3 * lin(f, s(103.033), s(103.533)))} r={4}>
         <Avatar src="img/turing-portrait.jpg" pos="50% 25%" />
       </At>
       {secret && (
         <>
-          <At x={240} y={745} s={P(f, 113.9)} r={-5}>
+          <At x={240} y={745} s={P(f, 111.933)} r={-5}>
             <Folder label={'PROYEK\nAMERIKA'} bg={C.white} />
           </At>
-          <At x={760} y={745} s={P(f, 114.9)} r={5}>
+          <At x={760} y={745} s={P(f, 112.933)} r={5}>
             <Folder label={'PROYEK\nINGGRIS'} bg={C.white} />
           </At>
-          <At x={250} y={815}><Stamp f={f} at={114.4} text="RAHASIA" size={34} /></At>
-          <At x={770} y={815}><Stamp f={f} at={115.3} text="RAHASIA" size={34} r={10} /></At>
+          <At x={250} y={815}><Stamp f={f} at={112.433} text="RAHASIA" size={34} /></At>
+          <At x={770} y={815}><Stamp f={f} at={113.333} text="RAHASIA" size={34} r={10} /></At>
           {/* "can't talk about it" bubble */}
-          <At x={500} y={200} s={P(f, 109.4, 220)} r={-2}>
+          <At x={500} y={200} s={P(f, 107.433, 220)} r={-2}>
             <Box bg={C.white} pad="6px 18px" radius={30} sh={7} style={{ fontFamily: HEAD, fontSize: 34, display: 'flex', alignItems: 'center', gap: 14 }}>
               <span>…</span>
               <span style={{ width: 46, height: 46, borderRadius: 10, background: C.red, color: C.white, border: `4px solid ${ink}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 30 }}>✗</span>
@@ -606,24 +606,24 @@ const BellLabs: React.FC<SceneProps> = ({ f }) => {
 };
 
 /* ================================================================== */
-/* 11. who is more influential? (116.2 - 126.35, split)                */
+/* 11. who is more influential? (114.233 - 124.383, split)                */
 /* ================================================================== */
 const Versus: React.FC<SceneProps> = ({ f }) => (
   <>
-    <Title f={f} at={117.3} text="Siapa lebih berpengaruh?" bg={C.white} size={42} />
-    <At x={250} y={390} s={P(f, 118.9)} r={-4}>
+    <Title f={f} at={115.333} text="Siapa lebih berpengaruh?" bg={C.white} size={42} />
+    <At x={250} y={390} s={P(f, 116.933)} r={-4}>
       <Photo src="img/shannon-portrait.png" w={300} h={330} pos="50% 15%" label="SHANNON" labelBg={C.yellow} />
     </At>
-    <At x={750} y={390} s={P(f, 120.4)} r={4}>
+    <At x={750} y={390} s={P(f, 118.433)} r={4}>
       <Photo src="img/turing-portrait.jpg" w={300} h={330} pos="50% 25%" label="TURING" labelBg={C.yellow} />
     </At>
-    <At x={500} y={400} s={P(f, 119.6, 220)} r={0}>
+    <At x={500} y={400} s={P(f, 117.633, 220)} r={0}>
       <Burst size={200} color={C.orange} rot={f * 0.6}><span style={{ fontSize: 52 }}>VS</span></Burst>
     </At>
-    <At x={500} y={720} s={P(f, 121.6)} r={-2}>
+    <At x={500} y={720} s={P(f, 119.633)} r={-2}>
       <Sticker bg={C.purple} size={44}>AI modern</Sticker>
     </At>
-    <At x={500} y={830} s={P(f, 123.6, 220)} r={1.5}>
+    <At x={500} y={830} s={P(f, 121.633, 220)} r={1.5}>
       <Sticker bg={C.white} size={30} style={{ textTransform: 'none' }}>sama-sama: mesin yang bisa berpikir</Sticker>
     </At>
   </>
@@ -639,7 +639,7 @@ export const SCENES: { from: number; to: number; bg: string; C: React.FC<ScenePr
   { from: 66.95, to: 76.3, bg: C.bg, C: OnOff },
   { from: 76.3, to: 83.95, bg: C.bg, C: LookItUp },
   { from: 83.95, to: 92.0, bg: C.yellow, C: SameEra },
-  { from: 92.0, to: 99.6, bg: C.orange, C: Film },
-  { from: 99.6, to: 116.2, bg: C.bg, C: BellLabs },
-  { from: 116.2, to: 126.35, bg: C.yellow, C: Versus },
+  { from: 92.0, to: 97.633, bg: C.orange, C: Film },
+  { from: 97.633, to: 114.233, bg: C.bg, C: BellLabs },
+  { from: 114.233, to: 124.383, bg: C.yellow, C: Versus },
 ];
