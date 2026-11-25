@@ -205,7 +205,7 @@ const Hook: React.FC<{ f: number }> = ({ f }) => {
           </svg>
         </div>
       </div>
-      <At x={540} y={762} s={0.96 + 0.04 * out(f, T(3.85), T(3.85) + 10)} o={out(f, T(3.85), T(3.85) + 10)}>
+      <At x={540} y={700} s={0.96 + 0.04 * out(f, T(3.85), T(3.85) + 10)} o={out(f, T(3.85), T(3.85) + 10)}>
         <Tag style={{ fontSize: 30, padding: '8px 18px' }}>Ya, kalian gak salah dengar</Tag>
       </At>
     </>
@@ -231,7 +231,7 @@ const Statement: React.FC<{ f: number }> = ({ f }) => (
         </Ring>
       </div>
     </Card>
-    <At x={540} y={760} o={out(f, T(10.4), T(10.4) + 10)}>
+    <At x={540} y={735} o={out(f, T(10.4), T(10.4) + 10)}>
       <Tag style={{ fontSize: 30, padding: '8px 18px' }}>Dari nama seorang ilmuwan?</Tag>
     </At>
   </>
@@ -512,7 +512,7 @@ const SameEra: React.FC<{ f: number }> = ({ f }) => (
     <At x={540} y={470} o={out(f, T(86.0), T(86.0) + 10)}>
       <Pill tone="white" size={30}>sezaman</Pill>
     </At>
-    <At x={540} y={790} o={out(f, T(89.6), T(89.6) + 10)}>
+    <At x={540} y={560} o={out(f, T(89.6), T(89.6) + 10)}>
       <Pill tone="blue" size={32}><Sparkle size={26} color="#fff" /> Mesin yang bisa berpikir</Pill>
     </At>
   </>
@@ -529,7 +529,7 @@ const Film: React.FC<{ f: number }> = ({ f }) => (
     <div style={{ position: 'absolute', left: 560, top: 250, ...rise(f, 95.1) }}>
       <Photo src="img/imitation-game-poster.jpg" w={340} h={470} gray={false} title="The Imitation Game" sub="2014" />
     </div>
-    <At x={270} y={780} o={out(f, T(96.85), T(96.85) + 8)} s={0.95 + 0.05 * out(f, T(96.85), T(96.85) + 8)}>
+    <At x={270} y={768} o={out(f, T(96.85), T(96.85) + 8)} s={0.95 + 0.05 * out(f, T(96.85), T(96.85) + 8)}>
       <Pill tone="blue" size={34}>Coba nonton</Pill>
     </At>
   </>
@@ -595,10 +595,10 @@ const Versus: React.FC<{ f: number }> = ({ f }) => {
       <At x={540} y={500} o={out(f, T(117.6), T(117.6) + 10)}>
         <span style={{ fontFamily: SERIF, fontStyle: 'italic', fontSize: 80, color: C.faint }}>vs</span>
       </At>
-      <At x={540} y={780} o={out(f, T(119.6), T(119.6) + 10) * (1 - swap)}>
+      <At x={540} y={730} o={out(f, T(119.6), T(119.6) + 10) * (1 - swap)}>
         <Pill tone="blue" size={34}><Sparkle size={28} color="#fff" /> ke perkembangan AI modern</Pill>
       </At>
-      <At x={540} y={780} o={swap}>
+      <At x={540} y={730} o={swap}>
         <Tag style={{ fontSize: 30, padding: '8px 18px' }}>Sama-sama: mesin yang bisa berpikir</Tag>
       </At>
     </>
@@ -629,14 +629,14 @@ export const LikePop: React.FC<{ f: number }> = ({ f }) => {
   return (
     <>
       {c > 0.01 && (
-        <At x={540} y={330} o={c}>
+        <At x={540} y={460} o={c}>
           <div style={{ background: 'rgba(255,255,255,0.94)', borderRadius: 60, padding: '20px 40px', boxShadow: soft, fontFamily: SANS, fontSize: 40, fontWeight: 650, color: C.ink }}>
             Shannon atau Turing? Tulis di komen
           </div>
         </At>
       )}
       {f >= T(126.8) && (
-        <At x={540} y={330} s={p} o={o}>
+        <At x={540} y={460} s={p} o={o}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, background: 'rgba(255,255,255,0.94)', borderRadius: 60, padding: '20px 40px', boxShadow: soft, fontFamily: SANS, fontSize: 42, fontWeight: 650, color: C.ink }}>
             <Thumb size={48} color={C.blue} /> Like dulu, ya
           </div>

@@ -123,10 +123,11 @@ The cover is `trims-eps2-claude/thumbnail.png` (the `Thumbnail` still in `src/Th
 - the "AI · An Info" mark on the hook and the cover
 - very quiet SFX, no music bed, no bumper
 
-Deviations, both kept from feedback on the TRIMS cut:
+Deviations, all so that nothing important sits under the platform UI. TikTok, Reels and Shorts cover the bottom ~660 px and a ~120 px column on the right.
 
-- **Split:** shows source rows 410–1490 full-width in the bottom 1080 px (the visual takes the top 840 px), so the whole head is visible.
-- **Full-frame captions:** sit at y 1650, under the chin. The standard's y 1470 lands on this footage's chin.
+- **Split:** the talking head is a rounded card at 0.53×, showing source rows 400–1532 (the whole head) at y 770–1370, with the mouth at about y 1250. The visual is scaled to 0.84 into y ~220–745, and the caption sits on the seam at y 735.
+- **Anim:** scenes are scaled to 0.78 into y ~250–1210, with the caption at y 1245.
+- **Full:** the frame is 1.1× and shifted up (rows 180–1925), so the mouth sits at about y 1230. The caption is above the head at y 330.
 
 `public/source.mp4` (not committed) is the same file as `trims-eps2-claude/public/source.mp4`.
 

@@ -3,20 +3,28 @@ import { AbsoluteFill, Easing, OffthreadVideo, interpolate, staticFile, useCurre
 import { CAPTIONS } from './captions';
 import { LikePop, SCENES, STAGE_H } from './scenes';
 import { Sfx } from './sfx';
-import { C, LAYOUT, MORPH, Mode, SANS, TOTAL, s } from './theme';
+import { C, LAYOUT, MORPH, Mode, SANS, TOTAL, s, soft } from './theme';
 import { lin, out } from './ui';
 
 /* ------------------------------------------------------------------ */
 /* layout engine (faqihpedia-askmaps): one talking-head element         */
 /* ------------------------------------------------------------------ */
-type G = { vy: number; vh: number; sy: number; full: number; split: number; anim: number };
+type G = { vx: number; vy: number; vw: number; vh: number; k: number; sy: number; r: number; full: number; split: number; anim: number };
 
-// source.mp4 is 1080x1920; the head runs from ~420 (hair) to ~1470 (chin).
-// split shows rows 410..1490 full-width in the bottom 1080 px, so the whole head stays visible.
+/*
+ * Platform UI (TikTok, Reels, Shorts) covers the bottom ~660 px and a ~120 px column on the right,
+ * so everything that matters sits above y ~1300.
+ * source.mp4 is 1080x1920; the head runs from ~420 (hair) to ~1470 (chin), the mouth sits near 1300.
+ * split: the talking head is a rounded card at 0.53x (rows 400-1532), y 770-1370, mouth at ~y 1247.
+ * full: 1.1x and shifted up (rows 180-1925), so the mouth sits at ~y 1232 and the frame stays filled.
+ */
+const K = 0.53;
+const CARD = { w: Math.round(1080 * K), h: 600, y: 770, sy: 400 };
+const FULL_K = 1.1;
 const GEOM: Record<Mode, G> = {
-  full: { vy: 0, vh: 1920, sy: 0, full: 1, split: 0, anim: 0 },
-  split: { vy: STAGE_H, vh: 1920 - STAGE_H, sy: 410, full: 0, split: 1, anim: 0 },
-  anim: { vy: 1920, vh: 1920 - STAGE_H, sy: 410, full: 0, split: 0, anim: 1 },
+  full: { vx: -(1080 * FULL_K - 1080) / 2, vy: 0, vw: 1080 * FULL_K, vh: 1920, k: FULL_K, sy: 180, r: 0, full: 1, split: 0, anim: 0 },
+  split: { vx: (1080 - CARD.w) / 2, vy: CARD.y, vw: CARD.w, vh: CARD.h, k: K, sy: CARD.sy, r: 36, full: 0, split: 1, anim: 0 },
+  anim: { vx: (1080 - CARD.w) / 2, vy: 1920 + 40, vw: CARD.w, vh: CARD.h, k: K, sy: CARD.sy, r: 36, full: 0, split: 0, anim: 1 },
 };
 
 const geomAt = (f: number): G => {
@@ -35,8 +43,8 @@ const geomAt = (f: number): G => {
 };
 
 const Talking: React.FC<{ g: G }> = ({ g }) => (
-  <div style={{ position: 'absolute', left: 0, top: g.vy, width: 1080, height: g.vh, overflow: 'hidden', background: '#000' }}>
-    <OffthreadVideo src={staticFile('source.mp4')} style={{ position: 'absolute', left: 0, top: -g.sy, width: 1080, height: 1920 }} />
+  <div style={{ position: 'absolute', left: g.vx, top: g.vy, width: g.vw, height: g.vh, overflow: 'hidden', background: '#000', borderRadius: g.r, boxShadow: g.r > 1 ? soft : 'none' }}>
+    <OffthreadVideo src={staticFile('source.mp4')} style={{ position: 'absolute', left: 0, top: -g.sy * g.k, width: 1080 * g.k, height: 1920 * g.k }} />
   </div>
 );
 
@@ -53,7 +61,10 @@ const Stage: React.FC<{ f: number }> = ({ f }) => (
       const o = (i === 0 ? 1 : lin(f, a, a + FADE)) * (1 - lin(f, b, b + FADE));
       return (
         <div key={i} style={{ position: 'absolute', left: 0, top: 0, width: 1080, height: sc.mode === 'split' ? STAGE_H : 1920, opacity: o, overflow: 'hidden' }}>
-          <sc.C f={f} />
+          {/* scenes are drawn at full size, then fitted above the platform UI: split into y ~220-745, anim into y ~250-1210 */}
+          <div style={{ position: 'absolute', left: 0, top: 0, width: 1080, height: sc.mode === 'split' ? STAGE_H : 1920, transform: `scale(${sc.mode === 'split' ? 0.84 : 0.78})`, transformOrigin: '540px 250px' }}>
+            <sc.C f={f} />
+          </div>
         </div>
       );
     })}
@@ -68,8 +79,8 @@ const Captions: React.FC<{ f: number; g: G }> = ({ f, g }) => {
   if (!cur) return null;
   const [a, , text] = cur;
   const p = out(f, s(a), s(a) + 4);
-  // full: under the chin (the standard's 1470 sits on this footage's chin) · split: just under the seam · anim: low
-  const y = g.full * 1650 + g.split * (STAGE_H + 52) + g.anim * 1760;
+  // everything clear of the platform UI (bottom ~660 px): full = above the head, split = on the seam, anim = under the visual
+  const y = g.full * 330 + g.split * 735 + g.anim * 1245;
   return (
     <div style={{ position: 'absolute', left: 0, right: 0, top: y, display: 'flex', justifyContent: 'center', transform: 'translateY(-50%)' }}>
       <div
