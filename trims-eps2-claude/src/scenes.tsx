@@ -209,7 +209,7 @@ const Statement: React.FC<SceneProps> = ({ f }) => (
     <At x={250} y={370} s={P(f, 7.4)} r={-4}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22 }}>
         <ClaudeTile size={230} />
-        <Sticker bg={C.white} size={34}>Anthropic</Sticker>
+        <Box bg={C.white} pad="4px 14px" radius={14} sh={7}><Img src={staticFile('img/anthropic-wordmark.png')} style={{ width: 280, display: 'block' }} /></Box>
       </div>
     </At>
     <At x={660} y={370} s={P(f, 6.8)} r={3}>
@@ -275,8 +275,8 @@ const Name: React.FC<SceneProps> = ({ f }) => {
   ];
   return (
     <>
-      <At x={500} y={290} s={P(f, 19.4)} r={-2}>
-        <Photo src="img/claude-shannon.png" w={440} h={330} pos="35% 30%" label="1916 – 2001" labelBg={C.white} />
+      <At x={500} y={265} s={P(f, 19.4)} r={-2}>
+        <Photo src="img/shannon-portrait.png" w={300} h={380} pos="50% 15%" label="1916 – 2001" labelBg={C.white} />
       </At>
       <At x={500} y={600} s={P(f, 19.9, 200)} r={1.5}>
         <Box bg={C.yellow} pad="10px 36px" style={{ fontFamily: HEAD, fontSize: 76, whiteSpace: 'nowrap' }}>
@@ -346,7 +346,6 @@ const Theseus: React.FC<SceneProps> = ({ f }) => {
   const mazeOut = ease(f, s(45.1), s(45.6));
   const big = ease(f, s(45.3), s(45.9));
   const xray = lin(f, s(47.7), s(48.2));
-  const walk = ease(f, s(42.6), s(45.0));
   const labels = [
     { at: 47.8, t: 'Kayu', bg: C.yellow, x: 230, y: 360, r: -4 },
     { at: 48.9, t: 'Magnet', bg: C.red, x: 770, y: 360, r: 4 },
@@ -359,11 +358,14 @@ const Theseus: React.FC<SceneProps> = ({ f }) => {
       </At>
       <Title f={f} at={42.4} text="Robot tikus Theseus" bg={C.white} y={80} size={40} r={2} />
       {mazeOut < 1 && (
-        <At x={500} y={490} s={P(f, 41.8) * (1 - mazeOut)}>
-          <div style={{ border: `${SW}px solid ${ink}`, borderRadius: 18, background: C.white, boxShadow: shadow(12), padding: 18 }}>
-            <Maze t={walk} />
-          </div>
-        </At>
+        <>
+          <At x={400} y={440} s={P(f, 41.2) * (1 - mazeOut)} r={-3}>
+            <Photo src="img/shannon-theseus.jpg" w={600} h={475} gray={false} label="DEMO 1951" labelBg={C.yellow} />
+          </At>
+          <At x={770} y={690} s={P(f, 42.6) * (1 - mazeOut)} r={5}>
+            <Photo src="img/theseus-mouse.jpg" w={340} h={255} gray={false} />
+          </At>
+        </>
       )}
       {big > 0 && (
         <>
@@ -490,10 +492,10 @@ const SameEra: React.FC<SceneProps> = ({ f }) => (
   <>
     <Title f={f} at={84.1} text="Fakta unik" bg={C.white} y={70} />
     <At x={260} y={390} s={P(f, 85.3)} r={-4}>
-      <Photo src="img/claude-shannon.png" w={300} h={330} pos="30% 30%" label="AS · 1916–2001" labelBg={C.white} />
+      <Photo src="img/shannon-portrait.png" w={300} h={330} pos="50% 15%" label="AS · 1916–2001" labelBg={C.white} />
     </At>
     <At x={740} y={390} s={P(f, 86.6)} r={4}>
-      <Photo src="img/alan-turing.png" w={300} h={330} pos="50% 25%" label="INGGRIS · 1912–1954" labelBg={C.white} />
+      <Photo src="img/turing-portrait.jpg" w={300} h={330} pos="50% 25%" label="INGGRIS · 1912–1954" labelBg={C.white} />
     </At>
     <At x={500} y={390} s={P(f, 86.0, 220)} r={-8}>
       <Sticker bg={C.yellow} size={40}>Sezaman</Sticker>
@@ -512,14 +514,14 @@ const SameEra: React.FC<SceneProps> = ({ f }) => (
 const Film: React.FC<SceneProps> = ({ f }) => (
   <>
     <At x={230} y={300} s={P(f, 92.4)} r={-5}>
-      <Photo src="img/alan-turing.png" w={260} h={290} pos="50% 25%" label="ALAN TURING" labelBg={C.yellow} />
+      <Photo src="img/turing-portrait.jpg" w={260} h={290} pos="50% 25%" label="ALAN TURING" labelBg={C.yellow} />
     </At>
     <At x={230} y={545} s={P(f, 93.0, 220)} r={3}>
       <Sticker bg={C.white} size={32}>Kisahnya difilmkan</Sticker>
     </At>
     <At x={680} y={420} s={P(f, 95.1)} r={3}>
       <div style={{ background: C.white, border: `${SW}px solid ${ink}`, borderRadius: 16, boxShadow: shadow(12), padding: 12 }}>
-        <Img src={staticFile('img/imitation-game-poster.png')} style={{ width: 380, height: 598, objectFit: 'cover', display: 'block', borderRadius: 6, border: `4px solid ${ink}` }} />
+        <Img src={staticFile('img/imitation-game-poster.jpg')} style={{ width: 380, height: 559, objectFit: 'cover', display: 'block', borderRadius: 6, border: `4px solid ${ink}` }} />
       </div>
     </At>
     <At x={680} y={790} s={P(f, 95.6, 220)} r={-2}>
@@ -539,17 +541,18 @@ const Film: React.FC<SceneProps> = ({ f }) => (
 const LookItUp: React.FC<SceneProps> = ({ f }) => (
   <>
     <Title f={f} at={76.6} text="Mau lebih detail?" bg={C.purple} />
-    <At x={500} y={455} s={P(f, 79.6)} r={-1.5}>
-      <div style={{ background: C.white, border: `${SW}px solid ${ink}`, borderRadius: 20, boxShadow: shadow(12), padding: 10 }}>
-        <Img src={staticFile('img/youtube-theseus.png')} style={{ width: 880, display: 'block', borderRadius: 10 }} />
+    <At x={320} y={500} s={P(f, 79.6)} r={-3}>
+      <div style={{ background: ink, border: `${SW}px solid ${ink}`, borderRadius: 44, boxShadow: shadow(12), padding: 12 }}>
+        <Img src={staticFile('img/youtube-search.png')} style={{ width: 380, display: 'block', borderRadius: 32 }} />
       </div>
     </At>
-    {/* ring around the search query */}
-    <At x={405} y={228} s={P(f, 80.4, 220)}>
-      <div style={{ width: 440, height: 62, borderRadius: 34, border: `7px solid ${C.orange}`, boxShadow: `0 0 0 4px ${ink}` }} />
+    <At x={710} y={380} s={P(f, 80.4, 220)} r={3}>
+      <Box bg={C.white} pad="12px 20px" radius={30} sh={8} style={{ fontFamily: BODY, fontWeight: 700, fontSize: 28, whiteSpace: 'nowrap' }}>
+        theseus claude shannon
+      </Box>
     </At>
-    <At x={500} y={820} s={P(f, 82.4, 220)} r={2}>
-      <Sticker bg={C.yellow} size={40}>Cari sendiri ya!</Sticker>
+    <At x={710} y={560} s={P(f, 82.4, 220)} r={-2}>
+      <Sticker bg={C.yellow} size={34}>Cari sendiri ya!</Sticker>
     </At>
   </>
 );
@@ -573,10 +576,10 @@ const BellLabs: React.FC<SceneProps> = ({ f }) => {
       </At>
       {/* the two of them walk toward each other */}
       <At x={150 + 60 * meet} y={330 - 140 * lin(f, s(105.0), s(105.5))} s={P(f, 101.0) * (1 - 0.3 * lin(f, s(105.0), s(105.5)))} r={-4}>
-        <Avatar src="img/claude-shannon.png" pos="30% 30%" />
+        <Avatar src="img/shannon-portrait.png" pos="50% 15%" />
       </At>
       <At x={850 - 60 * meet} y={330 - 140 * lin(f, s(105.0), s(105.5))} s={P(f, 101.6) * (1 - 0.3 * lin(f, s(105.0), s(105.5)))} r={4}>
-        <Avatar src="img/alan-turing.png" pos="50% 25%" />
+        <Avatar src="img/turing-portrait.jpg" pos="50% 25%" />
       </At>
       {secret && (
         <>
@@ -609,10 +612,10 @@ const Versus: React.FC<SceneProps> = ({ f }) => (
   <>
     <Title f={f} at={117.3} text="Siapa lebih berpengaruh?" bg={C.white} size={42} />
     <At x={250} y={390} s={P(f, 118.9)} r={-4}>
-      <Photo src="img/claude-shannon.png" w={300} h={330} pos="30% 30%" label="SHANNON" labelBg={C.yellow} />
+      <Photo src="img/shannon-portrait.png" w={300} h={330} pos="50% 15%" label="SHANNON" labelBg={C.yellow} />
     </At>
     <At x={750} y={390} s={P(f, 120.4)} r={4}>
-      <Photo src="img/alan-turing.png" w={300} h={330} pos="50% 25%" label="TURING" labelBg={C.yellow} />
+      <Photo src="img/turing-portrait.jpg" w={300} h={330} pos="50% 25%" label="TURING" labelBg={C.yellow} />
     </At>
     <At x={500} y={400} s={P(f, 119.6, 220)} r={0}>
       <Burst size={200} color={C.orange} rot={f * 0.6}><span style={{ fontSize: 52 }}>VS</span></Burst>
