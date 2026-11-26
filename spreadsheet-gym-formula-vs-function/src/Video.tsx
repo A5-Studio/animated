@@ -4,7 +4,7 @@ import { At, between } from './components';
 import { Barbell, SCENES } from './scenes';
 import { Fx } from './Sheet';
 import { Sfx } from './sfx';
-import { BODY, BORDER, C, EPISODE_LABEL, HEAD, MAIN_FORMULA, MONO, PARTS, WORDS, s, shadow } from './theme';
+import { BODY, BORDER, C, EPISODE_LABEL, HEAD, MAIN_FORMULA, MONO, PARTS, SAFE, SAFE_CX, STAGE, WORDS, s, shadow } from './theme';
 
 /*
  * Captions. The text is what's shown on screen (formulas written as
@@ -67,11 +67,11 @@ const Captions: React.FC = () => {
   if (!c) return null;
   const o = between(f, s(c.from) - 2, s(c.to) + 2, 3);
   return (
-    <At x={540} y={1690} o={o}>
+    <At x={SAFE_CX} y={SAFE.bottom - 72} o={o}>
       <div
         style={{
-          maxWidth: 980, background: C.white, border: `${BORDER}px solid ${C.ink}`, borderRadius: 20, boxShadow: shadow(9),
-          padding: '16px 28px', fontFamily: BODY, fontWeight: 700, fontSize: 50, lineHeight: 1.25, textAlign: 'center', color: C.ink, width: 'max-content',
+          maxWidth: SAFE.right - SAFE.left - 20, background: C.white, border: `${BORDER}px solid ${C.ink}`, borderRadius: 20, boxShadow: shadow(9),
+          padding: '12px 24px', fontFamily: BODY, fontWeight: 700, fontSize: 42, lineHeight: 1.22, textAlign: 'center', color: C.ink, width: 'max-content',
         }}
       >
         {c.words.map((w, i) => {
@@ -99,21 +99,20 @@ const Grid: React.FC = () => (
   />
 );
 
-/** the episode's main formula, always in the formula bar on top */
+/** header row at the top of the safe box: segment chip + formula bar with the episode's main formula */
 const TopBar: React.FC = () => (
-  <>
-    <div style={{ position: 'absolute', left: 0, top: 0, width: 1080, height: 104, background: C.white, borderBottom: `${BORDER}px solid ${C.ink}`, display: 'flex', alignItems: 'stretch' }}>
-      <div style={{ width: 110, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRight: `${BORDER}px solid ${C.ink}`, fontFamily: MONO, fontStyle: 'italic', fontWeight: 700, fontSize: 42 }}>fx</div>
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '0 28px', fontFamily: MONO, fontWeight: 700, fontSize: 48 }}>
+  <div style={{ position: 'absolute', left: SAFE.left, top: SAFE.top, width: SAFE.right - SAFE.left, height: 76, display: 'flex', gap: 16, alignItems: 'stretch' }}>
+    <div style={{ background: C.green, border: `5px solid ${C.ink}`, borderRadius: 14, boxShadow: shadow(6), padding: '0 18px', display: 'flex', alignItems: 'center', gap: 10, fontFamily: MONO, fontWeight: 700, fontSize: 26, whiteSpace: 'nowrap', transform: 'rotate(-2deg)' }}>
+      <Barbell w={64} />
+      GYM · {EPISODE_LABEL}
+    </div>
+    <div style={{ flex: 1, background: C.white, border: `5px solid ${C.ink}`, borderRadius: 14, boxShadow: shadow(6), display: 'flex', alignItems: 'stretch', overflow: 'hidden' }}>
+      <div style={{ width: 70, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRight: `5px solid ${C.ink}`, fontFamily: MONO, fontStyle: 'italic', fontWeight: 700, fontSize: 32 }}>fx</div>
+      <div style={{ display: 'flex', alignItems: 'center', padding: '0 20px', fontFamily: MONO, fontWeight: 700, fontSize: 36 }}>
         <Fx text={MAIN_FORMULA} />
       </div>
     </div>
-    <div style={{ position: 'absolute', left: 36, top: 132 }}>
-      <div style={{ background: C.green, border: `5px solid ${C.ink}`, borderRadius: 14, boxShadow: shadow(6), padding: '8px 18px', fontFamily: MONO, fontWeight: 700, fontSize: 28 }}>
-        GYM · {EPISODE_LABEL}
-      </div>
-    </div>
-  </>
+  </div>
 );
 
 /** black strip at the bottom, like the cover */
@@ -132,16 +131,24 @@ export const SpreadsheetGym: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: C.bg, overflow: 'hidden', fontFamily: HEAD }}>
       <Grid />
-      {SCENES.map(({ from, to, C: Scene }, i) => {
-        const a = s(from);
-        const b = s(to);
-        if (f < a - 1 || f > b + 1) return null;
-        return (
-          <AbsoluteFill key={i} style={{ opacity: between(f, a, b, 6) }}>
-            <Scene />
-          </AbsoluteFill>
-        );
-      })}
+      {/* scenes: full-canvas design, scaled into the safe box (x ~95-905, y 380-1370) */}
+      <AbsoluteFill
+        style={{
+          transformOrigin: '0 0',
+          transform: `translate(${SAFE_CX - 540 * STAGE.k}px, ${STAGE.top - STAGE.y0 * STAGE.k}px) scale(${STAGE.k})`,
+        }}
+      >
+        {SCENES.map(({ from, to, C: Scene }, i) => {
+          const a = s(from);
+          const b = s(to);
+          if (f < a - 1 || f > b + 1) return null;
+          return (
+            <AbsoluteFill key={i} style={{ opacity: between(f, a, b, 6) }}>
+              <Scene />
+            </AbsoluteFill>
+          );
+        })}
+      </AbsoluteFill>
       <TopBar />
       <Captions />
       <Strip />

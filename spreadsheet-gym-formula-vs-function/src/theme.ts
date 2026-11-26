@@ -35,6 +35,20 @@ export const EPISODE_LABEL = `SESI ${String(EPISODE.n).padStart(2, '0')}`;
 /** the episode's main formula, always shown in the formula bar on top */
 export const MAIN_FORMULA = '=SUM(A1:A5)';
 
+/**
+ * Safe area shared by TikTok, Reels and the IG feed (1080x1920), same box as
+ * TRIMS and AI (An Info): everything that matters stays inside x 60-940,
+ * y 285-1500, centered on x 500 so the right-side buttons stay clear.
+ */
+export const SAFE = { left: 60, right: 940, top: 285, bottom: 1500 };
+export const SAFE_CX = (SAFE.left + SAFE.right) / 2; // 500
+
+/**
+ * Scenes are drawn on the full 1080-wide canvas (design rows STAGE.y0-STAGE.y1)
+ * and scaled into the safe box under the header row, above the captions.
+ */
+export const STAGE = { y0: 190, y1: 1510, top: 380, k: 0.75 };
+
 export const BORDER = 6;
 export const shadow = (n = 12) => `${n}px ${n}px 0 ${C.ink}`;
 
