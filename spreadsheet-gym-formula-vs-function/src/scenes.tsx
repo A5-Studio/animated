@@ -188,13 +188,13 @@ const WarmUp: React.FC = () => {
   const q = (t: number) => pop(f, s(t));
   return (
     <>
-      <At x={300} y={240} s={pop(f, s(t0))} r={-3}>
+      <At x={760} y={262} s={pop(f, s(t0))} r={3}>
         <Sticker bg={C.yellow} size={40}>Pemanasan</Sticker>
       </At>
-      <At x={560} y={370} s={pop(f, s(t0) + 6)}>
+      <At x={540} y={420} s={pop(f, s(t0) + 6)}>
         <Bubble who="Bos:">Tolong totalin penjualan 5 hari ya</Bubble>
       </At>
-      <At x={540} y={900} s={0.5 + 0.5 * pop(f, s(t0) + 10)}>
+      <At x={540} y={940} s={0.5 + 0.5 * pop(f, s(t0) + 10)}>
         <PracticeSheet
           selected={onB ? 'B6' : 'A6'}
           a6={f >= s(tKamu) ? <Fx text={LONG} n={n1} colors={REF_COLORS} caret={!onB && n1 < LONG.length && caret} /> : ''}
@@ -359,12 +359,12 @@ const MoveFunction: React.FC = () => {
         <div style={{ fontFamily: HEAD, fontSize: 34 }}>↑ kurung ↑</div>
       </At>
       {/* function list */}
-      <At x={540} y={990} s={pop(f, tKayak - 4)}>
+      <At x={540} y={1020} s={pop(f, tKayak - 4)}>
         <div style={{ width: 860, background: C.white, border: `${BORDER}px solid ${C.ink}`, borderRadius: 20, boxShadow: shadow(10), overflow: 'hidden' }}>
           <div style={{ padding: '12px 24px', fontFamily: MONO, fontWeight: 700, fontSize: 26, borderBottom: `4px solid ${C.ink}`, background: C.head }}>Function bawaan Excel / Sheets</div>
           {FUNCS.map(([name, desc], i) => (
             <div key={name} style={{ display: 'flex', alignItems: 'baseline', gap: 20, padding: '16px 24px', background: active === i ? C.blue : C.white, borderTop: i ? `3px solid ${C.grid}` : undefined }}>
-              <span style={{ fontFamily: MONO, fontWeight: 700, fontSize: 44, color: C.formula, width: 260 }}>{name}( )</span>
+              <span style={{ fontFamily: MONO, fontWeight: 700, fontSize: 42, color: C.formula, width: 330, whiteSpace: 'nowrap' }}>{name}( )</span>
               <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 32 }}>{desc}</span>
             </div>
           ))}

@@ -89,21 +89,28 @@ cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
 
-## Spreadsheet Gym · Formula vs Function (Remotion, Reels 1080×1920, 56.5s)
+## Spreadsheet Gym · Sesi 01 · 5 KG: Formula vs Function (Remotion, Reels 1080×1920, 65.9s)
 
 `spreadsheet-gym-formula-vs-function/spreadsheet-gym.mp4` explains that a formula is anything that starts with `=`, while a function (`SUM`, `AVERAGE`, `VLOOKUP`) is a ready-made formula with a name and parentheses. Every function is used inside a formula, but not every formula uses a function. The script is in `script.md`.
 
+It follows the Spreadsheet Gym identity from `brand/segment-kit.html` and `brand/segments.ts`:
+- **Format:** warm-up (an office problem), a 10-second "pause dulu" countdown, the moves, a repetisi question, and the fixed cool-down line.
+- **Look:** Sheets green with the 20 kg plate blue, a cell-grid background, the barbell-with-"fx" logo, and Space Mono for formulas.
+- **Fixed elements:** the episode formula (`=SUM(A1:A5)`) always in the formula bar on top, and the `SESI 01 · 5 KG` label.
+- **Sounds:** a coach whistle on the opening line and a ticking countdown.
+
 There is no talking head. The VO is a voice clone made with [VoiceStudio](https://github.com/debpalash/VoiceStudio)'s OmniVoice engine (`k2-fsa/OmniVoice`) from a 5-second reference clip of Faqihpedia #27, running on CPU. "Spreadsheet" is spelled "Spredsit" in the VO text so the clone doesn't drag "sheet".
 
-The explaining scenes use a spreadsheet window (`src/Sheet.tsx`): a formula bar with `fx`, a selected cell, colored range references and a function autocomplete list.
+The explaining scenes use a spreadsheet window (`src/Sheet.tsx`): a formula bar with `fx`, a selected cell, colored range references and highlighted `=` / function names.
 
 ```sh
 cd spreadsheet-gym-formula-vs-function
 npm install
-# one VO part per paragraph of script.md, e.g.
-omnivoice-infer --model k2-fsa/OmniVoice --ref_audio ref.wav --ref_text "<words in ref.wav>" --text "<paragraph>" --output 01.wav
-python3 scripts/build_vo.py 01.wav 02.wav … 08.wav   # joins, normalizes to -14 LUFS, writes src/timing.ts
+# one VO part per row of script.md, e.g.
+omnivoice-infer --model k2-fsa/OmniVoice --ref_audio ref.wav --ref_text "<words in ref.wav>" --text "<VO line>" --output 01.wav
+python3 scripts/build_vo.py --pause-after 4 10.4 01.wav … 10.wav   # joins, adds the countdown pause, normalizes to -14 LUFS, writes src/timing.ts
+python3 scripts/whistle.py public/sfx/whistle.wav                   # optional: regenerate the coach whistle
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
 
-Scene timing is cued to words in the VO (`cue(part, word)` in `src/theme.ts`), so the edit follows a regenerated VO without manual retiming.
+Scene timing is cued to words in the VO (`cue(part, word)` in `src/theme.ts`), so the edit follows a regenerated VO without manual retiming. The episode number, weight and main formula are `EPISODE` and `MAIN_FORMULA` in `src/theme.ts`.

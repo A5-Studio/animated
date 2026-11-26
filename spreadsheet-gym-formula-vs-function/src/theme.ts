@@ -22,6 +22,7 @@ export const C = {
   pink: '#FF7AC6',
   red: '#FF5A5A',
   orange: '#FF8A3D',
+  purple: '#B69CFF',
   // spreadsheet chrome
   grid: '#D5D9DE',
   head: '#EEF1F4',
