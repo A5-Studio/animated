@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Spreadsheet Gym Sesi 02 Storyboard</title>
+<style>
+@font-face { font-family: 'Archivo Black'; src: url('../../spreadsheet-gym-formula-vs-function/public/fonts/ArchivoBlack.woff2'); }
+@font-face { font-family: 'Space Grotesk'; src: url('../../spreadsheet-gym-formula-vs-function/public/fonts/SpaceGrotesk.woff2'); font-weight: 300 700; }
+@font-face { font-family: 'Space Mono'; src: url('../../spreadsheet-gym-formula-vs-function/public/fonts/SpaceMono-Bold.woff2'); font-weight: 700; }
+@font-face { font-family: 'Space Mono'; src: url('../../spreadsheet-gym-formula-vs-function/public/fonts/SpaceMono-Regular.woff2'); font-weight: 400; }
+:root { --bg:#F2FFF5; --ink:#111; --green:#7CF29A; --blue:#5AC8FF; --yellow:#FFD600; --pink:#FF7AC6; --red:#FF5A5A; --fx:#157A3A; --sel:#1A73E8; --cream:#FFF1C9; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--cream); font-family: 'Space Grotesk', sans-serif; color: var(--ink); }
+.page { width: 1680px; padding: 40px; }
+h1 { font-family: 'Archivo Black'; font-size: 44px; margin: 0 0 6px; }
+.sub { font-size: 20px; margin-bottom: 28px; }
+.sub code, .fx { font-family: 'Space Mono'; font-weight: 700; color: var(--fx); }
+.grid { display: grid; grid-template-columns: repeat(4, 360px); gap: 36px 40px; }
+.cell { display: flex; flex-direction: column; gap: 10px; }
+.num { font-family: 'Archivo Black'; font-size: 20px; display: flex; justify-content: space-between; }
+.num span { font-family: 'Space Mono'; font-size: 15px; font-weight: 700; }
+.frame { position: relative; width: 360px; height: 640px; border: 3px solid var(--ink); border-radius: 14px; overflow: hidden; background: var(--bg);
+  background-image: linear-gradient(90deg, rgba(17,17,17,.1) 1px, transparent 1px), linear-gradient(rgba(17,17,17,.1) 1px, transparent 1px); background-size: 53px 21px; box-shadow: 6px 6px 0 var(--ink); }
+.safe { position: absolute; left: 20px; top: 95px; width: 293px; height: 405px; border: 2px dashed #FF9F0A; border-radius: 4px; pointer-events: none; z-index: 9; }
+.strip { position: absolute; left: 0; right: 0; bottom: 0; height: 28px; background: var(--ink); color: #fff; font: 700 9px 'Space Mono'; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; letter-spacing: 1px; }
+.head { position: absolute; left: 20px; top: 95px; width: 293px; height: 26px; display: flex; gap: 5px; z-index: 3; }
+.chip { background: var(--green); border: 2px solid var(--ink); border-radius: 6px; font: 700 9px 'Space Mono'; padding: 0 6px; display: flex; align-items: center; white-space: nowrap; transform: rotate(-2deg); box-shadow: 2px 2px 0 var(--ink); }
+.bar { flex: 1; background: #fff; border: 2px solid var(--ink); border-radius: 6px; display: flex; align-items: center; overflow: hidden; box-shadow: 2px 2px 0 var(--ink); }
+.bar i { font: italic 700 11px 'Space Mono'; padding: 0 6px; border-right: 2px solid var(--ink); align-self: stretch; display: flex; align-items: center; }
+.bar b { font: 700 9.5px 'Space Mono'; color: var(--fx); padding: 0 6px; white-space: nowrap; }
+.cap { position: absolute; left: 30px; right: 47px; top: 452px; background: #fff; border: 2px solid var(--ink); border-radius: 8px; box-shadow: 3px 3px 0 var(--ink); font: 700 12px 'Space Grotesk'; text-align: center; padding: 5px 8px; z-index: 4; }
+.cap em { font-style: normal; background: var(--green); border-radius: 4px; padding: 0 3px; }
+.st { position: absolute; transform: translate(-50%, -50%); z-index: 5; }
+.box { background: #fff; border: 2px solid var(--ink); border-radius: 8px; box-shadow: 3px 3px 0 var(--ink); padding: 5px 9px; white-space: nowrap; }
+.big { font-family: 'Archivo Black'; }
+.tilt-l { transform: translate(-50%,-50%) rotate(-3deg); } .tilt-r { transform: translate(-50%,-50%) rotate(3deg); }
+.mono { font-family: 'Space Mono'; font-weight: 700; }
+table.sh { border-collapse: collapse; background: #fff; font: 700 9px 'Space Mono'; }
+table.sh td, table.sh th { border: 1px solid #D5D9DE; height: 17px; padding: 0 4px; white-space: nowrap; }
+table.sh th { background: #EEF1F4; color: #555; font-size: 8px; }
+table.sh td.n { text-align: right; }
+.win { background: #fff; border: 2px solid var(--ink); border-radius: 8px; overflow: hidden; box-shadow: 4px 4px 0 var(--ink); }
+.win .tb { background: var(--fx); color: #fff; font: 700 9px 'Archivo Black'; padding: 4px 8px; border-bottom: 2px solid var(--ink); }
+.win .fb { font: 700 9px 'Space Mono'; padding: 4px 6px; border-bottom: 2px solid var(--ink); color: var(--fx); white-space: nowrap; overflow: hidden; }
+.selc { outline: 2px solid var(--sel); outline-offset: -2px; }
+.hl-b { background: #5AC8FF44; } .hl-c { background: #FF7AC644; } .hl-d { background: #7CF29A66; }
+.zero { color: var(--red); }
+.vo { font-size: 13.5px; line-height: 1.35; }
+.vo b { font-weight: 700; }
+.note { font-size: 12px; color: #5B5240; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Spreadsheet Gym · Sesi 02 · ARRAYFORMULA: storyboard</h1>
+  <div class="sub">12 panels, 1/3 scale (360×640 = 1080×1920). Orange dashed box = safe area (x 60–940, y 285–1500), the same as TRIMS / AI. Main formula in the bar on top: <code>=ARRAYFORMULA(B2:B*C2:C)</code></div>
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+const head = `<div class="head"><div class="chip">▮▬▮ GYM · SESI 02</div><div class="bar"><i>fx</i><b>=ARRAYFORMULA(B2:B*C2:C)</b></div></div>`;
+const strip = `<div class="strip"><span>SPREADSHEET GYM</span><span>@faqihpedia</span></div>`;
+const at = (x, y, html, cls = '') => `<div class="st ${cls}" style="left:${x}px;top:${y}px">${html}</div>`;
+const cap = (h) => `<div class="cap">${h}</div>`;
+
+// sheet: rows of [A,B,C,D]; opts: dcls per row, sel, fbar
+function sheet({ rows, cols = ['Produk', 'Harga', 'Qty', 'Total'], fbar = '', sel = '', dcls = [], bcls = '', ccls = '', title = 'penjualan.xlsx', w = 270, start = 1 }) {
+  let h = `<div class="win" style="width:${w}px"><div class="tb">● ● ● ${title}</div><div class="fb">${fbar}</div><table class="sh" style="width:100%"><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr>`;
+  h += `<tr><th>${start}</th>${cols.map((c) => `<td style="font-family:'Space Grotesk';font-weight:700">${c}</td>`).join('')}</tr>`;
+  rows.forEach((r, i) => {
+    const rn = r.n ?? start + 1 + i;
+    h += `<tr><th>${rn}</th><td>${r[0] ?? ''}</td><td class="n ${bcls}">${r[1] ?? ''}</td><td class="n ${ccls}">${r[2] ?? ''}</td><td class="n ${dcls[i] ?? ''} ${sel === rn ? 'selc' : ''}">${r[3] ?? ''}</td></tr>`;
+  });
+  return h + `</table></div>`;
+}
+const data = [['Kopi', '18.000', '3'], ['Teh', '12.000', '5'], ['Roti', '15.000', '2'], ['Susu', '9.000', '4']];
+const tot = ['54.000', '60.000', '30.000', '36.000'];
+
+const P = [
+  { t: 'Hook', d: '0–3 s', html: `${head}
+    ${at(166, 180, `<div class="box big" style="background:var(--red);color:#fff;font-size:17px">Jangan tarik rumus</div>`, 'tilt-l')}
+    ${at(166, 218, `<div class="box big" style="font-size:17px;background:var(--yellow)">sampai baris 500 lagi!</div>`, 'tilt-r')}
+    ${at(150, 330, sheet({ rows: data.slice(0, 2).map((r, i) => [...r, i ? '' : '=B2*C2']), sel: 2, w: 230 }))}
+    ${at(272, 390, `<div style="font:700 40px 'Archivo Black';line-height:1">↓</div>`)}
+    ${at(230, 420, `<div class="box big" style="background:var(--red);color:#fff;font-size:14px">500×</div>`, 'tilt-r')}
+    ${cap('Jangan tarik rumus sampai baris <em>500</em> lagi!')}`,
+    vo: '<b>Jangan</b> tarik rumus | sampai baris lima ratus <b>lagi</b>! ↘', note: 'A cursor drags the fill handle down, and the row counter spins to 500.' },
+  { t: 'Opening', d: '3–5 s', html: `${head}
+    ${at(166, 220, `<div style="display:flex;gap:2px;align-items:center"><div class="box" style="width:30px;height:56px;padding:0;background:repeating-linear-gradient(#fff 0 17px,#111 17px 19px)"></div><div style="width:70px;height:10px;background:#fff;border:2px solid #111;font:italic 700 7px 'Space Mono';text-align:center">fx</div><div class="box" style="width:30px;height:56px;padding:0;background:repeating-linear-gradient(#fff 0 17px,#111 17px 19px)"></div></div>`)}
+    ${at(166, 300, `<div class="box big" style="background:var(--green);font-size:24px">SPREADSHEET GYM</div>`, 'tilt-l')}
+    ${at(166, 360, `<div class="box big" style="font-size:18px">Sesi 02</div>`, 'tilt-r')}
+    ${cap('Ini Spreadsheet Gym, sesi <em>02</em>.')}`,
+    vo: 'Ini Spreadsheet Gym, | sesi <b>dua</b>. ↘', note: 'Coach whistle. Same logo pop as sesi 01.' },
+  { t: 'Warm-up', d: '5–17 s', html: `${head}
+    ${at(166, 158, `<div class="box" style="border-radius:12px"><div class="mono" style="font-size:8px">Bos:</div><div style="font-weight:700;font-size:12px">Isi kolom total ya, 500 baris</div></div>`)}
+    ${at(166, 300, sheet({ rows: [...data.map((r, i) => [...r, i === 0 ? '=B2*C2' : i < 3 ? tot[i] : '']), ['Kopi', '18.000', '2', '', ], ].map((r, i) => i === 4 ? Object.assign(r, { n: 501 }) : r), fbar: '=B2*C2', sel: 2, dcls: ['', 'hl-d', 'hl-d', '', 'zero'] }))}
+    ${at(250, 408, `<div class="box big" style="background:var(--red);color:#fff;font-size:11px">Data baru? Kosong!</div>`, 'tilt-r')}
+    ${cap('Gimana caranya, <em>satu</em> rumus buat satu kolom?')}`,
+    vo: 'Bos kirim data penjualan. | Ada harga, ada jumlah, | <b>lima ratus</b> baris. ↘ Biasanya kamu tulis sama dengan B dua kali C dua, | terus tarik ke bawah. ↘ Besoknya ada data baru masuk… | totalnya <b>kosong</b> lagi. ↘ Gimana caranya, | <b>satu</b> rumus buat <b>satu</b> kolom? ↗', note: 'D2 types out, gets dragged down, then row 501 drops in with an empty total.' },
+  { t: 'Pause dulu', d: '17–24 s', html: `${head}
+    ${at(166, 170, `<div class="box big" style="background:var(--yellow);font-size:24px">PAUSE DULU</div>`, 'tilt-l')}
+    ${at(166, 290, `<div style="width:150px;height:150px;border-radius:50%;border:3px solid #111;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 0 0 12px var(--green)"><div class="big" style="font-size:60px;line-height:1">5</div><div class="mono" style="font-size:10px">detik</div></div>`)}
+    ${at(166, 410, `<div class="box big" style="background:var(--blue);font-size:12px">Satu rumus, satu kolom?</div>`, 'tilt-r')}
+    ${cap('Pause dulu, coba tebak <em>rumusnya!</em>')}`,
+    vo: 'Pause dulu, | coba tebak rumusnya! ↘ <i>(5 s timer)</i>', note: 'Same timer as sesi 01: ticking each second, ding at 0.' },
+  { t: 'Move 1: the answer', d: '24–32 s', html: `${head}
+    ${at(166, 155, `<div class="box big" style="background:var(--green);font-size:20px">ARRAYFORMULA</div>`, 'tilt-l')}
+    ${at(166, 292, sheet({ rows: data.map((r, i) => [...r, i === 0 ? '54.000' : tot[i]]), fbar: '=ARRAYFORMULA(B2:B*C2:C)', sel: 2, dcls: ['hl-d', 'hl-d', 'hl-d', 'hl-d'] }))}
+    ${at(166, 400, `<div class="box big" style="background:var(--yellow);font-size:12px">Tulis sekali → satu kolom keisi</div>`, 'tilt-r')}
+    ${cap('Satu kolom langsung <em>keisi semua!</em>')}`,
+    vo: 'Jawabannya: | <b>ARRAYFORMULA</b>. ↘ Tulis sekali di D dua: | ARRAYFORMULA, | B dua sampai B, | kali C dua sampai C. | Enter. | Satu kolom langsung <b>keisi semua</b>! ↘', note: 'The formula types out in D2. On "Enter" the D column fills top to bottom in a wave, with a pop per row.' },
+  { t: 'Move 2: why', d: '32–40 s', html: `${head}
+    ${at(166, 150, `<div class="box mono" style="font-size:15px"><span style="color:var(--sel)">B2:B</span> = B2 → paling bawah</div>`)}
+    ${at(166, 285, sheet({ rows: data.map((r, i) => [...r, tot[i]]), fbar: '=ARRAYFORMULA(<span style="color:#1A73E8">B2:B</span>*<span style="color:#D6249F">C2:C</span>)', bcls: 'hl-b', ccls: 'hl-c', dcls: ['hl-d', 'hl-d', 'hl-d', 'hl-d'] }))}
+    ${at(290, 290, `<div style="font:700 26px 'Archivo Black';line-height:1">↓</div>`)}
+    ${at(166, 400, `<div class="box big" style="font-size:12px">Bukan satu sel, tapi satu <span style="background:var(--yellow)">range</span></div>`, 'tilt-l')}
+    ${cap('ARRAYFORMULA ngitung baris per baris, <em>otomatis</em>.')}`,
+    vo: 'Kenapa bisa? ↗ Karena yang kita kasih bukan satu sel, | tapi satu <b>range</b>. ↘ B dua sampai B | artinya dari B dua | sampai <b>paling bawah</b>. ↘ ARRAYFORMULA ngitung baris per baris, | <b>otomatis</b>. ↘', note: 'Column B glows blue and C pink, all the way down. Small arrows go row by row into D.' },
+  { t: 'Move 3: the trap', d: '40–50 s', html: `${head}
+    ${at(166, 150, `<div class="box big" style="background:var(--red);color:#fff;font-size:16px">Jebakan: baris kosong = 0</div>`, 'tilt-l')}
+    ${at(166, 278, sheet({ rows: [...data.slice(0, 2).map((r, i) => [...r, tot[i]]), ['', '', '', '0'], ['', '', '', '0'], ['', '', '', '0']], fbar: '=ARRAYFORMULA(<span style="background:#FFD600">IF(B2:B="";"";</span>B2:B*C2:C<span style="background:#FFD600">)</span>)', dcls: ['', '', 'zero', 'zero', 'zero'] }))}
+    ${at(166, 395, `<div class="box mono" style="font-size:9.5px;background:var(--yellow)">IF(B2:B="";""; …) → <span class="zero">0</span> jadi kosong</div>`, 'tilt-r')}
+    ${cap('Kalau B kosong, biarin <em>kosong</em>.')}`,
+    vo: 'Tapi ada satu <b>jebakan</b>. ↘ Baris yang masih kosong, | hasilnya jadi <b>nol</b>. ↘ Biar rapi, tambahin IF: | kalau B kosong, | biarin kosong. | Kalau nggak, | baru dikali. ↘', note: 'Red 0s blink in the empty rows, the IF wraps the formula (yellow), and the 0s fade away.' },
+  { t: 'Gym analogy', d: '50–57 s', html: `${head}
+    ${at(166, 150, `<div class="box big" style="background:var(--yellow);font-size:16px">Gampangnya gini…</div>`, 'tilt-l')}
+    ${at(92, 285, `<div class="box" style="width:132px;height:190px;background:var(--blue);white-space:normal;text-align:center"><div class="big" style="font-size:11px">TARIK RUMUS</div><div style="font-size:10px;font-weight:700">angkat dumbbell satu-satu</div><div class="big" style="font-size:30px;margin-top:14px">×500</div><div style="font-size:26px">🏋</div></div>`, 'tilt-l')}
+    ${at(240, 285, `<div class="box" style="width:132px;height:190px;background:var(--green);white-space:normal;text-align:center"><div class="big" style="font-size:11px">ARRAYFORMULA</div><div style="font-size:10px;font-weight:700">mesin: sekali setel</div><div class="big" style="font-size:30px;margin-top:14px">×1</div><div style="font-size:10px;font-weight:700">semua beban keangkat</div></div>`, 'tilt-r')}
+    ${cap('ARRAYFORMULA itu kayak <em>mesin</em>.')}`,
+    vo: 'Gampangnya gini. | Tarik rumus itu kayak angkat dumbbell | <b>satu-satu</b>. ↘ ARRAYFORMULA itu kayak <b>mesin</b>: | sekali setel, | semua beban keangkat. ↘', note: 'Left card: the counter climbs 1, 2, 3… 500. Right card: one press and the whole stack goes up.' },
+  { t: 'Takeaway', d: '57–63 s', html: `${head}
+    ${at(166, 150, `<div class="box big" style="background:#111;color:var(--green);font-size:16px">INTINYA</div>`, 'tilt-l')}
+    ${at(166, 280, sheet({ rows: [...data.slice(0, 3).map((r, i) => [...r, tot[i]]), Object.assign(['Kopi', '18.000', '2', '36.000'], { n: 501 })], fbar: '=ARRAYFORMULA(IF(B2:B="";"";B2:B*C2:C))', dcls: ['', '', '', 'hl-d'] }))}
+    ${at(166, 395, `<div style="display:flex;gap:4px"><span class="box big" style="font-size:10px;background:var(--green)">1 rumus</span><span class="box big" style="font-size:10px;background:var(--blue)">1 kolom</span><span class="box big" style="font-size:10px;background:var(--yellow)">data baru ikut</span></div>`)}
+    ${cap('Data baru masuk, totalnya <em>ngikut sendiri.</em>')}`,
+    vo: 'Intinya: | <b>satu</b> rumus di baris paling atas, | <b>satu</b> kolom beres. ↘ Data baru masuk, | totalnya <b>ngikut sendiri</b>. ↘', note: 'Pays off the warm-up: row 501 drops in again, but this time its total fills itself (green flash).' },
+  { t: 'Excel note (optional)', d: '63–68 s', html: `${head}
+    ${at(166, 170, `<div class="box big" style="font-size:15px">Pakai Excel?</div>`, 'tilt-l')}
+    ${at(166, 270, `<div class="box" style="white-space:normal;width:250px"><div style="font-size:11px;font-weight:700">ARRAYFORMULA cuma di Google Sheets.</div><div style="font-size:11px;font-weight:700;margin-top:6px">Excel 365:</div><div class="mono" style="font-size:13px;color:var(--fx);margin-top:2px">=B2:B6*C2:C6</div><div style="font-size:10px;margin-top:4px">hasilnya tumpah ke bawah (<b>spill</b>)</div></div>`)}
+    ${cap('Di Excel versi baru, tulis <em>range</em>-nya langsung.')}`,
+    vo: 'Catatan: | ARRAYFORMULA cuma ada di <b>Google Sheets</b>. ↘ Di Excel versi baru, | cukup tulis rumus range-nya langsung. ↘', note: 'Optional. Cut it if the video runs too long (about 65 s without it).' },
+  { t: 'Repetisi', d: '68–74 s', html: `${head}
+    ${at(166, 150, `<div class="box big" style="background:var(--yellow);font-size:20px">REPETISI</div>`, 'tilt-l')}
+    ${at(166, 275, sheet({ cols: ['Produk', 'Harga', 'Diskon', 'Harga akhir'], rows: [['Kopi', '18.000', '10%', '?'], ['Teh', '12.000', '25%', '?'], ['Roti', '15.000', '0%', '?']], fbar: '=ARRAYFORMULA( ? )', sel: 2, title: 'repetisi.xlsx' }))}
+    ${at(166, 390, `<div class="box big" style="background:var(--blue);font-size:11px">Satu rumus buat kolom D?</div>`, 'tilt-r')}
+    ${cap('Tulis <em>satu</em> rumus ARRAYFORMULA buat kolom D!')}`,
+    vo: 'Kolom B harga, | kolom C diskon persen. | Tulis <b>satu</b> rumus ARRAYFORMULA | buat harga setelah diskon di kolom D! ↘', note: 'Pinned answer: =ARRAYFORMULA(IF(B2:B="";"";B2:B*(1-C2:C)))' },
+  { t: 'Cool-down + CTA', d: '74–80 s', html: `${head}
+    ${at(166, 150, `<div class="box big" style="background:var(--blue);font-size:18px">PENDINGINAN</div>`, 'tilt-l')}
+    ${at(166, 222, `<div class="box" style="border-radius:12px"><div class="mono" style="font-size:8px">Komentar</div><div class="mono" style="font-size:11px;color:var(--fx)">=ARRAYFORMULA(… <span style="background:var(--yellow);color:#111">?</span></div></div>`)}
+    ${at(166, 292, `<div class="box" style="font-weight:700;font-size:12px">✈ Share ke temen yang masih narik rumus</div>`)}
+    ${at(166, 345, `<div class="box big" style="font-size:16px;background:var(--green)">+ Follow</div>`)}
+    ${at(166, 405, `<div style="display:flex;gap:6px"><span class="box mono" style="font-size:9px;background:var(--green)">SESI 03 ?</span><span class="box mono" style="font-size:9px">SESI 04 ?</span></div>`)}
+    ${cap('Follow, biar nggak ketinggalan <em>sesi berikutnya!</em>')}`,
+    vo: 'Kerjain repetisinya, | jawab di <b>komentar</b> ya! ↘ Share ke temen yang masih suka narik rumus, | terus <b>follow</b>, | biar nggak ketinggalan sesi berikutnya! ↘', note: 'Same CTA as sesi 01: a cursor taps Follow and it flips to Following ✓.' },
+];
+
+document.getElementById('grid').innerHTML = P.map((p, i) => `
+  <div class="cell">
+    <div class="num">${i + 1}. ${p.t}<span>${p.d}</span></div>
+    <div class="frame">${p.html}${strip}<div class="safe"></div></div>
+    <div class="vo">${p.vo}</div>
+    <div class="note">${p.note}</div>
+  </div>`).join('');
+</script>
+</body>
+</html>
