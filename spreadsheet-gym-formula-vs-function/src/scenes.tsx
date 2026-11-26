@@ -446,7 +446,7 @@ const Takeaway: React.FC = () => {
         <Sticker bg={C.green} size={34}>selalu di dalam formula</Sticker>
       </At>
       {/* a formula without a function lives in the yellow ring */}
-      <At x={540} y={620} s={pop(f, tTapi)} z={3} r={2}>
+      <At x={540} y={700} s={pop(f, tTapi)} z={3} r={2}>
         <Box pad="10px 26px" style={{ fontFamily: MONO, fontSize: 48 }}>
           <Fx text="=A1+B1" />
         </Box>

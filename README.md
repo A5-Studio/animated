@@ -88,3 +88,22 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Spreadsheet Gym · Formula vs Function (Remotion, Reels 1080×1920, 56.5s)
+
+`spreadsheet-gym-formula-vs-function/spreadsheet-gym.mp4` explains that a formula is anything that starts with `=`, while a function (`SUM`, `AVERAGE`, `VLOOKUP`) is a ready-made formula with a name and parentheses. Every function is used inside a formula, but not every formula uses a function. The script is in `script.md`.
+
+There is no talking head. The VO is a voice clone made with [VoiceStudio](https://github.com/debpalash/VoiceStudio)'s OmniVoice engine (`k2-fsa/OmniVoice`) from a 5-second reference clip of Faqihpedia #27, running on CPU. "Spreadsheet" is spelled "Spredsit" in the VO text so the clone doesn't drag "sheet".
+
+The explaining scenes use a spreadsheet window (`src/Sheet.tsx`): a formula bar with `fx`, a selected cell, colored range references and a function autocomplete list.
+
+```sh
+cd spreadsheet-gym-formula-vs-function
+npm install
+# one VO part per paragraph of script.md, e.g.
+omnivoice-infer --model k2-fsa/OmniVoice --ref_audio ref.wav --ref_text "<words in ref.wav>" --text "<paragraph>" --output 01.wav
+python3 scripts/build_vo.py 01.wav 02.wav … 08.wav   # joins, normalizes to -14 LUFS, writes src/timing.ts
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
+
+Scene timing is cued to words in the VO (`cue(part, word)` in `src/theme.ts`), so the edit follows a regenerated VO without manual retiming.

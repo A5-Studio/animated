@@ -46,9 +46,18 @@ const norm = (w: string) => w.toLowerCase().replace(/[^a-z0-9]/g, '');
  * `word` matches the start of the transcribed word; `nth` picks a later hit.
  * Falls back to the part start (+ `fallback` seconds) if the word isn't found.
  */
+// how whisper sometimes spells words of the cloned voice
+const ALIAS: Record<string, string[]> = {
+  ketuker: ['ketukar'],
+  nyusun: ['newsoon', 'new', 'nyus'],
+  function: ['fungsi'],
+  nggak: ['tidak', 'gak', 'ngga'],
+  dumbel: ['dumbbell'],
+};
+
 export const cue = (p: number, word: string, nth = 0, fallback = 0): number => {
-  const want = norm(word);
-  const hits = WORDS.filter((w) => w.p === p && norm(w.w).startsWith(want));
+  const wants = [word, ...(ALIAS[word] ?? [])].map(norm);
+  const hits = WORDS.filter((w) => w.p === p && wants.some((want) => norm(w.w).startsWith(want)));
   const hit = hits[Math.min(nth, hits.length - 1)];
   return hit ? hit.s : PARTS[p].start + fallback;
 };
