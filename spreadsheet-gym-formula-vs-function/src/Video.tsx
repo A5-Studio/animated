@@ -10,24 +10,24 @@ import { BODY, BORDER, C, EPISODE_LABEL, HEAD, MAIN_FORMULA, MONO, PARTS, WORDS,
  * Captions. The text is what's shown on screen (formulas written as
  * formulas); it is timed by mapping each caption word onto the transcribed
  * words of the same VO part. A formula token counts as the words it takes
- * to say it ("=A1+B1" = "sama dengan A1 plus B1" = 5 words).
+ * to say it in Indonesian ("=A1+B1" = "sama dengan A satu plus B satu" = 7 words).
  */
 const CAPTIONS: string[] = [
-  'Jangan salah lagi, di Excel atau Spreadsheet, formula dan function itu beda.',
+  'Jangan salah lagi! Di Excel atau Spreadsheet, formula dan function itu beda!',
   'Spreadsheet Gym, sesi 01.',
-  'Bos minta total penjualan 5 hari. Kamu nulis =A1+A2+A3+A4+A5. Temen kamu nulis =SUM(A1:A5). Mana yang formula, mana yang function?',
-  'Pause dulu, tebak jawabannya.',
-  'Formula itu semua yang kalian ketik di sel, yang diawali tanda =. Jadi, dua-duanya formula.',
+  'Bos minta total penjualan 5 hari. Kamu nulis =A1+A2+A3+A4+A5. Temen kamu nulis =SUM(A1:A5). Mana yang formula? Mana yang function?',
+  'Pause dulu, tebak jawabannya!',
+  'Formula itu semua yang kalian ketik di sel, yang diawali tanda =. Jadi, dua-duanya formula!',
   'Function itu rumus jadi yang udah disiapin sama Excel-nya. Ada namanya, terus ada kurungnya. Kayak SUM, AVERAGE, atau VLOOKUP. Jadi punya temen kamu, itu formula yang pakai function SUM.',
-  'Gampangnya gini. Function itu alat gym-nya, kayak dumbel. Formula itu gerakan latihannya. Gerakannya bisa pakai alat, bisa juga nggak.',
+  'Gampangnya gini. Function itu alat gym-nya, kayak dumbbell. Formula itu gerakan latihannya. Gerakannya bisa pakai alat, bisa juga nggak.',
   'Intinya, function itu selalu dipakai di dalam formula. Tapi formula, belum tentu pakai function.',
-  'Repetisi: =A1*B1. Itu formula, function, atau dua-duanya?',
-  'Pendinginan: kerjain repetisinya, jawab di komentar.',
+  '=A1*B1. Itu formula, function, atau dua-duanya?',
+  'Kerjain repetisinya, jawab di komentar ya!',
 ];
 
 const spoken = (tok: string) => {
   if (!tok.startsWith('=')) return 1;
-  const refs = tok.match(/[A-H][0-9]+/g)?.length ?? 0;
+  const refs = 2 * (tok.match(/[A-H][0-9]+/g)?.length ?? 0); // "A satu"
   const ops = tok.match(/[+*:]/g)?.length ?? 0;
   const fn = /[A-Z]{2,}\(/.test(tok) ? 1 : 0;
   return 2 + refs + ops + fn;

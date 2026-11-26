@@ -3,7 +3,7 @@
 usage: python3 scripts/build_vo.py [--pause-after N SECONDS] part1.wav part2.wav ...
 
 --pause-after N S  adds S seconds of silence after part N (1-based), e.g. the
-                   10-second "pause dulu" timer
+                   5-second "pause dulu" timer
 
 - 0.35s of silence before the first part, 0.45s between parts
 - two-pass ffmpeg loudnorm to -14 LUFS / -1 dBTP (Reels/TikTok loudness)

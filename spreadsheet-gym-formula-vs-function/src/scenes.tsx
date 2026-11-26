@@ -6,7 +6,7 @@ import { BODY, BORDER, C, EPISODE, EPISODE_LABEL, HEAD, MONO, PARTS, cue, s, sha
 
 /*
  * One scene per VO part (Spreadsheet Gym format from brand/segment-kit.html):
- *  0 hook · 1 opening line ("Spreadsheet Gym, sesi 01") · 2 warm-up (office problem) · 3 "pause dulu" + 10 s timer
+ *  0 hook · 1 opening line ("Spreadsheet Gym, sesi 01") · 2 warm-up (office problem) · 3 "pause dulu" + 5 s timer
  *  4-6 the moves (formula, function, gym analogy) · 7 takeaway · 8 repetisi · 9 cool-down
  * Every time is in absolute seconds from the VO word timestamps (cue(part, word)).
  */
@@ -195,10 +195,10 @@ const WarmUp: React.FC = () => {
 };
 
 /* ------------------------------------------------------------------ */
-/* 3. "pause dulu": 10-second countdown                                */
+/* 3. "pause dulu": 5-second countdown                                */
 /* ------------------------------------------------------------------ */
 export const TIMER_START = () => PARTS[3].end + 0.15;
-export const TIMER_LEN = 10;
+export const TIMER_LEN = 5;
 
 const Pause: React.FC = () => {
   const f = useCurrentFrame();
@@ -229,7 +229,7 @@ const Pause: React.FC = () => {
             />
           </svg>
           <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ fontFamily: HEAD, fontSize: done ? 120 : 220, lineHeight: 1 }}>{done ? 'WAKTU!' : f < a ? 10 : left}</div>
+            <div style={{ fontFamily: HEAD, fontSize: done ? 120 : 220, lineHeight: 1 }}>{done ? 'WAKTU!' : f < a ? TIMER_LEN : left}</div>
             {!done && <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 34 }}>detik</div>}
           </div>
         </div>

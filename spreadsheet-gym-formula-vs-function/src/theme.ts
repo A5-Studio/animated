@@ -64,6 +64,7 @@ const ALIAS: Record<string, string[]> = {
   temen: ['teman'],
   pendinginan: ['pendingin'],
   repetisi: ['repetisi', 'reputasi'],
+  dambel: ['dumbbell', 'dumbel', 'dambel'],
 };
 
 /**
