@@ -113,6 +113,6 @@ python3 scripts/whistle.py public/sfx/whistle.wav                   # optional: 
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
 
-The cover is `thumbnail.png`, rendered from the `Thumbnail` still (`src/Thumbnail.tsx`) with `npx remotion still Thumbnail thumbnail.png`. It follows the TRIMS cover rules (`trims-eps2-claude/src/Thumbnail.tsx`): segment motif and label on top, a 5-word title, a tilted card on the panel edge, a real video frame across the bottom half, and the black series strip. This segment has no face, so the frame is the practice sheet at 31.6 s (`public/thumb-frame.png`).
+The cover is `thumbnail.png`, rendered from the `Thumbnail` still (`src/Thumbnail.tsx`) with `npx remotion still Thumbnail thumbnail.png`. It follows the TRIMS cover rules (`trims-eps2-claude/src/Thumbnail.tsx`): segment motif and label on top, a 5-word title, a tilted card on the panel edge, a real video frame across the bottom half, and the black series strip. This segment has no face, so the frame is the warm-up question at 18.1 s (`public/thumb-frame.png`). The cover must not give away the answer.
 
 Scene timing is cued to words in the VO (`cue(part, word)` in `src/theme.ts`), so the edit follows a regenerated VO without manual retiming. The episode number, weight and main formula are `EPISODE` and `MAIN_FORMULA` in `src/theme.ts`.

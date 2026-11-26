@@ -10,7 +10,8 @@ import { BORDER, BODY, C, EPISODE_LABEL, HEAD } from './theme';
  *  - segment motif on top (a spreadsheet: column letters, row numbers, cell grid),
  *    segment label + logo top-left tilted -2°, a short title (5 words)
  *  - a real frame of the video across the bottom half; no face in this segment,
- *    so it's the practice sheet at "Jadi, dua-duanya formula!" (31.6 s)
+ *    so it's the warm-up question at 18.1 s (boss request, both formulas,
+ *    "Formula?" / "Function?"). It must not show the answer.
  *  - a tilted card on the panel edge (episode number, plate blue)
  *  - black series strip at the bottom
  */
@@ -22,7 +23,8 @@ const mark: React.CSSProperties = {
 };
 
 const PHOTO_TOP = 690;
-const FRAME_Y = 430; // first row of the video frame shown at the panel top
+const FRAME_Y = 330; // first row of the video frame shown at the panel top
+const K = 0.9; // frame scale, so the bubble, sheet and both question stickers fit
 const STRIP = 150;
 
 /** spreadsheet motif: header row with column letters, row numbers, cell grid */
@@ -63,7 +65,7 @@ export const Thumbnail: React.FC = () => (
 
     {/* real video frame, bleeding off the bottom */}
     <div style={{ position: 'absolute', left: 0, right: 0, top: PHOTO_TOP, bottom: 0, overflow: 'hidden', borderTop: `${BORDER + 4}px solid ${C.ink}`, background: C.bg }}>
-      <Img src={staticFile('thumb-frame.png')} style={{ position: 'absolute', left: 0, top: -FRAME_Y, width: 1080, height: 1920 }} />
+      <Img src={staticFile('thumb-frame.png')} style={{ position: 'absolute', left: (1080 - 1080 * K) / 2, top: -FRAME_Y * K, width: 1080 * K, height: 1920 * K }} />
     </div>
 
     {/* segment label, top-left */}
