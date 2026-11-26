@@ -43,7 +43,7 @@ export const TOTAL = s(131.0);
 /*
  * Platform UI (TikTok, Reels, Shorts) covers the bottom ~660 px and a ~120 px column on the right,
  * so the mouth and the captions stay above y ~1260.
- *  split - UI card on top (y 160-490), talking-head card below (from y 600), head popping out over its edge
+ *  split - UI card on top (y 160-490), the cut-out person below on the grid, a card framing the shoulders from y 1240
  *  anim  - illustration only on the grid, the voice keeps playing under captions
  */
 export type Mode = 'split' | 'anim';
@@ -60,8 +60,12 @@ export const LAYOUT: [number, Mode][] = [
 /** frames a layout change takes */
 export const MORPH = 12;
 
-/** talking-head card: 0.72x, source rows from 531 at its top edge; hair lands ~y 520, mouth ~y 1154, chin ~y 1276 */
-export const HEAD = { k: 0.72, x: 151, y: 600, w: 778, h: 1040, sy: 531 };
+/**
+ * talking-head card: 0.72x. The person (cut out with the alpha matte) sits on the grid down to the card's
+ * top edge at y 1240, just above the platform UI; the card with the room behind only frames the shoulders.
+ * Video top lands at page y 218, so hair ~y 520, mouth ~y 1154, chin ~y 1276.
+ */
+export const HEAD = { k: 0.72, x: 151, y: 1240, w: 778, h: 360, sy: Math.round((1240 - 218) / 0.72) };
 /** top UI card */
 export const TOP = { x: HEAD.x, y: 160, w: HEAD.w, h: 330 };
 /** caption centre line */
