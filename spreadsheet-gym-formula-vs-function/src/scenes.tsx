@@ -7,7 +7,7 @@ import { BODY, BORDER, C, EPISODE, EPISODE_LABEL, HEAD, MONO, PARTS, cue, s, sha
 /*
  * One scene per VO part (Spreadsheet Gym format from brand/segment-kit.html):
  *  0 hook · 1 opening line ("Spreadsheet Gym, sesi 01") · 2 warm-up (office problem) · 3 "pause dulu" + 5 s timer
- *  4-6 the moves (formula, function, gym analogy) · 7 takeaway · 8 repetisi · 9 cool-down
+ *  4-6 the moves (formula, function, gym analogy) · 7 takeaway · 8 repetisi · 9 cool-down · 10 share/follow CTA
  * Every time is in absolute seconds from the VO word timestamps (cue(part, word)).
  */
 
@@ -557,7 +557,76 @@ const CoolDown: React.FC = () => {
   );
 };
 
-const LIST = [Hook, Opening, WarmUp, Pause, MoveFormula, MoveFunction, Gym, Takeaway, Repetisi, CoolDown];
+/* ------------------------------------------------------------------ */
+/* 10. CTA: share + follow for the next workouts                       */
+/* ------------------------------------------------------------------ */
+const Plane: React.FC<{ size?: number }> = ({ size = 90 }) => (
+  <svg viewBox="0 0 100 100" width={size} height={size} style={{ display: 'block' }}>
+    <polygon points="6,46 94,8 64,92 48,58" fill={C.white} stroke={C.ink} strokeWidth="7" strokeLinejoin="round" />
+    <polyline points="94,8 48,58" fill="none" stroke={C.ink} strokeWidth="7" strokeLinejoin="round" />
+  </svg>
+);
+
+const Cursor: React.FC = () => (
+  <svg viewBox="0 0 60 80" width={70} height={94} style={{ display: 'block' }}>
+    <polygon points="4,4 4,64 20,50 32,76 44,70 32,46 54,46" fill={C.white} stroke={C.ink} strokeWidth="5" strokeLinejoin="round" />
+  </svg>
+);
+
+const Cta: React.FC = () => {
+  const f = useCurrentFrame();
+  const t0 = s(PARTS[10].start);
+  const tFollow = s(cue(10, 'follow'));
+  const tMenu = s(cue(10, 'menu'));
+  const fly = lin(f, t0 + 18, t0 + 40);
+  // cursor glides onto the follow button and taps it
+  const cx = interpolate(f, [tFollow - 12, tFollow + 6], [900, 640], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  const cy = interpolate(f, [tFollow - 12, tFollow + 6], [1180, 1010], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  const tap = f >= tFollow + 8;
+  const press = 1 - 0.06 * between(f, tFollow + 6, tFollow + 12, 3);
+  return (
+    <>
+      <At x={540} y={260} s={pop(f, t0)} r={-2}>
+        <Box bg={C.yellow} pad="16px 40px" style={{ fontFamily: HEAD, fontSize: 64 }}>SHARE &amp; FOLLOW</Box>
+      </At>
+      <At x={540} y={560} s={pop(f, t0 + 4)}>
+        <Box pad="24px 30px" style={{ width: 900, boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 28 }}>
+          <div style={{ transform: `translate(${fly * 40}px, ${-fly * 30}px) rotate(${fly * 10}deg)` }}>
+            <Plane size={110} />
+          </div>
+          <div>
+            <div style={{ fontFamily: HEAD, fontSize: 50 }}>Share</div>
+            <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 36 }}>ke temen yang masih suka ketuker</div>
+          </div>
+        </Box>
+      </At>
+      <At x={540} y={900} s={pop(f, tFollow - 6) * press}>
+        <div style={{ background: tap ? C.white : C.green, border: `${BORDER}px solid ${C.ink}`, borderRadius: 24, boxShadow: shadow(tap ? 4 : 12), padding: '24px 60px', fontFamily: HEAD, fontSize: 60, display: 'flex', alignItems: 'center', gap: 18 }}>
+          {tap ? 'Following ✓' : '+ Follow'}
+        </div>
+      </At>
+      <At x={540} y={1010} s={pop(f, tFollow)}>
+        <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 34, marginTop: 30 }}>@faqihpedia</div>
+      </At>
+      <At x={cx} y={cy} o={lin(f, tFollow - 12, tFollow - 6)} z={5}>
+        <Cursor />
+      </At>
+      <At x={540} y={1210} s={pop(f, tMenu)}>
+        <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 38 }}>Menu latihan berikutnya</div>
+      </At>
+      {[2, 3, 4].map((n, i) => (
+        <At key={n} x={250 + i * 290} y={1390} s={pop(f, tMenu + 4 + i * 5)} r={[-3, 2, -2][i]}>
+          <Box bg={i === 0 ? C.green : C.white} pad="16px 22px" radius={18} sh={8} style={{ width: 240, boxSizing: 'border-box', textAlign: 'center' }}>
+            <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 26 }}>SESI {String(n).padStart(2, '0')}</div>
+            <div style={{ fontFamily: HEAD, fontSize: 64, lineHeight: 1.1 }}>?</div>
+          </Box>
+        </At>
+      ))}
+    </>
+  );
+};
+
+const LIST = [Hook, Opening, WarmUp, Pause, MoveFormula, MoveFunction, Gym, Takeaway, Repetisi, CoolDown, Cta];
 
 export const SCENES: { from: number; to: number; C: React.FC }[] = LIST.map((Comp, i) => ({
   from: i === 0 ? 0 : PARTS[i].start - 0.15,
@@ -577,8 +646,9 @@ export const POPS: number[] = [
   PARTS[7].start, cue(7, 'tapi'), cue(7, 'belum'),
   PARTS[8].start, cue(8, 'formula', 0, 2.5), cue(8, 'function', 0, 3), cue(8, 'dua', 0, 3.5),
   PARTS[9].start, cue(9, 'komentar'),
+  PARTS[10].start, cue(10, 'follow') + 0.3, cue(10, 'menu'),
 ];
-export const DINGS: number[] = [cue(4, 'dua'), TIMER_START() + TIMER_LEN];
+export const DINGS: number[] = [cue(4, 'dua'), TIMER_START() + TIMER_LEN, cue(10, 'follow') + 0.3];
 export const THUDS: number[] = [cue(0, 'beda'), cue(7, 'dalam')];
 export const WHISTLE = PARTS[1].start - 0.05;
 export const TICKS: number[] = Array.from({ length: TIMER_LEN }, (_, i) => TIMER_START() + i);

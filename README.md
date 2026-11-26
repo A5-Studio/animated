@@ -94,12 +94,12 @@ npm run render -- --browser-executable=<chrome-headless-shell>
 `spreadsheet-gym-formula-vs-function/spreadsheet-gym.mp4` explains that a formula is anything that starts with `=`, while a function (`SUM`, `AVERAGE`, `VLOOKUP`) is a ready-made formula with a name and parentheses. Every function is used inside a formula, but not every formula uses a function. The script is in `script.md`.
 
 It follows the Spreadsheet Gym identity from `brand/segment-kit.html` and `brand/segments.ts`:
-- **Format:** warm-up (an office problem), a 5-second "pause dulu" countdown, the moves, a repetisi question, and the fixed cool-down line.
+- **Format:** warm-up (an office problem), a 5-second "pause dulu" countdown, the moves, a repetisi question, the cool-down line, and a share & follow CTA.
 - **Look:** Sheets green with the 20 kg plate blue, a cell-grid background, the barbell-with-"fx" logo, and Space Mono for formulas.
 - **Fixed elements:** the episode formula (`=SUM(A1:A5)`) always in the formula bar on top, and the `SESI 01` label (no weight line in this episode).
 - **Sounds:** a coach whistle on the opening line and a ticking countdown.
 
-There is no talking head. The VO is a voice clone made with [VoiceStudio](https://github.com/debpalash/VoiceStudio)'s OmniVoice engine (`k2-fsa/OmniVoice`) from a 5-second reference clip of Faqihpedia #27, running on CPU. "Spreadsheet" is spelled "Spredsit" and "dumbbell" "dambel" in the VO text, formulas are read with Indonesian numbers, and the VO runs at 0.85× speed. Questions and exclamations are separate clips, each the best of 3 takes by pitch.
+There is no talking head. The VO is a voice clone made with [VoiceStudio](https://github.com/debpalash/VoiceStudio)'s OmniVoice engine (`k2-fsa/OmniVoice`) from a 5-second reference clip of Faqihpedia #27, running on CPU. English words are spelled so the clone says them in English ("Spredsit", "dambel", "Pos" for pause), formulas are read with Indonesian numbers, and the VO runs at 0.93× speed. Every sentence is its own clip, picked from several takes by pitch: questions need a rising end, exclamations a lively range, statements a firm falling end, and a dragged last syllable is penalized.
 
 The explaining scenes use a spreadsheet window (`src/Sheet.tsx`): a formula bar with `fx`, a selected cell, colored range references and highlighted `=` / function names.
 
@@ -108,7 +108,7 @@ cd spreadsheet-gym-formula-vs-function
 npm install
 # one VO part per row of script.md, e.g.
 omnivoice-infer --model k2-fsa/OmniVoice --ref_audio ref.wav --ref_text "<words in ref.wav>" --text "<VO line>" --output 01.wav
-python3 scripts/build_vo.py --pause-after 4 5.4 01.wav … 10.wav   # joins, adds the countdown pause, normalizes to -14 LUFS, writes src/timing.ts
+python3 scripts/build_vo.py --pause-after 4 5.4 01.wav … 11.wav   # joins, adds the countdown pause, normalizes to -14 LUFS, writes src/timing.ts
 python3 scripts/whistle.py public/sfx/whistle.wav                   # optional: regenerate the coach whistle
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```

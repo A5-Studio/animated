@@ -23,6 +23,7 @@ const CAPTIONS: string[] = [
   'Intinya, function itu selalu dipakai di dalam formula. Tapi formula, belum tentu pakai function.',
   '=A1*B1. Itu formula, function, atau dua-duanya?',
   'Kerjain repetisinya, jawab di komentar ya!',
+  'Share ke temen kamu yang masih suka ketuker. Terus follow, biar nggak ketinggalan menu latihan lainnya!',
 ];
 
 const spoken = (tok: string) => {
