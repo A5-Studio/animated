@@ -113,4 +113,6 @@ python3 scripts/whistle.py public/sfx/whistle.wav                   # optional: 
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
 
+The cover is `thumbnail.png`, rendered from the `Thumbnail` still (`src/Thumbnail.tsx`, face from Faqihpedia #22 in `public/face.jpg`): `npx remotion still Thumbnail thumbnail.png`. Title and face stay inside the centered 3:4 area the Instagram profile grid shows.
+
 Scene timing is cued to words in the VO (`cue(part, word)` in `src/theme.ts`), so the edit follows a regenerated VO without manual retiming. The episode number, weight and main formula are `EPISODE` and `MAIN_FORMULA` in `src/theme.ts`.
