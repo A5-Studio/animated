@@ -130,8 +130,8 @@ const Statement: React.FC<{ f: number }> = ({ f }) => (
         </div>
       </Body>
     </Top>
-    <PopIn f={f} at={7.3} x={790} y={450} r={-3}><Pill tone="red" size={28}>Tidak ada</Pill></PopIn>
-    <PopIn f={f} at={10.4} x={540} y={565}><Pill tone="grey" size={24}>Nama seorang ilmuwan?</Pill></PopIn>
+    <PopIn f={f} at={7.3} x={790} y={420} r={-3}><Pill tone="red" size={28}>Tidak ada</Pill></PopIn>
+    <PopIn f={f} at={10.4} x={540} y={488}><Pill tone="grey" size={24}>Nama seorang ilmuwan?</Pill></PopIn>
   </>
 );
 
@@ -225,7 +225,7 @@ const Bit: React.FC<{ f: number }> = ({ f }) => {
           </div>
         </Body>
       </Top>
-      <PopIn f={f} at={37.6} x={780} y={450} r={-3}><Pill tone="green" size={26}>Komputer paham</Pill></PopIn>
+      <PopIn f={f} at={37.6} x={780} y={420} r={-3}><Pill tone="green" size={26}>Komputer paham</Pill></PopIn>
     </>
   );
 };
@@ -354,7 +354,7 @@ const LookItUp: React.FC<{ f: number }> = ({ f }) => (
         </div>
       </Body>
     </Top>
-    <PopIn f={f} at={82.4} x={780} y={450} r={-3}><Pill tone="blue" size={26}>Cari sendiri</Pill></PopIn>
+    <PopIn f={f} at={82.4} x={780} y={420} r={-3}><Pill tone="blue" size={26}>Cari sendiri</Pill></PopIn>
   </>
 );
 
@@ -382,7 +382,7 @@ const SameEra: React.FC<{ f: number }> = ({ f }) => (
       </Body>
     </Top>
     <PopIn f={f} at={86.0} x={790} y={300} r={3}><Pill tone="blue" size={24}>Sezaman</Pill></PopIn>
-    <PopIn f={f} at={89.6} x={540} y={565}><Pill tone="ink" size={24}>Mesin yang bisa berpikir</Pill></PopIn>
+    <PopIn f={f} at={89.6} x={540} y={488}><Pill tone="ink" size={24}>Mesin yang bisa berpikir</Pill></PopIn>
   </>
 );
 
@@ -409,7 +409,7 @@ const Film: React.FC<{ f: number }> = ({ f }) => (
         </div>
       </Body>
     </Top>
-    <PopIn f={f} at={96.85} x={780} y={450} r={-3}><Pill tone="blue" size={26}>Coba nonton</Pill></PopIn>
+    <PopIn f={f} at={96.85} x={780} y={420} r={-3}><Pill tone="blue" size={26}>Coba nonton</Pill></PopIn>
   </>
 );
 
@@ -457,7 +457,7 @@ const Poll: React.FC<{ f: number }> = ({ f }) => {
           ))}
         </Body>
       </Top>
-      <PopIn f={f} at={123.4} x={540} y={565}><Pill tone="ink" size={24}>Sama-sama mengonsep mesin berpikir</Pill></PopIn>
+      <PopIn f={f} at={123.4} x={540} y={488}><Pill tone="ink" size={24}>Sama-sama mengonsep mesin berpikir</Pill></PopIn>
     </>
   );
 };
@@ -486,7 +486,7 @@ const Outro: React.FC<{ f: number }> = ({ f }) => {
           <svg width={40} height={48} viewBox="0 0 20 24"><path d="M2 2 L2 19 L6.5 15 L9.5 22 L12.5 20.8 L9.5 14 L16 14 Z" fill="#111" stroke="#fff" strokeWidth={1.4} strokeLinejoin="round" /></svg>
         </At>
       )}
-      <PopIn f={f} at={124.45} x={540} y={565}><Pill tone="ink" size={24}>Tulis di komen</Pill></PopIn>
+      <PopIn f={f} at={124.45} x={540} y={488}><Pill tone="ink" size={24}>Tulis di komen</Pill></PopIn>
     </>
   );
 };

@@ -140,3 +140,27 @@ npx remotion render AnInfoClaude main.mp4 --browser-executable=<chrome-headless-
 # then a two-pass loudnorm to -14 LUFS (same as trims-eps2-claude/scripts/splice.sh, without the bumper)
 npx remotion still Thumbnail thumbnail/cover.png
 ```
+
+## Alternative Reference · Asal nama Claude (Remotion, Reels 1080×1920, ~131s)
+
+`altref-claude-shannon/altref-claude-shannon.mp4` is the same cut as `trims-eps2-claude`, restyled after the clip in Drive "TRIMS/EPS 2/Alternative Reference". The look:
+
+- light grey grid paper with white UI cards, each with a header row (icon, bold label and a mono "url" chip)
+- big counting numbers, a sparkline, and mono uppercase pills (red, blue, green, ink) plus pink keycaps
+- a talking-head card whose **head pops out over the card's top edge**
+- word-by-word karaoke captions (`scripts/karaoke.py`), with a box on the word being said
+
+Everything that matters stays above the platform UI, which covers the bottom ~660 px. The mouth sits at about y 1154 and the captions at y 1222. The reference puts captions on the chest, so this layout departs from it there.
+
+- **Pop-out:** `public/person.webm` (not committed) is the talking head with an alpha matte from Robust Video Matting. Use `scripts/matte.py` from `faqihpedia-09-cutout` on branch `claude/faqihpedia-09-edit`, then:
+  `ffmpeg -i public/source.mp4 -i alpha.mp4 -filter_complex "[0:v]scale=778:1382[v];[1:v]scale=778:1382,format=gray[a];[v][a]alphamerge,format=yuva420p" -c:v libvpx-vp9 -b:v 0 -crf 32 -an public/person.webm`
+- **Decoder:** it is played with `Html5Video`, because Remotion's compositor drops VP9 alpha ("not transparent, BGR24") and only the browser decoder keeps it.
+
+```sh
+cd altref-claude-shannon
+npm install
+ln ../trims-eps2-claude/public/source.mp4 public/source.mp4
+python3 scripts/karaoke.py scripts/transcript.json src/karaoke.ts
+npx remotion render AltRefClaude main.mp4 --browser-executable=<chrome-headless-shell> --concurrency=2
+# then a two-pass loudnorm to -14 LUFS
+```

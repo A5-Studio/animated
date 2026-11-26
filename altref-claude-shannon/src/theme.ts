@@ -43,7 +43,7 @@ export const TOTAL = s(131.0);
 /*
  * Platform UI (TikTok, Reels, Shorts) covers the bottom ~660 px and a ~120 px column on the right,
  * so the mouth and the captions stay above y ~1260.
- *  split - UI card on top (y 180-520), talking-head card below (from y 640), head popping out over its edge
+ *  split - UI card on top (y 160-490), talking-head card below (from y 600), head popping out over its edge
  *  anim  - illustration only on the grid, the voice keeps playing under captions
  */
 export type Mode = 'split' | 'anim';
@@ -60,9 +60,9 @@ export const LAYOUT: [number, Mode][] = [
 /** frames a layout change takes */
 export const MORPH = 12;
 
-/** talking-head card: 0.72x, source rows from 531 at its top edge; hair lands ~y 560, mouth ~y 1194 */
-export const HEAD = { k: 0.72, x: 151, y: 640, w: 778, h: 1000, sy: 531 };
+/** talking-head card: 0.72x, source rows from 531 at its top edge; hair lands ~y 520, mouth ~y 1154, chin ~y 1276 */
+export const HEAD = { k: 0.72, x: 151, y: 600, w: 778, h: 1040, sy: 531 };
 /** top UI card */
-export const TOP = { x: HEAD.x, y: 180, w: HEAD.w, h: 340 };
+export const TOP = { x: HEAD.x, y: 160, w: HEAD.w, h: 330 };
 /** caption centre line */
-export const CAP_Y = 1250;
+export const CAP_Y = 1222;

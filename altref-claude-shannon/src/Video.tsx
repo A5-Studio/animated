@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Easing, OffthreadVideo, interpolate, staticFile, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, Easing, Html5Video, OffthreadVideo, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { KARAOKE } from './karaoke';
 import { SCENES } from './scenes';
 import { Sfx } from './sfx';
@@ -45,7 +45,8 @@ const Talking: React.FC<{ sp: number }> = ({ sp }) => {
       </div>
       {/* person.webm = the same frames with an alpha matte (scripts/matte.py); only the part above the card shows */}
       <div style={{ position: 'absolute', left: x, top: popTop, width: 1080 * k, height: y - popTop + 2, overflow: 'hidden' }}>
-        <OffthreadVideo src={staticFile('person.webm')} transparent muted style={{ position: 'absolute', left: 0, top: 0, width: 1080 * k, height: 1920 * k }} />
+        {/* the browser's own decoder keeps VP9 alpha (Remotion's compositor drops it) */}
+        <Html5Video src={staticFile('person.webm')} muted style={{ position: 'absolute', left: 0, top: 0, width: 1080 * k, height: 1920 * k }} />
       </div>
     </div>
   );
