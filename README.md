@@ -89,14 +89,14 @@ cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
 
-## Spreadsheet Gym · Sesi 01 · 5 KG: Formula vs Function (Remotion, Reels 1080×1920, 65.9s)
+## Spreadsheet Gym · Sesi 01: Formula vs Function (Remotion, Reels 1080×1920, 65.9s)
 
 `spreadsheet-gym-formula-vs-function/spreadsheet-gym.mp4` explains that a formula is anything that starts with `=`, while a function (`SUM`, `AVERAGE`, `VLOOKUP`) is a ready-made formula with a name and parentheses. Every function is used inside a formula, but not every formula uses a function. The script is in `script.md`.
 
 It follows the Spreadsheet Gym identity from `brand/segment-kit.html` and `brand/segments.ts`:
 - **Format:** warm-up (an office problem), a 10-second "pause dulu" countdown, the moves, a repetisi question, and the fixed cool-down line.
 - **Look:** Sheets green with the 20 kg plate blue, a cell-grid background, the barbell-with-"fx" logo, and Space Mono for formulas.
-- **Fixed elements:** the episode formula (`=SUM(A1:A5)`) always in the formula bar on top, and the `SESI 01 · 5 KG` label.
+- **Fixed elements:** the episode formula (`=SUM(A1:A5)`) always in the formula bar on top, and the `SESI 01` label (no weight line in this episode).
 - **Sounds:** a coach whistle on the opening line and a ticking countdown.
 
 There is no talking head. The VO is a voice clone made with [VoiceStudio](https://github.com/debpalash/VoiceStudio)'s OmniVoice engine (`k2-fsa/OmniVoice`) from a 5-second reference clip of Faqihpedia #27, running on CPU. "Spreadsheet" is spelled "Spredsit" in the VO text so the clone doesn't drag "sheet".

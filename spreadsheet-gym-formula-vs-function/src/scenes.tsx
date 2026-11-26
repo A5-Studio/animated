@@ -6,7 +6,7 @@ import { BODY, BORDER, C, EPISODE, EPISODE_LABEL, HEAD, MONO, PARTS, cue, s, sha
 
 /*
  * One scene per VO part (Spreadsheet Gym format from brand/segment-kit.html):
- *  0 hook · 1 opening line · 2 warm-up (office problem) · 3 "pause dulu" + 10 s timer
+ *  0 hook · 1 opening line ("Spreadsheet Gym, sesi 01") · 2 warm-up (office problem) · 3 "pause dulu" + 10 s timer
  *  4-6 the moves (formula, function, gym analogy) · 7 takeaway · 8 repetisi · 9 cool-down
  * Every time is in absolute seconds from the VO word timestamps (cue(part, word)).
  */
@@ -34,19 +34,6 @@ export const Barbell: React.FC<{ w?: number }> = ({ w = 230 }) => (
     <rect x="198" y="47" width="20" height="26" fill={C.green} />
   </svg>
 );
-
-/** weight plate in its official color: 5 kg white, 10 kg green, 20 kg blue */
-const Plate: React.FC<{ kg: number; size?: number }> = ({ kg, size = 300 }) => {
-  const color = kg === 20 ? C.blue : kg === 10 ? C.green : C.white;
-  return (
-    <div style={{ width: size, height: size, borderRadius: '50%', background: color, border: `${BORDER}px solid ${C.ink}`, boxShadow: shadow(10), display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-      <div style={{ position: 'absolute', inset: size * 0.12, borderRadius: '50%', border: `4px solid ${C.ink}` }} />
-      <div style={{ width: size * 0.16, height: size * 0.16, borderRadius: '50%', background: C.ink, position: 'absolute' }} />
-      <div style={{ position: 'absolute', top: size * 0.2, fontFamily: HEAD, fontSize: size * 0.17 }}>{kg} KG</div>
-      <div style={{ position: 'absolute', bottom: size * 0.2, fontFamily: MONO, fontWeight: 700, fontSize: size * 0.08 }}>DASAR</div>
-    </div>
-  );
-};
 
 const Tag: React.FC<{ ok: boolean; children: React.ReactNode; size?: number }> = ({ ok, children, size = 28 }) => (
   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ok ? C.green : C.red, border: `4px solid ${C.ink}`, borderRadius: 12, padding: '4px 14px', fontFamily: HEAD, fontSize: size, color: C.ink, whiteSpace: 'nowrap' }}>
@@ -142,25 +129,17 @@ const Opening: React.FC = () => {
   const f = useCurrentFrame();
   const t0 = s(PARTS[1].start);
   const tSesi = s(cue(1, 'sesi'));
-  const tBeban = s(cue(1, 'beban'));
   const lift = Math.sin((f - t0) / 6) * 14;
-  const roll = interpolate(f, [tBeban, tBeban + 18], [520, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   return (
     <>
-      <At x={540} y={520 + lift} s={pop(f, t0)}>
-        <Barbell w={560} />
+      <At x={540} y={600 + lift} s={pop(f, t0)}>
+        <Barbell w={600} />
       </At>
-      <At x={540} y={790} s={pop(f, t0 + 5)} r={-2}>
+      <At x={540} y={890} s={pop(f, t0 + 5)} r={-2}>
         <Box bg={C.green} pad="18px 44px" style={{ fontFamily: HEAD, fontSize: 84, lineHeight: 1 }}>SPREADSHEET GYM</Box>
       </At>
-      <At x={540} y={960} s={pop(f, tSesi)} r={3}>
-        <Sticker bg={C.white} size={50}>Sesi {String(EPISODE.n).padStart(2, '0')}</Sticker>
-      </At>
-      <At x={540 + roll} y={1260} r={roll * 0.6} o={f >= tBeban ? 1 : 0}>
-        <Plate kg={EPISODE.kg} size={340} />
-      </At>
-      <At x={540} y={1490} s={pop(f, tBeban + 16)}>
-        <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 40 }}>Beban hari ini</div>
+      <At x={540} y={1100} s={pop(f, tSesi)} r={3}>
+        <Sticker bg={C.white} size={64}>Sesi {String(EPISODE.n).padStart(2, '0')}</Sticker>
       </At>
     </>
   );
@@ -600,6 +579,6 @@ export const POPS: number[] = [
   PARTS[9].start, cue(9, 'komentar'),
 ];
 export const DINGS: number[] = [cue(4, 'dua'), TIMER_START() + TIMER_LEN];
-export const THUDS: number[] = [cue(0, 'beda'), cue(1, 'beban') + 0.6, cue(7, 'dalam')];
+export const THUDS: number[] = [cue(0, 'beda'), cue(7, 'dalam')];
 export const WHISTLE = PARTS[1].start - 0.05;
 export const TICKS: number[] = Array.from({ length: TIMER_LEN }, (_, i) => TIMER_START() + i);

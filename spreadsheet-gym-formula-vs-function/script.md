@@ -1,4 +1,4 @@
-# Spreadsheet Gym · Sesi 01 · 5 KG · Formula vs Function
+# Spreadsheet Gym · Sesi 01 · Formula vs Function
 
 Reels 9:16, about 70 seconds, in the Spreadsheet Gym format from the Faqihpedia Segment Kit (`brand/segment-kit.html`, `brand/segments.ts`):
 warm-up (office problem) → coba dulu (10-second timer) → the moves → repetisi → pendinginan.
@@ -6,12 +6,14 @@ Voice: your speaking style from Faqihpedia #22 and #27 (santai, "aku/kalian", ka
 
 The **On screen** column is the text and visuals in the video. The **VO** column is what's spoken: formulas are written the way they're read, and "Spreadsheet" is spelled "Spredsit" so the voice clone doesn't drag "sheet".
 
+No "Beban hari ini" weight line in this episode.
+
 Main formula for the episode (always in the formula bar on top): `=SUM(A1:A5)`.
 
 | # | Part | On screen | VO |
 |---|---|---|---|
 | 1 | Hook | **FORMULA ≠ FUNCTION** | Jangan salah lagi, di Excel atau Spredsit, formula dan function itu beda. |
-| 2 | Opening (fixed) | Barbell logo, *Sesi 01*, white 5 KG plate · coach whistle | Spredsit Gym, sesi satu. Beban hari ini: lima kilo. |
+| 2 | Opening | Barbell logo, *Sesi 01* · coach whistle | Ini Spredsit Gym, sesi satu. |
 | 3 | Warm-up | Boss chat + `penjualan.xlsx`: `=A1+A2+A3+A4+A5` (Kamu) and `=SUM(A1:A5)` (Temen) | Bos minta total penjualan lima hari. Kamu nulis, sama dengan A1 plus A2 plus A3 plus A4 plus A5. Temen kamu nulis, sama dengan SUM A1 sampai A5. Mana yang formula, mana yang function? |
 | 4 | Coba dulu | **PAUSE DULU** + 10-second countdown | Pause dulu, tebak jawabannya. *(10 seconds of ticking)* |
 | 5 | Move 1: formula | The "=" in both cells is highlighted, then both turn green | Formula itu semua yang kalian ketik di sel, yang diawali tanda sama dengan. Jadi, dua-duanya formula. |

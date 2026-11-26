@@ -14,7 +14,7 @@ import { BODY, BORDER, C, EPISODE_LABEL, HEAD, MAIN_FORMULA, MONO, PARTS, WORDS,
  */
 const CAPTIONS: string[] = [
   'Jangan salah lagi, di Excel atau Spreadsheet, formula dan function itu beda.',
-  'Spreadsheet Gym, sesi 01. Beban hari ini: 5 kilo.',
+  'Spreadsheet Gym, sesi 01.',
   'Bos minta total penjualan 5 hari. Kamu nulis =A1+A2+A3+A4+A5. Temen kamu nulis =SUM(A1:A5). Mana yang formula, mana yang function?',
   'Pause dulu, tebak jawabannya.',
   'Formula itu semua yang kalian ketik di sel, yang diawali tanda =. Jadi, dua-duanya formula.',

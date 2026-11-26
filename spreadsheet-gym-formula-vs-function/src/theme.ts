@@ -30,7 +30,8 @@ export const C = {
 };
 
 export const EPISODE = { n: 1, kg: 5 as 5 | 10 | 20 };
-export const EPISODE_LABEL = `SESI ${String(EPISODE.n).padStart(2, '0')} · ${EPISODE.kg} KG`;
+// The weight ("Beban hari ini: 5 kilo") is left out of this episode on purpose.
+export const EPISODE_LABEL = `SESI ${String(EPISODE.n).padStart(2, '0')}`;
 /** the episode's main formula, always shown in the formula bar on top */
 export const MAIN_FORMULA = '=SUM(A1:A5)';
 
