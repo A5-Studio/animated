@@ -52,7 +52,7 @@ export const SheetUI: React.FC<{
       }}
     >
       {/* title bar */}
-      <div style={{ height: 70, background: C.sheet, display: 'flex', alignItems: 'center', gap: 14, padding: '0 24px', borderBottom: `${BORDER}px solid ${C.ink}` }}>
+      <div style={{ height: 70, background: C.formula, display: 'flex', alignItems: 'center', gap: 14, padding: '0 24px', borderBottom: `${BORDER}px solid ${C.ink}` }}>
         {[C.red, C.yellow, C.green].map((b) => (
           <div key={b} style={{ width: 22, height: 22, borderRadius: 11, background: b, border: `3px solid ${C.ink}` }} />
         ))}
@@ -127,16 +127,32 @@ export const SheetUI: React.FC<{
 };
 
 /** formula text where each reference is colored like Excel does */
-export const Fx: React.FC<{ text: string; n?: number; colors?: Record<string, string>; caret?: boolean }> = ({ text, n, colors = {}, caret }) => {
+export const Fx: React.FC<{ text: string; n?: number; colors?: Record<string, string>; caret?: boolean; markEq?: number; markName?: number }> = ({
+  text, n, colors = {}, caret, markEq = 0, markName = 0,
+}) => {
   const shown = n === undefined ? text : text.slice(0, Math.max(0, Math.floor(n)));
-  const parts = shown.split(/([A-H][0-9]+(?::[A-H][0-9]+)?)/g);
+  const parts = shown.split(/(^=|[A-Z]{2,}(?=\()|[A-H][0-9]+(?::[A-H][0-9]+)?)/g).filter(Boolean);
+  const hl = (on: number, color: string): React.CSSProperties =>
+    on > 0 ? { background: color, outline: `${3 * on}px solid ${C.ink}`, borderRadius: 6, padding: '0 2px' } : {};
   return (
     <span>
-      {parts.map((p, i) => (
-        <span key={i} style={{ color: colors[p] ?? (/^[A-H][0-9]/.test(p) ? C.sel : C.ink) }}>
-          {p}
-        </span>
-      ))}
+      {parts.map((p, i) => {
+        const isRef = /^[A-H][0-9]/.test(p);
+        const isEq = p === '=' && i === 0;
+        const isName = /^[A-Z]{2,}$/.test(p);
+        return (
+          <span
+            key={i}
+            style={{
+              color: colors[p] ?? (isRef ? C.sel : C.formula),
+              ...(isEq ? hl(markEq, C.yellow) : {}),
+              ...(isName ? hl(markName, C.yellow) : {}),
+            }}
+          >
+            {p}
+          </span>
+        );
+      })}
       {caret && <span style={{ display: 'inline-block', width: 4, height: 44, background: C.ink, marginLeft: 3, verticalAlign: 'middle' }} />}
     </span>
   );

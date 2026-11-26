@@ -2,71 +2,103 @@ import React from 'react';
 import { interpolate, useCurrentFrame } from 'remotion';
 import { At, Box, Sticker, between, ease, lin, pop } from './components';
 import { Fx, SheetUI } from './Sheet';
-import { BODY, BORDER, C, HEAD, MONO, PARTS, cue, s, shadow } from './theme';
+import { BODY, BORDER, C, EPISODE, EPISODE_LABEL, HEAD, MONO, PARTS, cue, s, shadow } from './theme';
 
 /*
- * One scene per VO part. Every time is in absolute seconds, taken from the
- * word timestamps in timing.ts (cue(part, word)), so the edit follows the
- * voice even if the VO is regenerated.
+ * One scene per VO part (Spreadsheet Gym format from brand/segment-kit.html):
+ *  0 hook · 1 opening line · 2 warm-up (office problem) · 3 "pause dulu" + 10 s timer
+ *  4-6 the moves (formula, function, gym analogy) · 7 takeaway · 8 repetisi · 9 cool-down
+ * Every time is in absolute seconds from the VO word timestamps (cue(part, word)).
  */
 
-const typed = (f: number, a: number, b: number, len: number) => interpolate(f, [s(a), s(b)], [0, len], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+const typed = (f: number, a: number, b: number, len: number) =>
+  interpolate(f, [s(a), s(b)], [0, len], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
 
 /* ------------------------------------------------------------------ */
-/* small drawings                                                      */
+/* brand drawings                                                      */
 /* ------------------------------------------------------------------ */
-export const Dumbbell: React.FC<{ w?: number; color?: string }> = ({ w = 260, color = C.ink }) => {
-  const k = w / 260;
-  const plate = (h: number, x: number) => (
-    <div style={{ position: 'absolute', left: x * k, top: (100 - h) / 2 * k, width: 26 * k, height: h * k, background: color, border: `${4 * k}px solid ${C.ink}`, borderRadius: 8 * k, boxSizing: 'border-box' }} />
-  );
-  return (
-    <div style={{ position: 'relative', width: w, height: 100 * k }}>
-      <div style={{ position: 'absolute', left: 30 * k, top: 42 * k, width: 200 * k, height: 16 * k, background: C.ink, borderRadius: 8 * k }} />
-      {plate(100, 18)}
-      {plate(76, 46)}
-      {plate(76, 188)}
-      {plate(100, 216)}
-    </div>
-  );
-};
-
-const Logo: React.FC<{ scale?: number }> = ({ scale = 1 }) => (
-  <Box bg={C.green} pad="22px 40px" style={{ display: 'flex', alignItems: 'center', gap: 26, transform: `scale(${scale})` }}>
-    <Dumbbell w={150} color={C.white} />
-    <div style={{ fontFamily: HEAD, fontSize: 64, lineHeight: 0.95 }}>
-      SPREADSHEET
-      <br />
-      GYM
-    </div>
-  </Box>
+/** Spreadsheet Gym logo: barbell whose plates are table cells and whose bar says "fx" */
+export const Barbell: React.FC<{ w?: number }> = ({ w = 230 }) => (
+  <svg viewBox="0 0 230 120" width={w} height={(w * 120) / 230} style={{ display: 'block' }}>
+    <rect x="58" y="52" width="114" height="16" rx="4" fill="#fff" stroke="#111" strokeWidth="5" />
+    <text x="115" y="65" textAnchor="middle" fontFamily="Space Mono, monospace" fontStyle="italic" fontWeight="700" fontSize="14" fill="#111">fx</text>
+    <g stroke="#111" strokeWidth="5" fill="#fff">
+      <rect x="10" y="14" width="48" height="92" rx="6" />
+      <rect x="172" y="14" width="48" height="92" rx="6" />
+    </g>
+    <g stroke="#111" strokeWidth="3">
+      <line x1="34" y1="14" x2="34" y2="106" /><line x1="10" y1="45" x2="58" y2="45" /><line x1="10" y1="75" x2="58" y2="75" />
+      <line x1="196" y1="14" x2="196" y2="106" /><line x1="172" y1="45" x2="220" y2="45" /><line x1="172" y1="75" x2="220" y2="75" />
+    </g>
+    <rect x="12" y="47" width="20" height="26" fill={C.green} />
+    <rect x="198" y="47" width="20" height="26" fill={C.green} />
+  </svg>
 );
 
-/** small logo chip that sits at the top of every explaining scene */
-export const TopChip: React.FC = () => {
-  const f = useCurrentFrame();
-  const o = lin(f, s(PARTS[2].start) - 10, s(PARTS[2].start)) * (1 - lin(f, s(PARTS[7].start) - 10, s(PARTS[7].start)));
+/** weight plate in its official color: 5 kg white, 10 kg green, 20 kg blue */
+const Plate: React.FC<{ kg: number; size?: number }> = ({ kg, size = 300 }) => {
+  const color = kg === 20 ? C.blue : kg === 10 ? C.green : C.white;
   return (
-    <At x={540} y={96} o={o}>
-      <Sticker bg={C.green} size={30} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-        <Dumbbell w={60} color={C.white} /> Spreadsheet Gym
-      </Sticker>
-    </At>
+    <div style={{ width: size, height: size, borderRadius: '50%', background: color, border: `${BORDER}px solid ${C.ink}`, boxShadow: shadow(10), display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+      <div style={{ position: 'absolute', inset: size * 0.12, borderRadius: '50%', border: `4px solid ${C.ink}` }} />
+      <div style={{ width: size * 0.16, height: size * 0.16, borderRadius: '50%', background: C.ink, position: 'absolute' }} />
+      <div style={{ position: 'absolute', top: size * 0.2, fontFamily: HEAD, fontSize: size * 0.17 }}>{kg} KG</div>
+      <div style={{ position: 'absolute', bottom: size * 0.2, fontFamily: MONO, fontWeight: 700, fontSize: size * 0.08 }}>DASAR</div>
+    </div>
   );
 };
 
-const Bookmark: React.FC<{ size?: number }> = ({ size = 240 }) => (
-  <div style={{ position: 'relative', width: size, height: size * 1.25 }}>
-    <div style={{ position: 'absolute', left: 14, top: 14, width: size, height: size * 1.25, background: C.ink, clipPath: 'polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)' }} />
-    <div style={{ position: 'absolute', inset: 0, background: C.ink, clipPath: 'polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)' }} />
-    <div style={{ position: 'absolute', left: 9, top: 9, width: size - 18, height: size * 1.25 - 30, background: C.pink, clipPath: 'polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)' }} />
+const Tag: React.FC<{ ok: boolean; children: React.ReactNode; size?: number }> = ({ ok, children, size = 28 }) => (
+  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ok ? C.green : C.red, border: `4px solid ${C.ink}`, borderRadius: 12, padding: '4px 14px', fontFamily: HEAD, fontSize: size, color: C.ink, whiteSpace: 'nowrap' }}>
+    {ok ? '✓' : '✗'} {children}
+  </span>
+);
+
+const Bubble: React.FC<{ who: string; children: React.ReactNode; bg?: string }> = ({ who, children, bg = C.white }) => (
+  <div style={{ position: 'relative' }}>
+    <Box bg={bg} pad="18px 28px" radius={26} style={{ maxWidth: 820 }}>
+      <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 26, marginBottom: 6 }}>{who}</div>
+      <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 44, lineHeight: 1.15 }}>{children}</div>
+    </Box>
+    <div style={{ position: 'absolute', left: 50, bottom: -30, width: 0, height: 0, borderLeft: '22px solid transparent', borderRight: '22px solid transparent', borderTop: `34px solid ${C.ink}` }} />
   </div>
 );
 
-const Tag: React.FC<{ ok: boolean; children: React.ReactNode }> = ({ ok, children }) => (
-  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ok ? C.green : C.red, border: `4px solid ${C.ink}`, borderRadius: 12, padding: '4px 14px', fontFamily: HEAD, fontSize: 26, color: C.ink }}>
-    {ok ? '✓' : '✗'} {children}
-  </span>
+/* ------------------------------------------------------------------ */
+/* the practice sheet shared by the warm-up and the moves              */
+/* ------------------------------------------------------------------ */
+const LONG = '=A1+A2+A3+A4+A5';
+const SHORT = '=SUM(A1:A5)';
+const SALES = ['120', '95', '140', '80', '165']; // penjualan Senin–Jumat (rb)
+const REF_COLORS: Record<string, string> = { A1: C.sel, A2: '#D6249F', A3: '#E37400', A4: '#188038', A5: '#9334E6' };
+
+const PracticeSheet: React.FC<{
+  a6: React.ReactNode; b6: React.ReactNode; selected?: string; bar: React.ReactNode; refs?: { cells: string[]; color: string }[];
+  a6bg?: string; b6bg?: string; labels: number;
+}> = ({ a6, b6, selected, bar, refs = [], a6bg, b6bg, labels }) => (
+  <SheetUI
+    title="penjualan.xlsx"
+    cols={2}
+    rows={7}
+    rowH={70}
+    colW={[454, 444]}
+    selected={selected}
+    nameBox={selected ?? 'A6'}
+    cells={{
+      A1: SALES[0], A2: SALES[1], A3: SALES[2], A4: SALES[3], A5: SALES[4],
+      A6: a6, B6: b6,
+      A7: <span style={{ opacity: labels }}>↑ Kamu</span>,
+      B7: <span style={{ opacity: labels }}>↑ Temen kamu</span>,
+    }}
+    cellStyle={{
+      A6: { justifyContent: 'flex-start', fontSize: 34, background: a6bg },
+      B6: { justifyContent: 'flex-start', fontSize: 34, background: b6bg },
+      A7: { justifyContent: 'flex-start', fontFamily: BODY, fontWeight: 700, fontSize: 32 },
+      B7: { justifyContent: 'flex-start', fontFamily: BODY, fontWeight: 700, fontSize: 32 },
+    }}
+    refs={refs}
+    bar={bar}
+  />
 );
 
 /* ------------------------------------------------------------------ */
@@ -81,22 +113,22 @@ const Hook: React.FC = () => {
   const shake = f > tBeda ? Math.sin((f - tBeda) * 1.3) * 6 * (1 - lin(f, tBeda, tBeda + 18)) : 0;
   return (
     <>
-      <At x={540} y={330} s={pop(f, t0)} r={-4}>
+      <At x={540} y={400} s={pop(f, t0)} r={-4}>
         <Sticker bg={C.red} size={58} style={{ color: C.white }}>Jangan salah lagi!</Sticker>
       </At>
-      <At x={540} y={500} s={pop(f, t0 + 8)} o={lin(f, t0 + 8, t0 + 12)}>
+      <At x={540} y={560} s={pop(f, t0 + 8)} o={lin(f, t0 + 8, t0 + 12)}>
         <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 40 }}>di Excel atau Spreadsheet…</div>
       </At>
-      <At x={540 + shake} y={740} s={pop(f, tF)} r={-2}>
-        <Box bg={C.yellow} pad="26px 60px" style={{ fontFamily: HEAD, fontSize: 104 }}>FORMULA</Box>
+      <At x={540 + shake} y={780} s={pop(f, tF)} r={-2}>
+        <Box bg={C.green} pad="26px 60px" style={{ fontFamily: HEAD, fontSize: 104 }}>FORMULA</Box>
       </At>
-      <At x={540} y={940} s={pop(f, tBeda, 220)} z={2}>
-        <div style={{ width: 170, height: 170, borderRadius: 85, background: C.pink, border: `${BORDER}px solid ${C.ink}`, boxShadow: shadow(9), display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: HEAD, fontSize: 120, lineHeight: 1 }}>≠</div>
+      <At x={540} y={975} s={pop(f, tBeda, 220)} z={2}>
+        <div style={{ width: 170, height: 170, borderRadius: 85, background: C.yellow, border: `${BORDER}px solid ${C.ink}`, boxShadow: shadow(9), display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: HEAD, fontSize: 120, lineHeight: 1 }}>≠</div>
       </At>
-      <At x={540 - shake} y={1140} s={pop(f, tFn)} r={2}>
+      <At x={540 - shake} y={1170} s={pop(f, tFn)} r={2}>
         <Box bg={C.blue} pad="26px 60px" style={{ fontFamily: HEAD, fontSize: 104 }}>FUNCTION</Box>
       </At>
-      <At x={540} y={1340} s={pop(f, tBeda + 4)} r={-3}>
+      <At x={540} y={1370} s={pop(f, tBeda + 4)} r={-3}>
         <Sticker bg={C.ink} size={54} style={{ color: C.yellow }}>Itu beda!</Sticker>
       </At>
     </>
@@ -104,93 +136,183 @@ const Hook: React.FC = () => {
 };
 
 /* ------------------------------------------------------------------ */
-/* 1. segment intro                                                    */
+/* 1. opening line: "Spreadsheet Gym, sesi 01. Beban hari ini: 5 kilo." */
 /* ------------------------------------------------------------------ */
-const Intro: React.FC = () => {
+const Opening: React.FC = () => {
   const f = useCurrentFrame();
   const t0 = s(PARTS[1].start);
-  const tLat = s(cue(1, 'latihan'));
-  const tKet = s(cue(1, 'ketuker'));
-  const lift = Math.sin((f - t0) / 7) * 10;
-  const swap = ease(f, tKet, tKet + 16);
+  const tSesi = s(cue(1, 'sesi'));
+  const tBeban = s(cue(1, 'beban'));
+  const lift = Math.sin((f - t0) / 6) * 14;
+  const roll = interpolate(f, [tBeban, tBeban + 18], [520, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   return (
     <>
-      <At x={540} y={560 + lift} s={pop(f, t0)} r={-2}>
-        <Logo />
+      <At x={540} y={520 + lift} s={pop(f, t0)}>
+        <Barbell w={560} />
       </At>
-      <At x={540} y={860} s={pop(f, tLat)} r={3}>
-        <Sticker bg={C.yellow} size={40}>Latihan hari ini</Sticker>
+      <At x={540} y={790} s={pop(f, t0 + 5)} r={-2}>
+        <Box bg={C.green} pad="18px 44px" style={{ fontFamily: HEAD, fontSize: 84, lineHeight: 1 }}>SPREADSHEET GYM</Box>
       </At>
-      <At x={540 - 230 + 460 * swap} y={1060} s={pop(f, tLat + 6)}>
-        <Box bg={C.yellow} pad="14px 30px" style={{ fontFamily: HEAD, fontSize: 56 }}>Formula</Box>
+      <At x={540} y={960} s={pop(f, tSesi)} r={3}>
+        <Sticker bg={C.white} size={50}>Sesi {String(EPISODE.n).padStart(2, '0')}</Sticker>
       </At>
-      <At x={540} y={1060} s={pop(f, tLat + 9)}>
-        <div style={{ fontFamily: HEAD, fontSize: 48 }}>vs</div>
+      <At x={540 + roll} y={1260} r={roll * 0.6} o={f >= tBeban ? 1 : 0}>
+        <Plate kg={EPISODE.kg} size={340} />
       </At>
-      <At x={540 + 230 - 460 * swap} y={1060} s={pop(f, tLat + 12)}>
-        <Box bg={C.blue} pad="14px 30px" style={{ fontFamily: HEAD, fontSize: 56 }}>Function</Box>
-      </At>
-      <At x={540} y={1260} s={pop(f, tKet)} r={-3}>
-        <Sticker bg={C.pink} size={42}>⇄ sering banget ketuker</Sticker>
+      <At x={540} y={1490} s={pop(f, tBeban + 16)}>
+        <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 40 }}>Beban hari ini</div>
       </At>
     </>
   );
 };
 
 /* ------------------------------------------------------------------ */
-/* 2. what a formula is                                                */
+/* 2. warm-up: the office problem                                      */
 /* ------------------------------------------------------------------ */
-const Formula: React.FC = () => {
+const WarmUp: React.FC = () => {
   const f = useCurrentFrame();
-  const t0 = s(PARTS[2].start);
-  const tKetik = cue(2, 'ketik');
-  const tEq = cue(2, 'sama');
-  const tCon = cue(2, 'contoh');
-  const tUdah = cue(2, 'udah');
-  const tTambah = cue(2, 'tambah');
-  const text = '=A1+B1';
-  const n = f < s(tEq) ? 0 : f < s(tCon) ? 1 : typed(f, tCon + 0.3, tCon + 1.6, text.length);
-  const done = f >= s(tUdah);
-  const editing = f >= s(tKetik) && !done;
-  const colors = { A1: C.sel, B1: '#D6249F' };
-  const eqMark = between(f, s(tEq), s(tCon) + 10);
+  const t0 = PARTS[2].start;
+  const tKamu = cue(2, 'kamu');
+  const tTemen = cue(2, 'temen');
+  const tMana = cue(2, 'mana');
+  const tFn = cue(2, 'function', 99, 99);
+  const n1 = typed(f, tKamu + 0.6, tKamu + 3.4, LONG.length);
+  const n2 = typed(f, tTemen + 0.6, tTemen + 2.2, SHORT.length);
+  const onB = f >= s(tTemen);
+  const shown1 = LONG.slice(0, Math.floor(n1));
+  const shown2 = SHORT.slice(0, Math.floor(n2));
+  const refs = onB
+    ? shown2.includes('A1:A5') && n2 < SHORT.length ? [{ cells: ['A1', 'A2', 'A3', 'A4', 'A5'], color: C.sel }] : []
+    : n1 < LONG.length ? Object.entries(REF_COLORS).filter(([a]) => shown1.includes(a)).map(([a, color]) => ({ cells: [a], color })) : [];
+  const caret = f % 30 < 18;
+  const q = (t: number) => pop(f, s(t));
+  return (
+    <>
+      <At x={300} y={240} s={pop(f, s(t0))} r={-3}>
+        <Sticker bg={C.yellow} size={40}>Pemanasan</Sticker>
+      </At>
+      <At x={560} y={370} s={pop(f, s(t0) + 6)}>
+        <Bubble who="Bos:">Tolong totalin penjualan 5 hari ya</Bubble>
+      </At>
+      <At x={540} y={900} s={0.5 + 0.5 * pop(f, s(t0) + 10)}>
+        <PracticeSheet
+          selected={onB ? 'B6' : 'A6'}
+          a6={f >= s(tKamu) ? <Fx text={LONG} n={n1} colors={REF_COLORS} caret={!onB && n1 < LONG.length && caret} /> : ''}
+          b6={onB ? <Fx text={SHORT} n={n2} caret={n2 < SHORT.length && caret} /> : ''}
+          bar={onB ? <Fx text={SHORT} n={n2} /> : f >= s(tKamu) ? <Fx text={LONG} n={n1} colors={REF_COLORS} /> : ''}
+          refs={refs}
+          labels={lin(f, s(tKamu) + 10, s(tKamu) + 16)}
+          b6bg={undefined}
+        />
+      </At>
+      <At x={300} y={1420} s={q(tMana)} r={-4}>
+        <Sticker bg={C.green} size={46}>Formula?</Sticker>
+      </At>
+      <At x={790} y={1420} s={q(tFn < 99 ? tFn : tMana + 0.8)} r={4}>
+        <Sticker bg={C.blue} size={46}>Function?</Sticker>
+      </At>
+    </>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+/* 3. "pause dulu": 10-second countdown                                */
+/* ------------------------------------------------------------------ */
+export const TIMER_START = () => PARTS[3].end + 0.15;
+export const TIMER_LEN = 10;
+
+const Pause: React.FC = () => {
+  const f = useCurrentFrame();
+  const t0 = s(PARTS[3].start);
+  const a = s(TIMER_START());
+  const p = lin(f, a, a + s(TIMER_LEN));
+  const left = Math.max(0, Math.ceil(TIMER_LEN - (f - a) / 30));
+  const done = f >= a + s(TIMER_LEN);
+  const R = 230;
+  const L = 2 * Math.PI * R;
+  const beat = f >= a && !done ? 1 + 0.04 * Math.max(0, 1 - ((f - a) % 30) / 8) : 1;
+  return (
+    <>
+      <At x={540} y={330} s={pop(f, t0)} r={-3}>
+        <Box bg={C.yellow} pad="18px 44px" style={{ fontFamily: HEAD, fontSize: 80 }}>PAUSE DULU</Box>
+      </At>
+      <At x={540} y={480} s={pop(f, t0 + 8)}>
+        <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 42 }}>Tebak dulu sebelum lanjut</div>
+      </At>
+      <At x={540} y={840} s={pop(f, t0 + 4) * beat}>
+        <div style={{ position: 'relative', width: 2 * R + 80, height: 2 * R + 80 }}>
+          <svg width={2 * R + 80} height={2 * R + 80} style={{ position: 'absolute', inset: 0 }}>
+            <circle cx={R + 40} cy={R + 40} r={R + 26} fill={C.white} stroke={C.ink} strokeWidth={BORDER} />
+            <circle cx={R + 40} cy={R + 40} r={R} fill="none" stroke={C.head} strokeWidth={34} />
+            <circle
+              cx={R + 40} cy={R + 40} r={R} fill="none" stroke={done ? C.yellow : C.green} strokeWidth={34}
+              strokeDasharray={L} strokeDashoffset={L * p} transform={`rotate(-90 ${R + 40} ${R + 40})`}
+            />
+          </svg>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ fontFamily: HEAD, fontSize: done ? 120 : 220, lineHeight: 1 }}>{done ? 'WAKTU!' : f < a ? 10 : left}</div>
+            {!done && <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 34 }}>detik</div>}
+          </div>
+        </div>
+      </At>
+      <At x={540} y={1250} s={pop(f, t0 + 14)}>
+        <Box pad="14px 26px" style={{ display: 'flex', flexDirection: 'column', gap: 10, width: 900, boxSizing: 'border-box' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: MONO, fontSize: 38 }}>
+            <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 30 }}>Kamu</span>
+            <Fx text={LONG} colors={REF_COLORS} />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: MONO, fontSize: 38 }}>
+            <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 30 }}>Temen</span>
+            <Fx text={SHORT} />
+          </div>
+        </Box>
+      </At>
+      <At x={540} y={1450} s={pop(f, t0 + 20)} r={2}>
+        <Sticker bg={C.blue} size={38}>Mana formula, mana function?</Sticker>
+      </At>
+    </>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+/* 4. move 1: formula = anything that starts with "="                   */
+/* ------------------------------------------------------------------ */
+const MoveFormula: React.FC = () => {
+  const f = useCurrentFrame();
+  const t0 = s(PARTS[4].start);
+  const tKetik = s(cue(4, 'ketik'));
+  const tSama = s(cue(4, 'sama'));
+  const tDua = s(cue(4, 'dua'));
+  const eq = lin(f, tSama, tSama + 6);
+  const both = f >= tDua;
   return (
     <>
       <At x={540} y={250} s={pop(f, t0)} r={-2}>
-        <Box bg={C.yellow} pad="16px 44px" style={{ fontFamily: HEAD, fontSize: 70 }}>FORMULA</Box>
+        <Box bg={C.green} pad="16px 44px" style={{ fontFamily: HEAD, fontSize: 70 }}>FORMULA</Box>
       </At>
-      <At x={540} y={760} s={0.4 + 0.6 * pop(f, t0 + 4)}>
-        <SheetUI
-          cols={3}
-          rows={4}
-          selected="C1"
-          cells={{
-            A1: '10', B1: '5',
-            C1: done ? <b>15</b> : editing ? <Fx text={text} n={n} colors={colors} caret={f % 30 < 18} /> : '',
-          }}
-          cellStyle={{ C1: editing ? { justifyContent: 'flex-start' } : {} }}
-          refs={n >= 3 && !done ? [{ cells: ['A1'], color: C.sel }, ...(n >= 6 ? [{ cells: ['B1'], color: '#D6249F' }] : [])] : []}
-          bar={f >= s(tKetik) ? <Fx text={text} n={done ? undefined : n} colors={colors} /> : ''}
+      <At x={540} y={800}>
+        <PracticeSheet
+          selected={f >= tKetik ? (Math.floor((f - tKetik) / 24) % 2 ? 'B6' : 'A6') : undefined}
+          a6={<Fx text={LONG} colors={REF_COLORS} markEq={eq} />}
+          b6={<Fx text={SHORT} markEq={eq} />}
+          bar={<Fx text={f >= tKetik && Math.floor((f - tKetik) / 24) % 2 ? SHORT : LONG} colors={REF_COLORS} markEq={eq} />}
+          a6bg={both ? '#C9F9D5' : undefined}
+          b6bg={both ? '#C9F9D5' : undefined}
+          labels={1}
         />
       </At>
-      {/* "starts with =" callout pointing at the formula bar */}
-      <At x={420} y={420} s={pop(f, s(tEq))} o={eqMark}>
-        <Sticker bg={C.pink} size={40}>diawali tanda “=”</Sticker>
+      <At x={540} y={1290} s={pop(f, tSama)} r={-2}>
+        <Sticker bg={C.yellow} size={44}>Diawali tanda “=” → formula</Sticker>
       </At>
-      <At x={540} y={1240} s={pop(f, s(tUdah))} r={-3}>
-        <Sticker bg={C.green} size={52}>✓ Ini udah formula</Sticker>
-      </At>
-      <At x={540} y={1380} s={pop(f, s(tTambah))} r={2}>
-        <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 40, background: C.white, border: `4px solid ${C.ink}`, borderRadius: 14, padding: '8px 22px' }}>
-          walaupun cuma tambah-tambahan biasa
-        </div>
+      <At x={540} y={1440} s={pop(f, tDua)} r={2}>
+        <Sticker bg={C.green} size={50}>✓ Dua-duanya formula</Sticker>
       </At>
     </>
   );
 };
 
 /* ------------------------------------------------------------------ */
-/* 3. what a function is                                               */
+/* 5. move 2: function = ready-made formula with a name + parentheses   */
 /* ------------------------------------------------------------------ */
 const FUNCS: [string, string][] = [
   ['SUM', 'Menjumlahkan angka'],
@@ -198,239 +320,151 @@ const FUNCS: [string, string][] = [
   ['VLOOKUP', 'Cari data di tabel'],
 ];
 
-const Func: React.FC = () => {
+const MoveFunction: React.FC = () => {
   const f = useCurrentFrame();
-  const t0 = s(PARTS[3].start);
-  const tRumus = cue(3, 'rumus');
-  const tNama = cue(3, 'nama');
-  const tKurung = cue(3, 'kurung');
-  const tKayak = cue(3, 'kayak');
-  const hl = [cue(3, 'sum', 0, 99), cue(3, 'average', 0, 99), cue(3, 'vlookup', 0, 99)];
-  // fall back to an even spread after "kayak" if whisper spelled the names differently
-  const fn = hl.map((t, i) => (t - PARTS[3].start > 90 ? tKayak + 0.4 + i * 0.7 : t));
+  const t0 = s(PARTS[5].start);
+  const tRumus = s(cue(5, 'rumus'));
+  const tNama = s(cue(5, 'nama'));
+  const tKurung = s(cue(5, 'kurung'));
+  const kayak = cue(5, 'kayak');
+  const tKayak = s(kayak);
+  const hl = [cue(5, 'sum', 0, 99), cue(5, 'average', 0, 99), cue(5, 'vlookup', 0, 99)].map((t, i) => (t - PARTS[5].start > 90 ? kayak + 0.4 + i * 0.7 : t));
   let active = -1;
-  fn.forEach((t, i) => f >= s(t) && (active = i));
-  const drop = pop(f, s(tRumus));
-  const anat = pop(f, s(tNama));
-  const nameOn = f >= s(tNama);
-  const parOn = f >= s(tKurung);
-  const barText = f < s(tRumus) ? '=' : '=S';
+  hl.forEach((t, i) => f >= s(t) && (active = i));
+  const tTemen = s(cue(5, 'temen'));
+  const parOn = f >= tKurung;
+  const par = (ch: string) => <span style={{ background: parOn ? C.pink : 'transparent', borderRadius: 8, outline: parOn ? `3px solid ${C.ink}` : undefined, padding: '0 4px' }}>{ch}</span>;
   return (
     <>
       <At x={540} y={250} s={pop(f, t0)} r={2}>
         <Box bg={C.blue} pad="16px 44px" style={{ fontFamily: HEAD, fontSize: 70 }}>FUNCTION</Box>
       </At>
-      <At x={540} y={700} s={0.4 + 0.6 * pop(f, t0 + 4)}>
-        <SheetUI
-          cols={3}
-          rows={4}
-          selected="C1"
-          cells={{ A1: '10', B1: '5', C1: <Fx text={barText} caret={f % 30 < 18} /> }}
-          cellStyle={{ C1: { justifyContent: 'flex-start' } }}
-          bar={<Fx text={barText} />}
-          overlay={
-            <div
-              style={{
-                position: 'absolute', left: 70 + 2 * 303, top: 54 + 88, transformOrigin: 'top left', transform: `translateX(-300px) scale(${drop})`,
-                width: 560, background: C.white, border: `4px solid ${C.ink}`, borderRadius: 14, boxShadow: shadow(8), overflow: 'hidden',
-              }}
-            >
-              <div style={{ padding: '10px 20px', fontSize: 24, fontWeight: 700, color: '#555', borderBottom: `3px solid ${C.ink}`, background: C.head }}>Function bawaan Excel</div>
-              {FUNCS.map(([name, desc], i) => (
-                <div key={name} style={{ display: 'flex', alignItems: 'baseline', gap: 16, padding: '14px 20px', background: active === i ? C.yellow : C.white, borderTop: i ? `2px solid ${C.grid}` : undefined }}>
-                  <span style={{ fontFamily: MONO, fontSize: 36 }}>{name}</span>
-                  <span style={{ fontSize: 26, color: '#444' }}>{desc}</span>
-                </div>
-              ))}
-            </div>
-          }
-        />
+      <At x={540} y={410} s={pop(f, tRumus)} r={-2}>
+        <Sticker bg={C.yellow} size={38}>Rumus jadi, udah disiapin Excel</Sticker>
       </At>
-      <At x={540} y={1180} s={pop(f, s(tRumus) + 4)} r={-2}>
-        <Sticker bg={C.yellow} size={40}>Rumus jadi, udah disiapin Excel</Sticker>
-      </At>
-      {/* anatomy: name + parentheses */}
-      <At x={540} y={1370} s={anat}>
-        <Box pad="18px 34px" style={{ fontFamily: MONO, fontSize: 64, display: 'flex', alignItems: 'center' }}>
+      {/* anatomy */}
+      <At x={540} y={600} s={pop(f, tNama - 4)}>
+        <Box pad="18px 34px" style={{ fontFamily: MONO, fontWeight: 700, fontSize: 76, display: 'flex', alignItems: 'center', color: C.formula }}>
           <span>=</span>
-          <span style={{ background: nameOn ? C.yellow : 'transparent', borderRadius: 8, padding: '0 6px' }}>SUM</span>
-          <span style={{ background: parOn ? C.pink : 'transparent', borderRadius: 8, padding: '0 4px' }}>(</span>
-          <span style={{ color: C.sel }}>A1:B1</span>
-          <span style={{ background: parOn ? C.pink : 'transparent', borderRadius: 8, padding: '0 4px' }}>)</span>
+          <span style={{ background: f >= tNama ? C.yellow : 'transparent', borderRadius: 8, outline: f >= tNama ? `3px solid ${C.ink}` : undefined, padding: '0 6px', color: C.ink }}>SUM</span>
+          {par('(')}
+          <span style={{ color: C.sel }}>A1:A5</span>
+          {par(')')}
         </Box>
       </At>
-      <At x={420} y={1480} s={pop(f, s(tNama) + 6)}>
-        <div style={{ fontFamily: HEAD, fontSize: 32 }}>↑ nama</div>
+      <At x={400} y={730} s={pop(f, tNama + 4)}>
+        <div style={{ fontFamily: HEAD, fontSize: 34 }}>↑ nama</div>
       </At>
-      <At x={720} y={1480} s={pop(f, s(tKurung))}>
-        <div style={{ fontFamily: HEAD, fontSize: 32 }}>↑ kurung ↑</div>
+      <At x={760} y={730} s={pop(f, tKurung)}>
+        <div style={{ fontFamily: HEAD, fontSize: 34 }}>↑ kurung ↑</div>
+      </At>
+      {/* function list */}
+      <At x={540} y={990} s={pop(f, tKayak - 4)}>
+        <div style={{ width: 860, background: C.white, border: `${BORDER}px solid ${C.ink}`, borderRadius: 20, boxShadow: shadow(10), overflow: 'hidden' }}>
+          <div style={{ padding: '12px 24px', fontFamily: MONO, fontWeight: 700, fontSize: 26, borderBottom: `4px solid ${C.ink}`, background: C.head }}>Function bawaan Excel / Sheets</div>
+          {FUNCS.map(([name, desc], i) => (
+            <div key={name} style={{ display: 'flex', alignItems: 'baseline', gap: 20, padding: '16px 24px', background: active === i ? C.blue : C.white, borderTop: i ? `3px solid ${C.grid}` : undefined }}>
+              <span style={{ fontFamily: MONO, fontWeight: 700, fontSize: 44, color: C.formula, width: 260 }}>{name}( )</span>
+              <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 32 }}>{desc}</span>
+            </div>
+          ))}
+        </div>
+      </At>
+      {/* back to the warm-up answer */}
+      <At x={540} y={1380} s={pop(f, tTemen)}>
+        <Box pad="16px 26px" style={{ width: 900, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 32 }}>Punya temen kamu</span>
+            <span style={{ fontFamily: MONO, fontWeight: 700, fontSize: 44 }}><Fx text={SHORT} markName={1} /></span>
+          </div>
+          <div style={{ display: 'flex', gap: 12 }}>
+            <Tag ok>formula</Tag>
+            <span style={{ opacity: lin(f, tTemen + 20, tTemen + 26) }}><Tag ok>pakai function SUM</Tag></span>
+          </div>
+        </Box>
       </At>
     </>
   );
 };
 
 /* ------------------------------------------------------------------ */
-/* 4. gym analogy                                                      */
+/* 6. move 3: gym analogy                                              */
 /* ------------------------------------------------------------------ */
 const Gym: React.FC = () => {
   const f = useCurrentFrame();
-  const t0 = s(PARTS[4].start);
-  const tFn = cue(4, 'function');
-  const tTinggal = cue(4, 'tinggal');
-  const tFo = cue(4, 'formula');
-  const tNyusun = cue(4, 'nyusun');
-  const steps = ['Pemanasan 5 menit', 'Angkat dumbel 3×10', 'Treadmill 10 menit'];
+  const t0 = s(PARTS[6].start);
+  const tFn = s(cue(6, 'function'));
+  const tFo = s(cue(6, 'formula'));
+  const tBisa = s(cue(6, 'bisa'));
   const lift = Math.sin((f - t0) / 6) * 12;
+  const steps: [string, boolean][] = [['Push-up 3×10', false], ['Angkat barbel 3×10', true], ['Plank 1 menit', false]];
   return (
     <>
       <At x={540} y={250} s={pop(f, t0)} r={-2}>
-        <Sticker bg={C.orange} size={52}>Gampangnya gini…</Sticker>
+        <Sticker bg={C.yellow} size={52}>Gampangnya gini…</Sticker>
       </At>
-      {/* function = the equipment */}
-      <At x={290} y={760} s={pop(f, s(tFn))} r={-2}>
-        <Box bg={C.blue} pad="26px 24px" style={{ width: 440, height: 620, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22 }}>
+      <At x={290} y={720} s={pop(f, tFn)} r={-2}>
+        <Box bg={C.blue} pad="26px 24px" style={{ width: 440, height: 560, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18 }}>
           <div style={{ fontFamily: HEAD, fontSize: 52 }}>FUNCTION</div>
-          <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 36 }}>= alatnya</div>
-          <div style={{ marginTop: 30 + lift }}>
-            <Dumbbell w={300} color={C.white} />
+          <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 36 }}>= alat gym-nya</div>
+          <div style={{ marginTop: 40 + lift }}>
+            <Barbell w={340} />
           </div>
-          <div style={{ marginTop: 'auto', fontFamily: BODY, fontWeight: 700, fontSize: 32, textAlign: 'center', opacity: lin(f, s(tTinggal), s(tTinggal) + 8) }}>
-            Udah jadi,
-            <br />
-            tinggal dipakai
-          </div>
+          <div style={{ marginTop: 'auto', fontFamily: MONO, fontWeight: 700, fontSize: 30 }}>SUM( ) AVERAGE( )</div>
         </Box>
       </At>
-      {/* formula = the workout you put together */}
-      <At x={790} y={760} s={pop(f, s(tFo))} r={2}>
-        <Box bg={C.yellow} pad="26px 24px" style={{ width: 440, height: 620, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22 }}>
+      <At x={790} y={720} s={pop(f, tFo)} r={2}>
+        <Box bg={C.green} pad="26px 24px" style={{ width: 440, height: 560, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18 }}>
           <div style={{ fontFamily: HEAD, fontSize: 52 }}>FORMULA</div>
-          <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 36 }}>= gerakannya</div>
+          <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 36 }}>= gerakan latihannya</div>
           <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 14, marginTop: 10 }}>
-            {steps.map((st, i) => {
-              const o = lin(f, s(tFo) + 8 + i * 8, s(tFo) + 14 + i * 8);
-              const usesTool = i > 0;
+            {steps.map(([st, tool], i) => {
+              const o = lin(f, tFo + 8 + i * 8, tFo + 14 + i * 8);
               return (
-                <div key={st} style={{ opacity: o, transform: `translateX(${(1 - o) * 30}px)`, background: usesTool ? C.blue : C.white, border: `4px solid ${C.ink}`, borderRadius: 12, padding: '10px 14px', fontFamily: BODY, fontWeight: 700, fontSize: 28 }}>
+                <div key={st} style={{ opacity: o, transform: `translateX(${(1 - o) * 30}px)`, background: tool && f >= tBisa ? C.blue : C.white, border: `4px solid ${C.ink}`, borderRadius: 12, padding: '10px 14px', fontFamily: BODY, fontWeight: 700, fontSize: 30 }}>
                   {i + 1}. {st}
                 </div>
               );
             })}
           </div>
-          <div style={{ marginTop: 'auto', fontFamily: BODY, fontWeight: 700, fontSize: 32, textAlign: 'center', opacity: lin(f, s(tNyusun) - 6, s(tNyusun) + 2) }}>
-            Kalian
-            <br />
-            yang nyusun
+        </Box>
+      </At>
+      <At x={540} y={1170} s={pop(f, tBisa)}>
+        <Box pad="18px 28px" style={{ width: 920, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 34 }}>Gerakannya bisa pakai alat, bisa juga nggak:</div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontFamily: MONO, fontWeight: 700, fontSize: 40 }}><Fx text={SHORT} markName={1} /></span>
+            <Tag ok size={26}>pakai alat</Tag>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: lin(f, tBisa + 12, tBisa + 18) }}>
+            <span style={{ fontFamily: MONO, fontWeight: 700, fontSize: 40 }}><Fx text={LONG} colors={REF_COLORS} /></span>
+            <Tag ok={false} size={26}>tanpa alat</Tag>
           </div>
         </Box>
       </At>
-      <At x={540} y={1210} s={pop(f, s(tNyusun) + 6)} r={-2}>
-        <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 34, background: C.white, border: `4px solid ${C.ink}`, borderRadius: 14, padding: '8px 22px' }}>
-          gerakannya bisa pakai alat, bisa juga nggak
-        </div>
-      </At>
     </>
   );
 };
 
 /* ------------------------------------------------------------------ */
-/* 5. side by side: =A1+…+A5 vs =SUM(A1:A5)                            */
-/* ------------------------------------------------------------------ */
-const LONG = '=A1+A2+A3+A4+A5';
-const SHORT = '=SUM(A1:A5)';
-const REF_COLORS: Record<string, string> = { A1: C.sel, A2: '#D6249F', A3: '#E37400', A4: '#188038', A5: '#9334E6' };
-
-const Compare: React.FC = () => {
-  const f = useCurrentFrame();
-  const t0 = PARTS[5].start;
-  const tNggak = cue(5, 'nggak');
-  const tKalau = cue(5, 'kalau');
-  const tSum2 = cue(5, 'sum', 1, 9);
-  const tHasil = cue(5, 'hasil');
-  const tPendek = cue(5, 'pendek');
-  const phase2 = f >= s(tKalau);
-  const n1 = typed(f, t0 + 0.6, t0 + 3.6, LONG.length);
-  const n2 = typed(f, tKalau + 0.5, tKalau + 1.8, SHORT.length);
-  const text = phase2 ? SHORT : LONG;
-  const n = phase2 ? n2 : n1;
-  const done = phase2 ? n2 >= SHORT.length : n1 >= LONG.length;
-  const shown = text.slice(0, Math.floor(n));
-  const refs = phase2
-    ? shown.includes('A1:A5') ? [{ cells: ['A1', 'A2', 'A3', 'A4', 'A5'], color: C.sel }] : []
-    : Object.entries(REF_COLORS).filter(([a]) => shown.includes(a)).map(([a, color]) => ({ cells: [a], color }));
-  const card = (y: number, code: string, start: number, colors: Record<string, string> | undefined, tags: React.ReactNode, len: number) => (
-    <At x={540} y={y} s={pop(f, s(start))}>
-      <Box pad="18px 26px" style={{ width: 960, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontFamily: MONO, fontSize: 46 }}>
-            <Fx text={code} colors={colors} />
-          </span>
-          <span style={{ opacity: lin(f, s(tHasil), s(tHasil) + 6), fontFamily: HEAD, fontSize: 40, background: C.green, border: `4px solid ${C.ink}`, borderRadius: 12, padding: '2px 14px' }}>150</span>
-        </div>
-        <div style={{ display: 'flex', gap: 12 }}>{tags}</div>
-        <div style={{ height: 22, opacity: lin(f, s(tPendek) - 4, s(tPendek) + 4), display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: len * 40 * ease(f, s(tPendek) - 4, s(tPendek) + 12), height: 18, background: C.ink, borderRadius: 9 }} />
-          <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 24 }}>{len} karakter</span>
-        </div>
-      </Box>
-    </At>
-  );
-  return (
-    <>
-      <At x={540} y={540} s={0.4 + 0.6 * pop(f, s(t0))}>
-        <SheetUI
-          cols={2}
-          rows={6}
-          rowH={74}
-          colW={[420, 478]}
-          selected="A6"
-          cells={{
-            A1: '10', A2: '20', A3: '30', A4: '40', A5: '50',
-            A6: done ? <b>150</b> : <Fx text={text} n={n} colors={phase2 ? undefined : REF_COLORS} caret={f % 30 < 18} />,
-            B6: 'Total',
-          }}
-          cellStyle={{ A6: done ? { background: '#FFF6B3' } : { justifyContent: 'flex-start' }, B6: { justifyContent: 'flex-start', fontFamily: BODY, fontWeight: 700, color: '#555' } }}
-          refs={done ? [] : refs}
-          bar={<Fx text={text} n={done ? undefined : n} colors={phase2 ? undefined : REF_COLORS} />}
-        />
-      </At>
-      {card(1080, LONG, Math.max(t0 + 3.6, tNggak - 1.2), REF_COLORS, <>
-        <Tag ok>formula</Tag>
-        <span style={{ opacity: lin(f, s(tNggak), s(tNggak) + 6) }}><Tag ok={false}>nggak pakai function</Tag></span>
-      </>, LONG.length)}
-      {card(1330, SHORT, tKalau + 1.8, undefined, <>
-        <Tag ok>formula</Tag>
-        <span style={{ opacity: lin(f, s(tSum2), s(tSum2) + 6) }}><Tag ok>pakai function SUM</Tag></span>
-      </>, SHORT.length)}
-      <At x={830} y={1500} s={pop(f, s(tPendek) + 8)} r={-4}>
-        <Sticker bg={C.pink} size={36}>Lebih pendek!</Sticker>
-      </At>
-      <At x={300} y={1500} s={pop(f, s(tHasil))} r={3}>
-        <Sticker bg={C.green} size={36}>Hasilnya sama</Sticker>
-      </At>
-    </>
-  );
-};
-
-/* ------------------------------------------------------------------ */
-/* 6. the takeaway: function sits inside formula                       */
+/* 7. takeaway: function sits inside formula                           */
 /* ------------------------------------------------------------------ */
 const Takeaway: React.FC = () => {
   const f = useCurrentFrame();
-  const t0 = s(PARTS[6].start);
-  const tDalam = s(cue(6, 'dalam'));
-  const tTapi = s(cue(6, 'tapi'));
-  const tBelum = s(cue(6, 'belum'));
+  const t0 = s(PARTS[7].start);
+  const tDalam = s(cue(7, 'dalam'));
+  const tTapi = s(cue(7, 'tapi'));
+  const tBelum = s(cue(7, 'belum'));
   const big = pop(f, t0 + 6);
   const inner = pop(f, tDalam - 6);
   const drop = interpolate(inner, [0, 1], [-420, 0]);
   return (
     <>
-      <At x={540} y={240} s={pop(f, t0)} r={-2}>
-        <Sticker bg={C.ink} size={52} style={{ color: C.yellow }}>Intinya</Sticker>
+      <At x={540} y={250} s={pop(f, t0)} r={-2}>
+        <Sticker bg={C.ink} size={52} style={{ color: C.green }}>Intinya</Sticker>
       </At>
       <At x={540} y={860} s={big}>
-        <div style={{ width: 860, height: 860, borderRadius: 430, background: C.yellow, border: `${BORDER}px solid ${C.ink}`, boxShadow: shadow(14), position: 'relative' }}>
+        <div style={{ width: 860, height: 860, borderRadius: 430, background: C.green, border: `${BORDER}px solid ${C.ink}`, boxShadow: shadow(14), position: 'relative' }}>
           <div style={{ position: 'absolute', top: 60, width: '100%', textAlign: 'center', fontFamily: HEAD, fontSize: 64 }}>FORMULA</div>
           <div style={{ position: 'absolute', top: 140, width: '100%', textAlign: 'center', fontFamily: BODY, fontWeight: 700, fontSize: 30 }}>semua yang diawali “=”</div>
         </div>
@@ -438,57 +472,113 @@ const Takeaway: React.FC = () => {
       <At x={540} y={960 + drop} s={inner} z={2}>
         <div style={{ width: 400, height: 400, borderRadius: 200, background: C.blue, border: `${BORDER}px solid ${C.ink}`, boxShadow: shadow(9), display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
           <div style={{ fontFamily: HEAD, fontSize: 52 }}>FUNCTION</div>
-          <div style={{ fontFamily: MONO, fontSize: 30 }}>SUM( )</div>
-          <div style={{ fontFamily: MONO, fontSize: 30 }}>AVERAGE( )</div>
+          <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 30 }}>SUM( )</div>
+          <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 30 }}>AVERAGE( )</div>
         </div>
       </At>
       <At x={540} y={1170} s={pop(f, tDalam + 4)} z={3} r={-3}>
-        <Sticker bg={C.green} size={34}>selalu di dalam formula</Sticker>
+        <Sticker bg={C.yellow} size={34}>selalu di dalam formula</Sticker>
       </At>
-      {/* a formula without a function lives in the yellow ring */}
       <At x={540} y={700} s={pop(f, tTapi)} z={3} r={2}>
-        <Box pad="10px 26px" style={{ fontFamily: MONO, fontSize: 48 }}>
+        <Box pad="10px 26px" style={{ fontFamily: MONO, fontWeight: 700, fontSize: 48 }}>
           <Fx text="=A1+B1" />
         </Box>
       </At>
       <At x={540} y={1420} s={pop(f, tBelum)} r={2}>
-        <Sticker bg={C.pink} size={40}>Formula belum tentu pakai function</Sticker>
+        <Sticker bg={C.white} size={40}>Formula belum tentu pakai function</Sticker>
       </At>
     </>
   );
 };
 
 /* ------------------------------------------------------------------ */
-/* 7. outro                                                            */
+/* 8. repetisi: one practice question                                  */
 /* ------------------------------------------------------------------ */
-const Outro: React.FC = () => {
+const Repetisi: React.FC = () => {
   const f = useCurrentFrame();
-  const t0 = s(PARTS[7].start);
-  const tSimpan = s(cue(7, 'simpan'));
-  const pulse = 1 + 0.06 * Math.sin(Math.max(0, f - tSimpan) / 4) * (f > tSimpan ? 1 : 0);
+  const t0 = PARTS[8].start;
+  const tSama = cue(8, 'sama');
+  const n = typed(f, tSama + 0.2, tSama + 1.4, 6);
+  const done = n >= 6;
+  const opts: [string, string, number][] = [
+    ['A', 'Formula', cue(8, 'formula', 0, 2.5)],
+    ['B', 'Function', cue(8, 'function', 0, 3)],
+    ['C', 'Dua-duanya', cue(8, 'dua', 0, 3.5)],
+  ];
   return (
     <>
-      <At x={540} y={360} s={pop(f, t0)} r={-3}>
-        <Box bg={C.yellow} pad="22px 40px" style={{ fontFamily: HEAD, fontSize: 64, textAlign: 'center', lineHeight: 1.05 }}>
-          Jangan ketuker
-          <br />
-          lagi ya!
+      <At x={540} y={250} s={pop(f, s(t0))} r={-2}>
+        <Box bg={C.yellow} pad="16px 44px" style={{ fontFamily: HEAD, fontSize: 70 }}>REPETISI</Box>
+      </At>
+      <At x={540} y={590} s={0.5 + 0.5 * pop(f, s(t0) + 4)}>
+        <SheetUI
+          title="repetisi.xlsx"
+          cols={3}
+          rows={2}
+          rowH={84}
+          selected="C1"
+          cells={{
+            A1: '4', B1: '25',
+            C1: done ? <Fx text="=A1*B1" /> : <Fx text="=A1*B1" n={n} caret={f % 30 < 18} />,
+          }}
+          cellStyle={{ C1: { justifyContent: 'flex-start' } }}
+          refs={n >= 3 ? [{ cells: ['A1'], color: C.sel }, ...(n >= 6 ? [{ cells: ['B1'], color: '#D6249F' }] : [])] : []}
+          bar={<Fx text="=A1*B1" n={n} colors={{ B1: '#D6249F' }} />}
+        />
+      </At>
+      {opts.map(([k, label, t], i) => (
+        <At key={k} x={540} y={980 + i * 165} s={pop(f, s(t))}>
+          <Box pad="16px 30px" style={{ width: 760, boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 26 }}>
+            <span style={{ width: 70, height: 70, borderRadius: 35, background: C.green, border: `4px solid ${C.ink}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: HEAD, fontSize: 40 }}>{k}</span>
+            <span style={{ fontFamily: HEAD, fontSize: 50 }}>{label}</span>
+          </Box>
+        </At>
+      ))}
+    </>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+/* 9. cool-down: "Pendinginan: kerjain repetisinya, jawab di komentar." */
+/* ------------------------------------------------------------------ */
+const CoolDown: React.FC = () => {
+  const f = useCurrentFrame();
+  const t0 = s(PARTS[9].start);
+  const tKom = s(cue(9, 'komentar'));
+  const wiggle = f > tKom ? Math.sin((f - tKom) / 3) * 4 * (1 - lin(f, tKom, tKom + 30)) : 0;
+  return (
+    <>
+      <At x={540} y={330} s={pop(f, t0)} r={-3}>
+        <Box bg={C.blue} pad="18px 44px" style={{ fontFamily: HEAD, fontSize: 80 }}>PENDINGINAN</Box>
+      </At>
+      <At x={540} y={720} s={pop(f, t0 + 10)} r={wiggle}>
+        <div style={{ position: 'relative' }}>
+          <Box pad="26px 40px" radius={34} style={{ width: 820, boxSizing: 'border-box' }}>
+            <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 28, marginBottom: 8 }}>Komentar</div>
+            <div style={{ fontFamily: BODY, fontWeight: 700, fontSize: 46 }}>
+              <Fx text="=A1*B1" /> itu… <span style={{ background: C.yellow, padding: '0 10px', border: `3px solid ${C.ink}`, borderRadius: 8 }}>?</span>
+            </div>
+          </Box>
+          <div style={{ position: 'absolute', left: 70, bottom: -34, width: 0, height: 0, borderLeft: '24px solid transparent', borderRight: '24px solid transparent', borderTop: `38px solid ${C.ink}` }} />
+        </div>
+      </At>
+      <At x={540} y={960} s={pop(f, tKom)} r={2}>
+        <Sticker bg={C.green} size={48}>Jawab di komentar</Sticker>
+      </At>
+      <At x={540} y={1250} s={pop(f, tKom + 8)}>
+        <Box bg={C.green} pad="22px 34px" style={{ display: 'flex', alignItems: 'center', gap: 26 }}>
+          <Barbell w={180} />
+          <div>
+            <div style={{ fontFamily: HEAD, fontSize: 56, lineHeight: 0.95 }}>SPREADSHEET<br />GYM</div>
+            <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 28, marginTop: 8 }}>{EPISODE_LABEL}</div>
+          </div>
         </Box>
-      </At>
-      <At x={540} y={840} s={pop(f, tSimpan) * pulse}>
-        <Bookmark size={260} />
-      </At>
-      <At x={540} y={1100} s={pop(f, tSimpan + 4)} r={2}>
-        <Sticker bg={C.ink} size={48} style={{ color: C.white }}>Simpan video ini</Sticker>
-      </At>
-      <At x={540} y={1330} s={pop(f, tSimpan + 10)}>
-        <Logo scale={0.85} />
       </At>
     </>
   );
 };
 
-const LIST = [Hook, Intro, Formula, Func, Gym, Compare, Takeaway, Outro];
+const LIST = [Hook, Opening, WarmUp, Pause, MoveFormula, MoveFunction, Gym, Takeaway, Repetisi, CoolDown];
 
 export const SCENES: { from: number; to: number; C: React.FC }[] = LIST.map((Comp, i) => ({
   from: i === 0 ? 0 : PARTS[i].start - 0.15,
@@ -498,14 +588,18 @@ export const SCENES: { from: number; to: number; C: React.FC }[] = LIST.map((Com
 
 /** sound-effect cue times (seconds) that match the pops above */
 export const POPS: number[] = [
-  PARTS[0].start, cue(0, 'formula'), cue(0, 'function'), cue(0, 'beda'),
-  PARTS[1].start, cue(1, 'latihan'), cue(1, 'ketuker'),
-  PARTS[2].start, cue(2, 'sama'), cue(2, 'udah'), cue(2, 'tambah'),
-  PARTS[3].start, cue(3, 'rumus'), cue(3, 'nama'), cue(3, 'kurung'),
-  PARTS[4].start, cue(4, 'function'), cue(4, 'formula'),
-  PARTS[5].start, cue(5, 'nggak'), cue(5, 'kalau'), cue(5, 'hasil'), cue(5, 'pendek'),
-  PARTS[6].start, cue(6, 'dalam'), cue(6, 'tapi'), cue(6, 'belum'),
-  PARTS[7].start, cue(7, 'simpan'),
+  PARTS[0].start, cue(0, 'formula'), cue(0, 'function'),
+  cue(1, 'sesi'),
+  PARTS[2].start, cue(2, 'kamu'), cue(2, 'temen'), cue(2, 'mana'),
+  PARTS[3].start,
+  PARTS[4].start, cue(4, 'sama'), cue(4, 'dua'),
+  PARTS[5].start, cue(5, 'rumus'), cue(5, 'nama'), cue(5, 'kurung'), cue(5, 'kayak'), cue(5, 'temen'),
+  PARTS[6].start, cue(6, 'function'), cue(6, 'formula'), cue(6, 'bisa'),
+  PARTS[7].start, cue(7, 'tapi'), cue(7, 'belum'),
+  PARTS[8].start, cue(8, 'formula', 0, 2.5), cue(8, 'function', 0, 3), cue(8, 'dua', 0, 3.5),
+  PARTS[9].start, cue(9, 'komentar'),
 ];
-export const DINGS: number[] = [cue(2, 'udah'), cue(5, 'hasil'), cue(7, 'simpan')];
-export const THUDS: number[] = [cue(0, 'beda'), cue(6, 'dalam')];
+export const DINGS: number[] = [cue(4, 'dua'), TIMER_START() + TIMER_LEN];
+export const THUDS: number[] = [cue(0, 'beda'), cue(1, 'beban') + 0.6, cue(7, 'dalam')];
+export const WHISTLE = PARTS[1].start - 0.05;
+export const TICKS: number[] = Array.from({ length: TIMER_LEN }, (_, i) => TIMER_START() + i);

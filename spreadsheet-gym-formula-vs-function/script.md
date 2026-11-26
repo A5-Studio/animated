@@ -1,34 +1,24 @@
-# Spreadsheet Gym · Formula vs Function
+# Spreadsheet Gym · Sesi 01 · 5 KG · Formula vs Function
 
-Reels 9:16, about 50 seconds. Gaya ngomong diambil dari Faqihpedia #22 dan #27: santai, "aku/kalian", kalimat pendek, satu contoh konkret, lalu satu kalimat kesimpulan.
+Reels 9:16, about 70 seconds, in the Spreadsheet Gym format from the Faqihpedia Segment Kit (`brand/segment-kit.html`, `brand/segments.ts`):
+warm-up (office problem) → coba dulu (10-second timer) → the moves → repetisi → pendinginan.
+Voice: your speaking style from Faqihpedia #22 and #27 (santai, "aku/kalian", kalimat pendek, satu contoh konkret, satu kalimat kesimpulan).
 
-Kolom **Layar** = teks/visual di video. Kolom **VO** = yang diucapkan (rumus ditulis cara bacanya, biar suara clone-nya nggak salah baca).
+The **On screen** column is the text and visuals in the video. The **VO** column is what's spoken: formulas are written the way they're read, and "Spreadsheet" is spelled "Spredsit" so the voice clone doesn't drag "sheet".
 
-| # | Bagian | Layar | VO |
+Main formula for the episode (always in the formula bar on top): `=SUM(A1:A5)`.
+
+| # | Part | On screen | VO |
 |---|---|---|---|
-| 1 | Hook | **Formula ≠ Function** | Jangan salah lagi, di Excel atau Spreadsheet, formula dan function itu beda. |
-| 2 | Intro segmen | Logo *Spreadsheet Gym* | Nah, ini Spreadsheet Gym. Hari ini kita latihan satu hal yang sering banget ketuker. |
-| 3 | Formula | `=A1+B1` | Formula itu semua yang kalian ketik di sel, yang diawali tanda sama dengan. Contohnya, sama dengan A1 plus B1. Itu udah formula, walaupun isinya cuma tambah-tambahan biasa. |
-| 4 | Function | `SUM()` `AVERAGE()` `VLOOKUP()` | Kalau function, itu rumus jadi yang udah disiapin sama Excel-nya. Ada namanya, terus ada kurungnya. Kayak SUM, AVERAGE, atau VLOOKUP. |
-| 5 | Analogi gym | Dumbel = function, gerakan latihan = formula | Gampangnya gini. Kalau di gym, function itu alatnya, kayak dumbel atau treadmill. Udah jadi, tinggal dipakai. Nah, formula itu gerakan latihannya. Kalian yang nyusun. |
-| 6 | Contoh berdampingan | `=A1+A2+A3+A4+A5` vs `=SUM(A1:A5)` | Jadi, sama dengan A1 plus A2 plus A3 plus A4 plus A5, itu formula, tapi nggak pakai function. Kalau sama dengan SUM A1 sampai A5, itu formula yang di dalamnya pakai function SUM. Hasilnya sama, tapi jauh lebih pendek. |
-| 7 | Kesimpulan | **Function selalu di dalam formula. Formula belum tentu pakai function.** | Intinya, function itu selalu dipakai di dalam formula. Tapi formula, belum tentu pakai function. |
-| 8 | Penutup | *Save biar nggak lupa* | Jadi mulai sekarang jangan ketuker lagi ya. Simpan video ini, biar latihannya nggak lupa. |
+| 1 | Hook | **FORMULA ≠ FUNCTION** | Jangan salah lagi, di Excel atau Spredsit, formula dan function itu beda. |
+| 2 | Opening (fixed) | Barbell logo, *Sesi 01*, white 5 KG plate · coach whistle | Spredsit Gym, sesi satu. Beban hari ini: lima kilo. |
+| 3 | Warm-up | Boss chat + `penjualan.xlsx`: `=A1+A2+A3+A4+A5` (Kamu) and `=SUM(A1:A5)` (Temen) | Bos minta total penjualan lima hari. Kamu nulis, sama dengan A1 plus A2 plus A3 plus A4 plus A5. Temen kamu nulis, sama dengan SUM A1 sampai A5. Mana yang formula, mana yang function? |
+| 4 | Coba dulu | **PAUSE DULU** + 10-second countdown | Pause dulu, tebak jawabannya. *(10 seconds of ticking)* |
+| 5 | Move 1: formula | The "=" in both cells is highlighted, then both turn green | Formula itu semua yang kalian ketik di sel, yang diawali tanda sama dengan. Jadi, dua-duanya formula. |
+| 6 | Move 2: function | `=SUM(A1:A5)` labeled *nama* and *kurung*; SUM / AVERAGE / VLOOKUP list | Function itu rumus jadi yang udah disiapin sama Excel-nya. Ada namanya, terus ada kurungnya. Kayak SUM, AVERAGE, atau VLOOKUP. Jadi punya temen kamu, itu formula yang pakai function SUM. |
+| 7 | Move 3: gym analogy | FUNCTION = the equipment (barbell), FORMULA = the workout | Gampangnya gini. Function itu alat gym-nya, kayak dumbel. Formula itu gerakan latihannya. Gerakannya bisa pakai alat, bisa juga nggak. |
+| 8 | Takeaway | FUNCTION circle inside the FORMULA circle | Intinya, function itu selalu dipakai di dalam formula. Tapi formula, belum tentu pakai function. |
+| 9 | Repetisi | `=A1*B1` → A. Formula · B. Function · C. Dua-duanya | Repetisi: sama dengan A1 kali B1. Itu formula, function, atau dua-duanya? |
+| 10 | Pendinginan (fixed) | Comment bubble + logo | Pendinginan: kerjain repetisinya, jawab di komentar. |
 
-## VO saja (buat dibaca / TTS)
-
-Jangan salah lagi, di Excel atau Spreadsheet, formula dan function itu beda.
-
-Nah, ini Spreadsheet Gym. Hari ini kita latihan satu hal yang sering banget ketuker.
-
-Formula itu semua yang kalian ketik di sel, yang diawali tanda sama dengan. Contohnya, sama dengan A1 plus B1. Itu udah formula, walaupun isinya cuma tambah-tambahan biasa.
-
-Kalau function, itu rumus jadi yang udah disiapin sama Excel-nya. Ada namanya, terus ada kurungnya. Kayak SUM, AVERAGE, atau VLOOKUP.
-
-Gampangnya gini. Kalau di gym, function itu alatnya, kayak dumbel atau treadmill. Udah jadi, tinggal dipakai. Nah, formula itu gerakan latihannya. Kalian yang nyusun.
-
-Jadi, sama dengan A1 plus A2 plus A3 plus A4 plus A5, itu formula, tapi nggak pakai function. Kalau sama dengan SUM A1 sampai A5, itu formula yang di dalamnya pakai function SUM. Hasilnya sama, tapi jauh lebih pendek.
-
-Intinya, function itu selalu dipakai di dalam formula. Tapi formula, belum tentu pakai function.
-
-Jadi mulai sekarang jangan ketuker lagi ya. Simpan video ini, biar latihannya nggak lupa.
+Answer to the repetisi (for pinning in the comments): **A. Formula**. It starts with "=", but there is no function in it.

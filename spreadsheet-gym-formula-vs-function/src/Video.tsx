@@ -1,38 +1,52 @@
 import React from 'react';
 import { AbsoluteFill, Html5Audio, staticFile, useCurrentFrame } from 'remotion';
-import { At, Background, between } from './components';
-import { SCENES, TopChip } from './scenes';
+import { At, between } from './components';
+import { Barbell, SCENES } from './scenes';
+import { Fx } from './Sheet';
 import { Sfx } from './sfx';
-import { BODY, BORDER, C, PARTS, WORDS, s, shadow } from './theme';
+import { BODY, BORDER, C, EPISODE_LABEL, HEAD, MAIN_FORMULA, MONO, PARTS, WORDS, s, shadow } from './theme';
 
 /*
  * Captions. The text is what's shown on screen (formulas written as
  * formulas); it is timed by mapping each caption word onto the transcribed
- * words of the same VO part, in proportion.
+ * words of the same VO part. A formula token counts as the words it takes
+ * to say it ("=A1+B1" = "sama dengan A1 plus B1" = 5 words).
  */
 const CAPTIONS: string[] = [
   'Jangan salah lagi, di Excel atau Spreadsheet, formula dan function itu beda.',
-  'Nah, ini Spreadsheet Gym. Hari ini kita latihan satu hal yang sering banget ketuker.',
-  'Formula itu semua yang kalian ketik di sel, yang diawali tanda =. Contohnya =A1+B1. Itu udah formula, walaupun isinya cuma tambah-tambahan biasa.',
-  'Kalau function, itu rumus jadi yang udah disiapin sama Excel-nya. Ada namanya, terus ada kurungnya. Kayak SUM, AVERAGE, atau VLOOKUP.',
-  'Gampangnya gini. Kalau di gym, function itu alatnya, kayak dumbel atau treadmill. Udah jadi, tinggal dipakai. Nah, formula itu gerakan latihannya. Kalian yang nyusun.',
-  'Jadi, =A1+A2+A3+A4+A5 itu formula, tapi nggak pakai function. Kalau =SUM(A1:A5), itu formula yang di dalamnya pakai function SUM. Hasilnya sama, tapi jauh lebih pendek.',
+  'Spreadsheet Gym, sesi 01. Beban hari ini: 5 kilo.',
+  'Bos minta total penjualan 5 hari. Kamu nulis =A1+A2+A3+A4+A5. Temen kamu nulis =SUM(A1:A5). Mana yang formula, mana yang function?',
+  'Pause dulu, tebak jawabannya.',
+  'Formula itu semua yang kalian ketik di sel, yang diawali tanda =. Jadi, dua-duanya formula.',
+  'Function itu rumus jadi yang udah disiapin sama Excel-nya. Ada namanya, terus ada kurungnya. Kayak SUM, AVERAGE, atau VLOOKUP. Jadi punya temen kamu, itu formula yang pakai function SUM.',
+  'Gampangnya gini. Function itu alat gym-nya, kayak dumbel. Formula itu gerakan latihannya. Gerakannya bisa pakai alat, bisa juga nggak.',
   'Intinya, function itu selalu dipakai di dalam formula. Tapi formula, belum tentu pakai function.',
-  'Jadi mulai sekarang jangan ketuker lagi ya. Simpan video ini, biar latihannya nggak lupa.',
+  'Repetisi: =A1*B1. Itu formula, function, atau dua-duanya?',
+  'Pendinginan: kerjain repetisinya, jawab di komentar.',
 ];
+
+const spoken = (tok: string) => {
+  if (!tok.startsWith('=')) return 1;
+  const refs = tok.match(/[A-H][0-9]+/g)?.length ?? 0;
+  const ops = tok.match(/[+*:]/g)?.length ?? 0;
+  const fn = /[A-Z]{2,}\(/.test(tok) ? 1 : 0;
+  return 2 + refs + ops + fn;
+};
 
 type Chunk = { words: { w: string; t: number }[]; from: number; to: number };
 
 const CHUNKS: Chunk[] = CAPTIONS.flatMap((text, p) => {
   const ws = WORDS.filter((w) => w.p === p);
   const cap = text.split(/\s+/);
-  const timeOf = (i: number) => (ws.length ? ws[Math.min(ws.length - 1, Math.round((i * ws.length) / cap.length))].s : PARTS[p].start);
-  // break into chunks of up to 5 words, also at sentence ends
+  const weight = cap.map(spoken);
+  const total = weight.reduce((a, b) => a + b, 0);
+  const before = weight.map((_, i) => weight.slice(0, i).reduce((a, b) => a + b, 0));
+  const timeOf = (i: number) => (ws.length ? ws[Math.min(ws.length - 1, Math.round((before[i] * ws.length) / total))].s : PARTS[p].start);
   const groups: number[][] = [];
   let g: number[] = [];
   cap.forEach((w, i) => {
     g.push(i);
-    if (g.length >= 5 || /[.,]$/.test(w) && g.length >= 3) {
+    if (g.length >= 5 || w.startsWith('=') || (/[.,:?]$/.test(w) && g.length >= 3)) {
       groups.push(g);
       g = [];
     }
@@ -61,9 +75,10 @@ const Captions: React.FC = () => {
       >
         {c.words.map((w, i) => {
           const on = t >= w.t && (i + 1 >= c.words.length || t < c.words[i + 1].t);
+          const isFx = w.w.startsWith('=') && w.w.length > 2;
           return (
-            <span key={i} style={{ background: on ? C.yellow : 'transparent', borderRadius: 8, padding: '0 6px' }}>
-              {w.w}{' '}
+            <span key={i} style={{ background: on ? C.green : 'transparent', borderRadius: 8, padding: '0 6px', fontFamily: isFx ? MONO : undefined }}>
+              {isFx ? <Fx text={w.w.replace(/[.,?]$/, '')} /> : w.w}{' '}
             </span>
           );
         })}
@@ -72,11 +87,50 @@ const Captions: React.FC = () => {
   );
 };
 
+/** cell-grid sheet background (segment motif) */
+const Grid: React.FC = () => (
+  <AbsoluteFill
+    style={{
+      background: C.bg,
+      backgroundImage: `linear-gradient(90deg, rgba(17,17,17,.12) 2px, transparent 2px), linear-gradient(rgba(17,17,17,.12) 2px, transparent 2px)`,
+      backgroundSize: '160px 64px',
+    }}
+  />
+);
+
+/** the episode's main formula, always in the formula bar on top */
+const TopBar: React.FC = () => (
+  <>
+    <div style={{ position: 'absolute', left: 0, top: 0, width: 1080, height: 104, background: C.white, borderBottom: `${BORDER}px solid ${C.ink}`, display: 'flex', alignItems: 'stretch' }}>
+      <div style={{ width: 110, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRight: `${BORDER}px solid ${C.ink}`, fontFamily: MONO, fontStyle: 'italic', fontWeight: 700, fontSize: 42 }}>fx</div>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '0 28px', fontFamily: MONO, fontWeight: 700, fontSize: 48 }}>
+        <Fx text={MAIN_FORMULA} />
+      </div>
+    </div>
+    <div style={{ position: 'absolute', left: 36, top: 132 }}>
+      <div style={{ background: C.green, border: `5px solid ${C.ink}`, borderRadius: 14, boxShadow: shadow(6), padding: '8px 18px', fontFamily: MONO, fontWeight: 700, fontSize: 28 }}>
+        GYM · {EPISODE_LABEL}
+      </div>
+    </div>
+  </>
+);
+
+/** black strip at the bottom, like the cover */
+const Strip: React.FC = () => (
+  <div style={{ position: 'absolute', left: 0, bottom: 0, width: 1080, height: 84, background: C.ink, color: C.white, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 36px', boxSizing: 'border-box', fontFamily: MONO, fontWeight: 700, fontSize: 28, letterSpacing: 2 }}>
+    <span style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+      <span style={{ background: C.white, borderRadius: 8, padding: '2px 4px' }}><Barbell w={64} /></span>
+      SPREADSHEET GYM
+    </span>
+    <span>@faqihpedia</span>
+  </div>
+);
+
 export const SpreadsheetGym: React.FC = () => {
   const f = useCurrentFrame();
   return (
-    <AbsoluteFill style={{ background: C.bg, overflow: 'hidden' }}>
-      <Background />
+    <AbsoluteFill style={{ background: C.bg, overflow: 'hidden', fontFamily: HEAD }}>
+      <Grid />
       {SCENES.map(({ from, to, C: Scene }, i) => {
         const a = s(from);
         const b = s(to);
@@ -87,8 +141,9 @@ export const SpreadsheetGym: React.FC = () => {
           </AbsoluteFill>
         );
       })}
-      <TopChip />
+      <TopBar />
       <Captions />
+      <Strip />
       <Html5Audio src={staticFile('vo.wav')} />
       <Sfx />
     </AbsoluteFill>
