@@ -580,18 +580,18 @@ const Cta: React.FC = () => {
   const tMenu = s(cue(10, 'menu'));
   const fly = lin(f, t0 + 18, t0 + 40);
   // cursor glides onto the follow button and taps it
-  const cx = interpolate(f, [tFollow - 12, tFollow + 6], [900, 640], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
-  const cy = interpolate(f, [tFollow - 12, tFollow + 6], [1180, 1010], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  const cx = interpolate(f, [tFollow - 12, tFollow + 6], [900, 730], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  const cy = interpolate(f, [tFollow - 12, tFollow + 6], [1180, 935], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   const tap = f >= tFollow + 8;
   const press = 1 - 0.06 * between(f, tFollow + 6, tFollow + 12, 3);
   return (
     <>
-      <At x={540} y={260} s={pop(f, t0)} r={-2}>
+      <At x={540} y={300} s={pop(f, t0)} r={-2}>
         <Box bg={C.yellow} pad="16px 40px" style={{ fontFamily: HEAD, fontSize: 64 }}>SHARE &amp; FOLLOW</Box>
       </At>
       <At x={540} y={560} s={pop(f, t0 + 4)}>
         <Box pad="24px 30px" style={{ width: 900, boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 28 }}>
-          <div style={{ transform: `translate(${fly * 40}px, ${-fly * 30}px) rotate(${fly * 10}deg)` }}>
+          <div style={{ transform: `translate(${fly * 8}px, ${-fly * 14}px) rotate(${fly * 8}deg)`, marginRight: 10 }}>
             <Plane size={110} />
           </div>
           <div>
