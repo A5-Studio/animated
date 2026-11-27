@@ -88,3 +88,13 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## Carousel IG: meta tags untuk vibe coder (1080×1350, 10 slide)
+
+`carousel-meta-tags/slides/01.png`–`10.png` is a ready-to-post carousel reminding vibe coders to ask their AI for a favicon, meta title, meta description and OG image. It uses the same neobrutalist building blocks as the videos above, with a lilac + lime + coral palette.
+
+Edit the text in `carousel-meta-tags/index.html` (open it in a browser to preview), then re-export:
+
+```sh
+NODE_PATH=$(npm root -g) node carousel-meta-tags/export.mjs
+```

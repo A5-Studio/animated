@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Carousel: Meta Tags untuk Vibe Coder</title>
+<style>
+@font-face { font-family: "Archivo Black"; src: url(fonts/ArchivoBlack.woff2) format("woff2"); }
+@font-face { font-family: "DejaVu Sans Mono"; src: url(fonts/DejaVuSansMono.ttf); }
+@font-face { font-family: "DejaVu Sans Mono"; src: url(fonts/DejaVuSansMono-Bold.ttf); font-weight: 700; }
+@font-face { font-family: "Space Grotesk"; src: url(fonts/SpaceGrotesk.woff2) format("woff2"); font-weight: 300 700; }
+
+:root {
+  --bg: #E6E0FF;      /* lilac */
+  --ink: #141414;
+  --white: #FFFFFF;
+  --lime: #C6FF3D;
+  --coral: #FF6A4D;
+  --sky: #45CFFF;
+  --sun: #FFC93D;
+  --mint: #3DF0B0;
+  --grey: #8A8A99;
+  --b: 6px;
+  --head: "Archivo Black", sans-serif;
+  --body: "Space Grotesk", sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #222; display: flex; flex-direction: column; align-items: center; gap: 40px; padding: 40px 0; font-family: var(--body); color: var(--ink); }
+
+.slide {
+  width: 1080px; height: 1350px; position: relative; overflow: hidden;
+  background-color: var(--bg);
+  background-image: radial-gradient(rgba(20,20,20,.13) 2.5px, transparent 2.6px);
+  background-size: 36px 36px;
+  padding: 150px 80px 130px;
+  display: flex; flex-direction: column;
+}
+.slide.lime { background-color: var(--lime); }
+
+/* chrome: top + bottom bars */
+.top { position: absolute; top: 56px; left: 80px; right: 80px; display: flex; justify-content: space-between; align-items: center; }
+.handle { font-family: var(--head); font-size: 30px; }
+.count { font-family: var(--head); font-size: 26px; background: var(--white); border: 5px solid var(--ink); border-radius: 999px; padding: 6px 20px; box-shadow: 5px 5px 0 var(--ink); }
+.bottom { position: absolute; bottom: 56px; left: 80px; right: 80px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 28px; }
+.swipe { font-family: var(--head); font-size: 28px; background: var(--ink); color: var(--lime); border-radius: 999px; padding: 12px 28px; display: flex; gap: 14px; align-items: center; }
+
+/* blocks */
+.box { background: var(--white); border: var(--b) solid var(--ink); border-radius: 26px; box-shadow: 12px 12px 0 var(--ink); padding: 30px 36px; }
+.sticker { display: inline-block; font-family: var(--head); text-transform: uppercase; border: 5px solid var(--ink); border-radius: 16px; box-shadow: 7px 7px 0 var(--ink); padding: 10px 24px; font-size: 34px; white-space: nowrap; }
+.mark { background: var(--lime); border: 4px solid var(--ink); border-radius: 10px; padding: 0 10px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.mark.coral { background: var(--coral); }
+.mark.sky { background: var(--sky); }
+.mark.sun { background: var(--sun); }
+
+h1 { font-family: var(--head); font-weight: 400; font-size: 108px; line-height: 1.02; letter-spacing: -1px; text-transform: uppercase; }
+h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1.02; text-transform: uppercase; letter-spacing: -1px; }
+.lead { font-size: 40px; line-height: 1.3; font-weight: 500; }
+.small { font-size: 30px; line-height: 1.35; }
+.num { width: 120px; height: 120px; border: var(--b) solid var(--ink); border-radius: 50%; background: var(--coral); box-shadow: 8px 8px 0 var(--ink); font-family: var(--head); font-size: 58px; display: grid; place-items: center; flex: none; }
+.row { display: flex; gap: 28px; align-items: center; }
+.mono { font-family: "DejaVu Sans Mono", ui-monospace, monospace; }
+.code { background: var(--ink); color: #EDEDED; border-radius: 18px; padding: 22px 28px; font-size: 25px; line-height: 1.55; font-family: "DejaVu Sans Mono", ui-monospace, monospace; border: var(--b) solid var(--ink); box-shadow: 10px 10px 0 rgba(20,20,20,.35); }
+.code .t { color: var(--coral); }
+.code .a { color: var(--sky); }
+.code .s { color: var(--lime); }
+.tag { position: absolute; font-family: var(--head); font-size: 24px; background: var(--coral); border: 4px solid var(--ink); border-radius: 12px; padding: 6px 14px; box-shadow: 5px 5px 0 var(--ink); white-space: nowrap; }
+.tips { display: flex; flex-direction: column; gap: 18px; }
+.tip { display: flex; gap: 20px; align-items: flex-start; font-size: 32px; line-height: 1.3; font-weight: 500; }
+.tip i { flex: none; width: 46px; height: 46px; border: 4px solid var(--ink); border-radius: 12px; background: var(--lime); display: grid; place-items: center; font-style: normal; margin-top: -2px; }
+.tip i.no { background: var(--coral); }
+
+/* chat mock */
+.chat { background: #F4F1EA; border: var(--b) solid var(--ink); border-radius: 30px; box-shadow: 12px 12px 0 var(--ink); overflow: hidden; }
+.chat-head { background: var(--ink); color: var(--white); padding: 20px 28px; display: flex; gap: 18px; align-items: center; font-weight: 700; font-size: 28px; }
+.ava { width: 52px; height: 52px; border-radius: 50%; background: var(--sun); border: 3px solid var(--white); }
+.chat-body { padding: 26px; display: flex; flex-direction: column; gap: 16px; }
+.bubble { align-self: flex-end; background: #DDF7C8; border: 4px solid var(--ink); border-radius: 22px 22px 6px 22px; padding: 16px 20px; font-size: 28px; max-width: 92%; }
+.bubble.in { align-self: flex-start; background: var(--white); border-radius: 22px 22px 22px 6px; }
+.link { color: #1A5FD0; text-decoration: underline; word-break: break-all; }
+.meta-time { font-size: 20px; color: #666; text-align: right; margin-top: 6px; }
+.prev { border: 4px solid var(--ink); border-radius: 16px; overflow: hidden; background: var(--white); margin-bottom: 12px; }
+.prev-body { padding: 14px 18px; border-top: 4px solid var(--ink); }
+.prev-title { font-weight: 700; font-size: 27px; line-height: 1.2; }
+.prev-desc { font-size: 22px; color: #444; line-height: 1.3; margin-top: 6px; }
+.prev-url { font-size: 20px; color: #777; margin-top: 8px; display: flex; gap: 8px; align-items: center; }
+
+/* OG image art */
+.og { aspect-ratio: 1200 / 630; background: var(--ink); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: 0 7%; color: var(--white); }
+.og .og-logo, .og .og-h { position: relative; z-index: 1; }
+.og .og-logo { display: flex; gap: 12px; align-items: center; font-family: var(--head); font-size: 1.1em; }
+.og .og-h { font-family: var(--head); font-size: 2.2em; line-height: 1.02; margin-top: .3em; text-transform: uppercase; }
+.og .og-h span { color: var(--lime); }
+.og .blob { position: absolute; right: -12%; top: -22%; width: 42%; aspect-ratio: 1; border-radius: 50%; background: var(--coral); border: 5px solid var(--white); }
+.og .blob2 { position: absolute; right: 8%; bottom: -24%; width: 26%; aspect-ratio: 1; border-radius: 30%; background: var(--sky); border: 5px solid var(--white); transform: rotate(18deg); }
+
+/* brand logo used in mocks (fictional) */
+.logo { width: 1em; height: 1em; border-radius: 28%; background: var(--lime); border: .1em solid var(--ink); display: grid; place-items: center; font-family: var(--head); font-size: inherit; color: var(--ink); flex: none; line-height: 1; }
+.logo b { font-size: .62em; font-weight: 400; }
+
+/* browser tabs */
+.browser { border: var(--b) solid var(--ink); border-radius: 26px; overflow: hidden; box-shadow: 12px 12px 0 var(--ink); background: var(--white); }
+.tabs { background: #CFCAE6; display: flex; align-items: flex-end; gap: 6px; padding: 18px 18px 0; border-bottom: var(--b) solid var(--ink); }
+.tabx { display: flex; gap: 14px; align-items: center; padding: 16px 20px; font-size: 26px; font-weight: 600; border: 4px solid var(--ink); border-bottom: none; border-radius: 16px 16px 0 0; background: #E4E0F5; white-space: nowrap; max-width: 330px; overflow: hidden; }
+.tabx.on { background: var(--white); margin-bottom: -6px; padding-bottom: 22px; }
+.tabx span { overflow: hidden; text-overflow: ellipsis; }
+.blank { width: 30px; height: 30px; flex: none; border: 3px solid var(--grey); border-radius: 50%; position: relative; }
+.blank::before { content: ""; position: absolute; inset: 3px 9px; border: 3px solid var(--grey); border-radius: 50%; }
+.urlbar { margin: 18px; border: 4px solid var(--ink); border-radius: 999px; padding: 12px 24px; font-size: 24px; color: #555; display: flex; gap: 12px; align-items: center; }
+
+/* serp */
+.serp { padding: 32px 36px; }
+.serp-site { display: flex; gap: 16px; align-items: center; }
+.serp-fav { width: 52px; height: 52px; border-radius: 50%; background: #EEE; border: 3px solid #DDD; display: grid; place-items: center; font-size: 30px; }
+.serp-name { font-size: 26px; font-weight: 600; line-height: 1.2; }
+.serp-url { font-size: 22px; color: #555; }
+.serp-title { color: #1A3FD0; font-size: 38px; font-weight: 600; line-height: 1.2; margin-top: 18px; }
+.serp-desc { font-size: 27px; color: #3B3B3B; line-height: 1.4; margin-top: 10px; }
+.hl { outline: 5px dashed var(--coral); outline-offset: 8px; border-radius: 6px; }
+
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+.label { font-family: var(--head); font-size: 28px; text-transform: uppercase; margin-bottom: 14px; display: flex; gap: 12px; align-items: center; }
+.dot { width: 22px; height: 22px; border-radius: 50%; border: 4px solid var(--ink); }
+
+/* CTA buttons */
+.cta { display: flex; align-items: center; gap: 30px; background: var(--white); border: var(--b) solid var(--ink); border-radius: 28px; box-shadow: 12px 12px 0 var(--ink); padding: 26px 32px; }
+.cta .ic { width: 110px; height: 110px; border-radius: 26px; border: var(--b) solid var(--ink); display: grid; place-items: center; flex: none; }
+.cta .t1 { font-family: var(--head); font-size: 46px; text-transform: uppercase; line-height: 1; }
+.cta .t2 { font-size: 29px; font-weight: 500; margin-top: 8px; line-height: 1.25; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ 1. COVER -->
+<section class="slide lime" id="s1">
+  <div class="top"><div class="handle">@faqihpedia</div><div class="count">1/10</div></div>
+
+  <div class="sticker" style="background:var(--coral); transform:rotate(-3deg); align-self:flex-start;">Reminder buat vibe coder</div>
+
+  <h1 style="margin-top:46px;">Webnya<br>udah jadi.<br>Pas dishare<br><span class="mark coral">kok jelek?</span></h1>
+
+  <div style="position:relative; margin-top:54px;">
+    <div class="chat" style="width:780px; transform:rotate(2deg); margin-left:auto;">
+      <div class="chat-head"><div class="ava"></div>Grup Kantor</div>
+      <div class="chat-body">
+        <div class="bubble">Guys cobain web baru aku dong
+          <div class="link" style="margin-top:6px;">https://my-app-v2-final-fix.vercel.app</div>
+          <div class="meta-time">21.04</div></div>
+        <div class="bubble in" style="font-size:26px;">ini link apa? aman ga? &#128064;</div>
+      </div>
+    </div>
+    <div class="tag" style="left:-6px; bottom:-26px; font-size:30px; background:var(--white); transform:rotate(-5deg);">Tanpa gambar. Tanpa judul.</div>
+  </div>
+
+  <div class="bottom"><div style="font-size:30px;">4 hal yang sering lupa kamu minta ke AI</div><div class="swipe">Geser <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2 12h28M20 2l10 10-10 10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+</section>
+
+<!-- ============================================================ 2. BEFORE / AFTER -->
+<section class="slide" id="s2">
+  <div class="top"><div class="handle">@faqihpedia</div><div class="count">2/10</div></div>
+
+  <h2>Bedanya<br><span class="mark">kelihatan banget</span></h2>
+  <p class="lead" style="margin-top:26px;">Link yang sama, dikirim ke chat. Mana yang bakal kamu klik?</p>
+
+  <div class="vs" style="margin-top:44px; align-items:start;">
+    <div>
+      <div class="label"><span class="dot" style="background:var(--coral)"></span>Tanpa meta tags</div>
+      <div class="chat"><div class="chat-body" style="padding:22px;">
+        <div class="bubble" style="max-width:100%; font-size:25px;">
+          <div class="link">https://my-app-v2-final-fix.vercel.app</div>
+          <div class="meta-time">21.04</div>
+        </div>
+      </div></div>
+      <div class="chat" style="margin-top:22px; transform:rotate(-2deg);"><div class="chat-body" style="padding:18px;"><div class="bubble in" style="font-size:24px;">ini link apa?<br>aman ga? &#128064;</div></div></div>
+      <p class="small" style="margin-top:26px;">Cuma URL panjang. Kelihatan kayak link spam.</p>
+    </div>
+    <div>
+      <div class="label"><span class="dot" style="background:var(--lime)"></span>Dengan meta tags</div>
+      <div class="chat"><div class="chat-body" style="padding:22px;">
+        <div class="bubble" style="max-width:100%; padding:12px;">
+          <div class="prev">
+            <div class="og" style="font-size:13px;"><div class="blob"></div><div class="blob2"></div>
+              <div class="og-logo"><span class="logo" style="font-size:24px;"><b>K</b></span>Kopi Senja</div>
+              <div class="og-h">Kopi susu<br><span>sampai</span><br><span>30 menit</span></div></div>
+            <div class="prev-body">
+              <div class="prev-title">Kopi Senja: Kopi Susu Gula Aren</div>
+              <div class="prev-desc">Pesan online, diantar 30 menit. Gratis ongkir buat order pertama.</div>
+              <div class="prev-url">kopisenja.id</div>
+            </div>
+          </div>
+          <div class="link" style="font-size:22px;">https://kopisenja.id</div>
+          <div class="meta-time">21.04</div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="bottom"><div>Ini cuma butuh 4 hal &#8595;</div><div class="swipe">Geser <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2 12h28M20 2l10 10-10 10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+</section>
+
+<!-- ============================================================ 3. FAVICON -->
+<section class="slide" id="s3">
+  <div class="top"><div class="handle">@faqihpedia</div><div class="count">3/10</div></div>
+
+  <div class="row"><div class="num">1</div><h2>Favicon</h2></div>
+  <p class="lead" style="margin-top:28px;">Ikon kecil di <span class="mark">tab browser</span>. Ini “muka” web kamu di antara puluhan tab lain.</p>
+
+  <div class="browser" style="margin-top:96px;">
+    <div class="tabs">
+      <div class="tabx"><div class="blank"></div><span>Vite + React + TS</span></div>
+      <div class="tabx on"><span class="logo" style="font-size:34px;"><b>K</b></span><span>Kopi Senja</span></div>
+      <div class="tabx"><div class="blank"></div><span>localhost:3000</span></div>
+    </div>
+    <div class="urlbar"><svg width="22" height="26" viewBox="0 0 22 26"><rect x="2" y="11" width="18" height="13" rx="3" fill="#555"/><path d="M6 11V7a5 5 0 0110 0v4" stroke="#555" stroke-width="3" fill="none"/></svg>kopisenja.id</div>
+  </div>
+  <div style="position:relative; height:0;">
+    <div class="tag" style="left:20px; top:-262px; background:var(--white); transform:rotate(-4deg);">ikon default = ga niat</div>
+    <div class="tag" style="left:420px; top:-262px; background:var(--lime); transform:rotate(3deg);">punya kamu</div>
+  </div>
+
+  <p class="small" style="margin-top:46px; font-weight:700;">Muncul juga di:</p>
+  <div class="row" style="gap:16px; margin-top:16px; flex-wrap:wrap;">
+    <div class="sticker" style="background:var(--white); font-size:26px;">Bookmark</div>
+    <div class="sticker" style="background:var(--white); font-size:26px;">Hasil Google</div>
+    <div class="sticker" style="background:var(--white); font-size:26px;">Home screen HP</div>
+  </div>
+
+  <div class="code" style="margin-top:40px;">Minta AI: <span class="s">favicon.ico</span> + <span class="s">icon 32x32</span><br>+ <span class="s">apple-touch-icon 180x180</span></div>
+
+  <div class="bottom"><div>Biar web kamu gampang dikenali</div><div class="swipe">Geser <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2 12h28M20 2l10 10-10 10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+</section>
+
+<!-- ============================================================ 4. META TITLE -->
+<section class="slide" id="s4">
+  <div class="top"><div class="handle">@faqihpedia</div><div class="count">4/10</div></div>
+
+  <div class="row"><div class="num" style="background:var(--sky)">2</div><h2>Meta title</h2></div>
+  <p class="lead" style="margin-top:28px;">Judul halaman. Tampil di <span class="mark sky">tab</span>, <span class="mark sky">hasil Google</span>, dan preview link.</p>
+
+  <div class="box serp" style="margin-top:50px; position:relative;">
+    <div class="serp-site"><div class="serp-fav"><span class="logo" style="font-size:34px;"><b>K</b></span></div><div><div class="serp-name">Kopi Senja</div><div class="serp-url">https://kopisenja.id</div></div></div>
+    <div class="serp-title"><span class="hl">Kopi Senja: Kopi Susu Gula Aren, Antar 30 Menit</span></div>
+    <div class="serp-desc">Pesan kopi susu gula aren online, diantar dalam 30 menit ke rumah atau kantor...</div>
+    <div class="tag" style="right:-20px; top:96px; transform:rotate(4deg);">&lt;title&gt;</div>
+  </div>
+
+  <div class="vs" style="margin-top:44px;">
+    <div class="box" style="background:#FFE3DC; padding:24px 28px;">
+      <div class="label" style="font-size:24px;"><span class="dot" style="background:var(--coral)"></span>Jangan</div>
+      <div class="mono" style="font-size:28px; line-height:1.6;">Vite + React<br>Home<br>Untitled</div>
+    </div>
+    <div class="box" style="background:#F1FFD0; padding:24px 28px;">
+      <div class="label" style="font-size:24px;"><span class="dot" style="background:var(--lime)"></span>Gini</div>
+      <div style="font-size:28px; line-height:1.4; font-weight:700;">[Nama Brand]: [Apa yang kamu tawarkan]</div>
+    </div>
+  </div>
+
+  <div class="tips" style="margin-top:36px;">
+    <div class="tip"><i>&#10003;</i>Maks 50–60 karakter, biar ga kepotong “...”</div>
+    <div class="tip"><i>&#10003;</i>Beda di tiap halaman (Home, Menu, Kontak)</div>
+  </div>
+
+  <div class="bottom"><div>Ini yang pertama dibaca orang</div><div class="swipe">Geser <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2 12h28M20 2l10 10-10 10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+</section>
+
+<!-- ============================================================ 5. META DESCRIPTION -->
+<section class="slide" id="s5">
+  <div class="top"><div class="handle">@faqihpedia</div><div class="count">5/10</div></div>
+
+  <div class="row"><div class="num" style="background:var(--sun)">3</div><h2>Meta<br>description</h2></div>
+  <p class="lead" style="margin-top:28px;">Kalimat ringkas di bawah judul. Ini <span class="mark sun">“iklan gratis”</span> web kamu di Google.</p>
+
+  <div class="label" style="margin-top:44px;"><span class="dot" style="background:var(--coral)"></span>Kalau lupa diisi</div>
+  <div class="box serp" style="padding:24px 32px; box-shadow:8px 8px 0 var(--ink);">
+    <div class="serp-title" style="margin-top:0; font-size:32px;">Kopi Senja</div>
+    <div class="serp-desc" style="font-size:25px;">Loading... Menu Home About Cart (0) Login Cookie settings Accept all © 2026...</div>
+  </div>
+  <p class="small" style="margin-top:14px;">Google ambil teks acak dari halaman kamu.</p>
+
+  <div class="label" style="margin-top:34px;"><span class="dot" style="background:var(--lime)"></span>Kalau diisi</div>
+  <div class="box serp" style="padding:24px 32px; box-shadow:8px 8px 0 var(--ink); position:relative;">
+    <div class="serp-title" style="margin-top:0; font-size:32px;">Kopi Senja: Kopi Susu Gula Aren, Antar 30 Menit</div>
+    <div class="serp-desc" style="font-size:25px;"><span class="hl">Pesan kopi susu gula aren online, diantar 30 menit ke rumah atau kantor. Gratis ongkir buat order pertama!</span></div>
+  </div>
+
+  <div class="tips" style="margin-top:36px;">
+    <div class="tip"><i>&#10003;</i>140–160 karakter: manfaat + ajakan</div>
+    <div class="tip"><i>&#10003;</i>Tulis buat manusia, bukan numpuk keyword</div>
+  </div>
+
+  <div class="bottom"><div>Yang bikin orang mau klik</div><div class="swipe">Geser <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2 12h28M20 2l10 10-10 10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+</section>
+
+<!-- ============================================================ 6. META IMAGE -->
+<section class="slide" id="s6">
+  <div class="top"><div class="handle">@faqihpedia</div><div class="count">6/10</div></div>
+
+  <div class="row"><div class="num" style="background:var(--mint)">4</div><h2>Meta image</h2></div>
+  <p class="lead" style="margin-top:28px;">Gambar yang muncul pas link dishare. Nama teknisnya <span class="mark">OG image</span>.</p>
+
+  <div class="box" style="margin-top:40px; padding:0; overflow:hidden; position:relative;">
+    <div class="og" style="font-size:26px; aspect-ratio:1200/560;"><div class="blob"></div><div class="blob2"></div>
+      <div class="og-logo"><span class="logo" style="font-size:52px;"><b>K</b></span>Kopi Senja</div>
+      <div class="og-h">Kopi susu<br><span>sampai</span><br><span>30 menit</span></div></div>
+    <div class="prev-body" style="padding:22px 30px; border-top-width:var(--b);">
+      <div class="prev-title" style="font-size:32px;">Kopi Senja: Kopi Susu Gula Aren</div>
+      <div class="prev-url" style="font-size:24px;">kopisenja.id</div>
+    </div>
+    <div class="tag" style="right:24px; top:24px; background:var(--white);">1200 × 630 px</div>
+  </div>
+
+  <div class="row" style="gap:14px; margin-top:34px; flex-wrap:wrap;">
+    <div class="sticker" style="background:var(--white); font-size:24px; padding:8px 18px;">WhatsApp</div>
+    <div class="sticker" style="background:var(--white); font-size:24px; padding:8px 18px;">LinkedIn</div>
+    <div class="sticker" style="background:var(--white); font-size:24px; padding:8px 18px;">X</div>
+    <div class="sticker" style="background:var(--white); font-size:24px; padding:8px 18px;">Telegram</div>
+    <div class="sticker" style="background:var(--white); font-size:24px; padding:8px 18px;">Discord</div>
+  </div>
+
+  <div class="tips" style="margin-top:34px;">
+    <div class="tip"><i class="no">!</i><span>Pakai URL lengkap <b class="mono" style="font-size:27px;">https://...</b>, bukan <b class="mono" style="font-size:27px;">/og.png</b>. Ini bug paling sering.</span></div>
+  </div>
+
+  <div class="bottom"><div>Paling ngefek pas dishare</div><div class="swipe">Geser <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2 12h28M20 2l10 10-10 10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+</section>
+
+<!-- ============================================================ 7. SEO -->
+<section class="slide" id="s7">
+  <div class="top"><div class="handle">@faqihpedia</div><div class="count">7/10</div></div>
+
+  <h2>Terus, apa<br>hubungannya<br>sama <span class="mark coral">SEO?</span></h2>
+  <p class="lead" style="margin-top:28px;">Jujur aja: ini <b>bukan</b> jurus sakti biar langsung ranking #1. Tapi ini pondasi web yang proper.</p>
+
+  <div style="display:flex; flex-direction:column; gap:26px; margin-top:44px;">
+    <div class="box row" style="padding:26px 32px; gap:26px; align-items:flex-start;">
+      <div class="num" style="width:84px; height:84px; font-size:40px; background:var(--sky); box-shadow:5px 5px 0 var(--ink);">A</div>
+      <div><div style="font-family:var(--head); font-size:36px; text-transform:uppercase;">Google paham isinya</div><div class="small" style="margin-top:6px;">Title jadi petunjuk utama halaman ini tentang apa.</div></div>
+    </div>
+    <div class="box row" style="padding:26px 32px; gap:26px; align-items:flex-start;">
+      <div class="num" style="width:84px; height:84px; font-size:40px; background:var(--sun); box-shadow:5px 5px 0 var(--ink);">B</div>
+      <div><div style="font-family:var(--head); font-size:36px; text-transform:uppercase;">Lebih banyak yang klik</div><div class="small" style="margin-top:6px;">Judul + deskripsi yang jelas bikin orang milih link kamu.</div></div>
+    </div>
+    <div class="box row" style="padding:26px 32px; gap:26px; align-items:flex-start;">
+      <div class="num" style="width:84px; height:84px; font-size:40px; background:var(--mint); box-shadow:5px 5px 0 var(--ink);">C</div>
+      <div><div style="font-family:var(--head); font-size:36px; text-transform:uppercase;">Kelihatan bisa dipercaya</div><div class="small" style="margin-top:6px;">Preview rapi = web serius, bukan link aneh.</div></div>
+    </div>
+  </div>
+
+  <div class="bottom"><div>Web keren tanpa ini = toko tanpa papan nama</div></div>
+</section>
+
+<!-- ============================================================ 8. PROMPT -->
+<section class="slide" id="s8">
+  <div class="top"><div class="handle">@faqihpedia</div><div class="count">8/10</div></div>
+
+  <h2>Copas prompt<br>ini ke <span class="mark">AI kamu</span></h2>
+  <p class="lead" style="margin-top:24px;">Cursor, Claude, Lovable, Bolt, v0. Bebas.</p>
+
+  <div class="code" style="margin-top:40px; font-size:27px; line-height:1.6; padding:34px 36px; position:relative;">
+<span class="a">Tambahkan ke website ini:</span><br><br>
+<span class="s">1.</span> Favicon dari logo saya: favicon.ico,<br>&nbsp;&nbsp;&nbsp;icon 32x32, apple-touch-icon 180x180<br><br>
+<span class="s">2.</span> Meta title unik tiap halaman,<br>&nbsp;&nbsp;&nbsp;maks 60 karakter: "[Brand]: [manfaat]"<br><br>
+<span class="s">3.</span> Meta description 140-160 karakter,<br>&nbsp;&nbsp;&nbsp;isinya manfaat + ajakan<br><br>
+<span class="s">4.</span> OG image 1200x630 + tag og:title,<br>&nbsp;&nbsp;&nbsp;og:description, og:image (URL absolut),<br>&nbsp;&nbsp;&nbsp;og:url, twitter:card=summary_large_image<br><br>
+<span class="a">Taruh semua di &lt;head&gt;.</span>
+    <div class="tag" style="right:-18px; top:-24px; background:var(--lime); transform:rotate(4deg);">SAVE SLIDE INI</div>
+  </div>
+
+  <div class="bottom"><div>Ganti isi [ ] sesuai web kamu</div><div class="swipe">Geser <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2 12h28M20 2l10 10-10 10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+</section>
+
+<!-- ============================================================ 9. CHECKLIST -->
+<section class="slide" id="s9">
+  <div class="top"><div class="handle">@faqihpedia</div><div class="count">9/10</div></div>
+
+  <h2>Cek dulu<br>sebelum <span class="mark sky">share</span></h2>
+
+  <div class="box" style="margin-top:46px; padding:34px 40px;">
+    <div class="tips" style="gap:26px;">
+      <div class="tip" style="font-size:36px;"><i>&#10003;</i>Favicon muncul di tab</div>
+      <div class="tip" style="font-size:36px;"><i>&#10003;</i>Judul tab bukan “Vite + React”</div>
+      <div class="tip" style="font-size:36px;"><i>&#10003;</i>Ada deskripsi di hasil pencarian</div>
+      <div class="tip" style="font-size:36px;"><i>&#10003;</i>Gambar muncul pas link dikirim</div>
+    </div>
+  </div>
+
+  <div class="tips" style="margin-top:46px; gap:26px;">
+    <div class="tip"><i style="background:var(--sun)">1</i><span><b>Tes paling gampang:</b> kirim link ke chat diri sendiri.</span></div>
+    <div class="tip"><i style="background:var(--sun)">2</i><span>Atau cari <b>“open graph preview”</b> di Google, tempel link kamu.</span></div>
+    <div class="tip"><i style="background:var(--sun)">3</i><span>Preview ga berubah? Platform nyimpen versi lama. Tes pakai <b class="mono" style="font-size:28px;">?v=2</b> di ujung link.</span></div>
+  </div>
+
+  <div class="bottom"><div>5 menit, beres</div><div class="swipe">Geser <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2 12h28M20 2l10 10-10 10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+</section>
+
+<!-- ============================================================ 10. CTA -->
+<section class="slide lime" id="s10">
+  <div class="top"><div class="handle">@faqihpedia</div><div class="count">10/10</div></div>
+
+  <h1 style="font-size:96px;">Web kamu<br>layak dilihat<br><span class="mark coral">cakep.</span></h1>
+  <p class="lead" style="margin-top:28px;">Bukan cuma pas dibuka, tapi juga pas dishare.</p>
+
+  <div style="display:flex; flex-direction:column; gap:28px; margin-top:52px;">
+    <div class="cta">
+      <div class="ic" style="background:var(--coral)"><svg width="62" height="56" viewBox="0 0 62 56"><path d="M31 52S4 36 4 18A13 13 0 0131 11a13 13 0 0127 7c0 18-27 34-27 34z" fill="#fff" stroke="#141414" stroke-width="5" stroke-linejoin="round"/></svg></div>
+      <div><div class="t1">Like</div><div class="t2">kalau kamu pernah lupa salah satunya</div></div>
+    </div>
+    <div class="cta">
+      <div class="ic" style="background:var(--sun)"><svg width="46" height="58" viewBox="0 0 46 58"><path d="M4 4h38v50L23 40 4 54z" fill="#fff" stroke="#141414" stroke-width="5" stroke-linejoin="round"/></svg></div>
+      <div><div class="t1">Save</div><div class="t2">buat checklist project berikutnya</div></div>
+    </div>
+    <div class="cta">
+      <div class="ic" style="background:var(--sky)"><svg width="60" height="56" viewBox="0 0 60 56"><circle cx="24" cy="16" r="11" fill="#fff" stroke="#141414" stroke-width="5"/><path d="M4 52c0-12 9-20 20-20s20 8 20 20z" fill="#fff" stroke="#141414" stroke-width="5" stroke-linejoin="round"/><path d="M50 18v20M40 28h20" stroke="#141414" stroke-width="6" stroke-linecap="round"/></svg></div>
+      <div><div class="t1">Follow</div><div class="t2">buat tips vibe coding lainnya</div></div>
+    </div>
+  </div>
+
+  <div class="bottom"><div style="font-size:30px;">Kirim ke temen vibe coder kamu</div><div class="handle">@faqihpedia</div></div>
+</section>
+
+</body>
+</html>
