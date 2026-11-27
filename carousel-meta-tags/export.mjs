@@ -12,9 +12,13 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1200, height: 1500 }, deviceScaleFactor: 1 });
 await page.goto('file://' + path.join(dir, 'index.html'));
 await page.evaluate(() => document.fonts.ready);
+// Main slides are numbered 01.png, 02.png, ...; alternative covers (data-alt="x") become cover-alt-x.png.
 const slides = await page.locator('.slide').all();
-for (let i = 0; i < slides.length; i++) {
-  await slides[i].screenshot({ path: path.join(out, `${String(i + 1).padStart(2, '0')}.png`) });
+let n = 0;
+for (const slide of slides) {
+  const alt = await slide.getAttribute('data-alt');
+  const name = alt ? `cover-alt-${alt}.png` : `${String(++n).padStart(2, '0')}.png`;
+  await slide.screenshot({ path: path.join(out, name) });
 }
 await browser.close();
 console.log(`exported ${slides.length} slides to ${out}`);
