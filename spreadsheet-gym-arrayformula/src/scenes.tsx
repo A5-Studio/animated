@@ -1,5 +1,5 @@
 import React from 'react';
-import { interpolate, useCurrentFrame } from 'remotion';
+import { Easing, interpolate, useCurrentFrame } from 'remotion';
 import { At, Box, Sticker, between, lin, pop } from './components';
 import { Fx, SheetUI } from './Sheet';
 import { BODY, BORDER, C, EPISODE, HEAD, MONO, PARTS, cue, s, shadow } from './theme';
@@ -73,6 +73,22 @@ const Chip: React.FC<{ bg?: string; children: React.ReactNode; size?: number }> 
     {children}
   </span>
 );
+
+/**
+ * Smooth entrance for the big sheets: slide in from one side with a fade,
+ * ease-out over 16 frames, already at full size (no small-then-big pop).
+ */
+type Dir = 'left' | 'right' | 'bottom';
+const slideIn = (f: number, start: number, dir: Dir, x: number, y: number, k = 1) => {
+  const p = interpolate(f, [start, start + 16], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) });
+  const off = 1 - p;
+  return {
+    x: x + (dir === 'left' ? -700 * off : dir === 'right' ? 700 * off : 0),
+    y: y + (dir === 'bottom' ? 420 * off : 0),
+    s: k,
+    o: Math.min(1, p * 1.6),
+  };
+};
 
 /* ------------------------------------------------------------------ */
 /* the sales sheet: A Produk, B Harga, C Qty, D Total                  */
@@ -165,7 +181,7 @@ const Hook: React.FC = () => {
       <At x={540} y={290} s={pop(f, t0)} r={-3}>
         <Sticker bg={C.red} size={54} style={{ color: C.white }}>Masih narikin formula?</Sticker>
       </At>
-      <At x={540} y={790} s={0.92 * (0.5 + 0.5 * pop(f, t0 + 4))}>
+      <At {...slideIn(f, t0 + 4, 'left', 540, 790, 0.92)}>
         <SalesSheet
           extra={newRow}
           d={[...ROWS.map((r) => ({ text: r[3] })), { text: '', bg: f >= tBaru ? '#FFD4D4' : undefined }]}
@@ -239,7 +255,7 @@ const BosData: React.FC = () => {
       <At x={820} y={455} s={pop(f, tBaris)} r={4}>
         <Sticker bg={C.yellow} size={40}>500 baris</Sticker>
       </At>
-      <At x={540} y={950} s={0.5 + 0.5 * pop(f, t0 + 8)}>
+      <At {...slideIn(f, t0 + 8, 'right', 540, 950)}>
         <SalesSheet
           d={d}
           selected={f >= s(tKolom) ? 'D2' : undefined}
@@ -291,7 +307,7 @@ const DataBaru: React.FC = () => {
       <At x={540} y={300} s={pop(f, t0)} r={-2}>
         <Sticker bg={C.yellow} size={46}>Ada data baru…</Sticker>
       </At>
-      <At x={540} y={870} s={0.5 + 0.5 * pop(f, t0 + 4)}>
+      <At {...slideIn(f, t0 + 4, 'bottom', 540, 870)}>
         <SalesSheet
           extra={lin(f, tData, tData + 10)}
           d={[...ROWS.map((r) => ({ text: r[3] })), { text: '', bg: blink }]}
@@ -331,7 +347,7 @@ const Gimana: React.FC = () => {
       <At x={540} y={440} s={pop(f, tRumus)} r={2}>
         <Chip bg={C.yellow} size={44}>1 rumus</Chip>
       </At>
-      <At x={540} y={940} s={0.88 * (0.5 + 0.5 * pop(f, tKolom - 4))}>
+      <At {...slideIn(f, t0 + 2, 'left', 540, 940, 0.88)}>
         <SalesSheet
           extra={lin(f, tData, tData + 10)}
           d={[...ROWS.map(() => ({ text: '?', color: C.sel, bg: '#E3F5FF' })), { text: '?', color: C.sel, bg: '#E3F5FF' }]}
@@ -426,7 +442,7 @@ const Jawaban: React.FC = () => {
       <At x={540} y={290} s={pop(f, s(cue(6, 'arrayformula')))} r={-2}>
         <Box bg={C.green} pad="16px 44px" style={{ fontFamily: HEAD, fontSize: 76 }}>ARRAYFORMULA</Box>
       </At>
-      <At x={540} y={870} s={0.5 + 0.5 * pop(f, t0 + 4)}>
+      <At {...slideIn(f, t0 + 4, 'right', 540, 870)}>
         <SalesSheet
           selected="D2"
           bar={<Fx text={entered ? AF : shown} colors={{ 'B2:B': C.sel, 'C2:C': '#D6249F' }} />}
@@ -458,7 +474,7 @@ const Terisi: React.FC = () => {
       <At x={540} y={300} s={pop(f, t0)} r={-2}>
         <Sticker bg={C.green} size={48}>Satu kolom langsung terisi</Sticker>
       </At>
-      <At x={540} y={880} s={0.5 + 0.5 * pop(f, t0 + 2)}>
+      <At {...slideIn(f, t0 + 2, 'bottom', 540, 880)}>
         <SalesSheet
           bar={<Fx text={AF} />}
           extra={lin(f, tData, tData + 10)}
@@ -487,7 +503,7 @@ const Kenapa: React.FC = () => {
       <At x={540} y={290} s={pop(f, t0)} r={-2}>
         <Box bg={C.blue} pad="16px 40px" style={{ fontFamily: HEAD, fontSize: 70 }}>Kenapa bisa?</Box>
       </At>
-      <At x={540} y={820} s={0.5 + 0.5 * pop(f, t0 + 4)}>
+      <At {...slideIn(f, t0 + 4, 'left', 540, 820)}>
         <SalesSheet
           bar={<Fx text={AF} colors={{ 'B2:B': C.sel }} />}
           refs={f >= tRange ? [{ cells: ['B2', 'B3', 'B4', 'B5', 'B6'], color: C.sel }] : f >= tBukan ? [{ cells: ['B2'], color: C.red }] : []}
@@ -529,7 +545,7 @@ const Ngitung: React.FC = () => {
       <At x={540} y={290} s={pop(f, t0)} r={-2}>
         <Sticker bg={C.yellow} size={48}>Baris per baris</Sticker>
       </At>
-      <At x={540} y={830} s={0.5 + 0.5 * pop(f, t0 + 2)}>
+      <At {...slideIn(f, t0 + 2, 'right', 540, 830)}>
         <SalesSheet
           bar={<Fx text={AF} />}
           d={ROWS.map((r, i) => ({ text: r[3], bg: f >= tBaris && i === active ? C.green : '#C9F9D5' }))}
@@ -569,7 +585,7 @@ const Jebakan: React.FC = () => {
       <At x={540} y={290} s={pop(f, tJebakan, 220)} r={-3}>
         <Box bg={C.red} pad="16px 44px" style={{ fontFamily: HEAD, fontSize: 70, color: C.white }}>JEBAKAN!</Box>
       </At>
-      <At x={540} y={850} s={0.5 + 0.5 * pop(f, t0 + 2)}>
+      <At {...slideIn(f, t0 + 2, 'bottom', 540, 850)}>
         <SalesSheet
           bar={<Fx text={AF} />}
           empty={[2, 3, 4]}
@@ -602,7 +618,7 @@ const BiarRapi: React.FC = () => {
       <At x={540} y={290} s={pop(f, t0)} r={-2}>
         <Sticker bg={C.green} size={50}>Biar rapi: tambahin IF</Sticker>
       </At>
-      <At x={540} y={810} s={0.5 + 0.5 * pop(f, t0 + 2)}>
+      <At {...slideIn(f, t0 + 2, 'left', 540, 810)}>
         <SalesSheet
           bar={
             f >= tIf ? (
@@ -696,7 +712,7 @@ const Intinya: React.FC = () => {
       <At x={540} y={540} s={pop(f, tBeres - 4)}>
         <Chip bg={C.blue} size={40}>1 kolom beres</Chip>
       </At>
-      <At x={540} y={1000} s={0.86 * (0.5 + 0.5 * pop(f, tData - 6))}>
+      <At {...slideIn(f, t0 + 2, 'right', 540, 1000, 0.86)}>
         <SalesSheet
           bar={<Fx text={AF_IF} />}
           extra={lin(f, tData, tData + 10)}
@@ -775,7 +791,7 @@ const Latihan: React.FC = () => {
       <At x={540} y={290} s={pop(f, t0)} r={-2}>
         <Box bg={C.yellow} pad="16px 44px" style={{ fontFamily: HEAD, fontSize: 70 }}>LATIHAN</Box>
       </At>
-      <At x={540} y={760} s={0.5 + 0.5 * pop(f, t0 + 4)}>
+      <At {...slideIn(f, t0 + 4, 'bottom', 540, 760)}>
         <SheetUI
           title="latihan.xlsx"
           cols={4}

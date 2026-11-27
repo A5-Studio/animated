@@ -119,19 +119,19 @@ The cover is `thumbnail.png` (the `Thumbnail` still in `src/Thumbnail.tsx`). It 
 
 Scene timing is cued to words in the VO (`cue(part, word)` in `src/theme.ts`), so the edit follows a regenerated VO without manual retiming. The episode number, weight and main formula are `EPISODE` and `MAIN_FORMULA` in `src/theme.ts`.
 
-## Spreadsheet Gym · Sesi 02: ARRAYFORMULA (Remotion, Reels 1080×1920, 137.3s)
+## Spreadsheet Gym · Sesi 02: ARRAYFORMULA (Remotion, Reels 1080×1920, 123.9s)
 
 `spreadsheet-gym-arrayformula/spreadsheet-gym-sesi-02.mp4` shows how one ARRAYFORMULA fills a whole column, how to fix the empty-row trap with `IF`, and the Excel equivalent, and ends with a practice question about a discount.
 
 - **Script and storyboard:** `script.md` has delivery marks for recording the VO yourself (↗ rising, ↘ firm ending, `|` short pause). `storyboard.png` draws the planned 12 panels inside the shared safe area. Its source is `storyboard/storyboard.html`.
 - **Edit:** the video is cut from the self-recorded VO: 17 clips from Drive (`Spreadsheet Gym - EPS 2 - *.m4a`), one scene per clip, in script order. The recordings depart from the script in places (a different hook and bumper line, "atau error kalau pakai fungsi lain", "berbarengan sama fungsi lain", and a like/save/share/follow CTA), and the scenes follow what was actually said.
-- **Audio:** `scripts/clean_vo.py` cleans every clip the same way so they sound like one take. It starts with spectral noise reduction (noisereduce, 80%, with a noise profile from each clip's quietest frames), which lowers the noise floor from about -30 dB to about -55 dB. Then come an 80 Hz high-pass, light FFT denoise, +2 dB presence, gentle compression, two-pass loudnorm to -16 LUFS, and a gentle gate that turns pauses longer than 150 ms down 18 dB. It also cuts silence: leading and trailing silence goes, and pauses inside a clip are shortened to 0.32 s. `scripts/build_vo.py` then joins the clips with 0.3 s gaps, adds the 5-second "pause dulu" silence, normalizes the mix to -14 LUFS and writes `src/timing.ts` (word timestamps).
-- **Video:** the scenes (`src/scenes.tsx`) reuse the Sesi 01 components and the shared safe area (`safe-area-check.png`). The practice sheet types `=ARRAYFORMULA(B2:B*C2:C)` piece by piece on the spoken words, fills column D on "enter", and drops row 501 in to show new data being filled.
+- **Audio:** `scripts/clean_vo.py` cleans every clip the same way so they sound like one take. It starts with spectral noise reduction (noisereduce, 80%, with a noise profile from each clip's quietest frames), which lowers the noise floor from about -30 dB to about -55 dB. Then come an 80 Hz high-pass, light FFT denoise, +2 dB presence, gentle compression, two-pass loudnorm to -16 LUFS, a gentle gate that turns pauses longer than 150 ms down 18 dB, and 1.07× speed (`atempo` keeps the pitch). It also cuts silence: leading and trailing silence goes, and pauses inside a clip are shortened to 0.22 s. `scripts/build_vo.py` then joins the clips with 0.18 s gaps, adds the 5-second "pause dulu" silence, normalizes the mix to -14 LUFS and writes `src/timing.ts` (word timestamps).
+- **Video:** the scenes (`src/scenes.tsx`) reuse the Sesi 01 components and the shared safe area (`safe-area-check.png`). Each big sheet slides in at full size with a fade (`slideIn`), and the direction rotates through left, right and bottom. The practice sheet types `=ARRAYFORMULA(B2:B*C2:C)` piece by piece on the spoken words, fills column D on "enter", and drops row 501 in to show new data being filled.
 
 ```sh
 cd spreadsheet-gym-arrayformula
 npm install
 python3 scripts/clean_vo.py <clean dir> Intro.m4a Bumper.m4a "Bos Kirim Data.m4a" …   # 17 clips in script order
-GAP=0.3 python3 scripts/build_vo.py --pause-after 6 5.3 <clean dir>/{01..17}.wav
+GAP=0.18 python3 scripts/build_vo.py --pause-after 6 5.2 <clean dir>/{01..17}.wav
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```

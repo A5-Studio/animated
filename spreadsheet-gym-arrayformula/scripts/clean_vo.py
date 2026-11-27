@@ -6,7 +6,8 @@ Per clip:
   0. spectral noise reduction (noisereduce) with a noise profile taken from the
      quietest 15% of the clip
   1. same chain for every clip: 80 Hz high-pass, light FFT denoise, a little
-     presence (+2 dB at 3 kHz), gentle compression
+     presence (+2 dB at 3 kHz), gentle compression, and 1.07x speed (atempo keeps
+     the pitch; TEMPO env to change)
   2. leveled to the same loudness (two-pass loudnorm, -16 LUFS; the final mix
      is normalized again to -14 LUFS by build_vo.py)
   3. silence cut (speech = 6 dB above the clip's noise floor): leading/trailing silence removed, and any pause inside the
@@ -20,10 +21,10 @@ import numpy as np
 import noisereduce as nr
 
 SR = 48000
-CHAIN = "highpass=f=80,afftdn=nr=8:nf=-45:tn=1,equalizer=f=3000:t=q:w=1.2:g=2,acompressor=threshold=-20dB:ratio=3:attack=5:release=80:makeup=2"
+CHAIN = "highpass=f=80,afftdn=nr=8:nf=-45:tn=1,equalizer=f=3000:t=q:w=1.2:g=2,acompressor=threshold=-20dB:ratio=3:attack=5:release=80:makeup=2,atempo=" + os.environ.get("TEMPO", "1.07")
 TARGET = "I=-16:TP=-1.5:LRA=7"
-MAX_GAP = 0.32   # longest pause kept inside a clip (s)
-PAD = 0.07       # speech kept around each cut (s)
+MAX_GAP = 0.22   # longest pause kept inside a clip (s)
+PAD = 0.05       # speech kept around each cut (s)
 GATE_DB = -18    # level of the pauses between words after the gate
 HOLE = 15        # quiet stretches shorter than this many 10 ms frames count as speech (keeps soft syllables like "per")
 
