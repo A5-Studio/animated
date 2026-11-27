@@ -80,7 +80,9 @@ const ALIAS: Record<string, string[]> = {
   repetisi: ['repetisi', 'reputasi'],
   dambel: ['dumbbell', 'dumbel', 'dambel'],
   follow: ['follow', 'folo', 'fol'],
-  arrayformula: ['array', 'arrayformula', 'area'],
+  arrayformula: ['array', 'arrayformula', 'area', 'alay', 'ala'],
+  fungsi: ['fungsi', 'function'],
+  save: ['save', 'sev', 'subscribe'],
   enter: ['enter', 'enter.'],
   if: ['if', 'iv', 'ip'],
 };

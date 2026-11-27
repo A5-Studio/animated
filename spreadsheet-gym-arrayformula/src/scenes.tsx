@@ -404,7 +404,7 @@ const Jawaban: React.FC = () => {
     [cue(6, 'arrayformula', 1), 13], // "=ARRAYFORMULA"
     [cue(6, 'buka'), 14], // "("
     [cue(6, 'b2'), 18], // "B2:B"
-    [cue(6, 'kali'), 19], // "*"
+    [cue(6, 'c2') - 0.35, 19], // "*" (said as "kali" right before C2)
     [cue(6, 'c2'), 23], // "C2:C"
     [cue(6, 'tutup'), 24], // ")"
   ];
