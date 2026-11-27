@@ -12,7 +12,7 @@ import { BORDER, BODY, C, EPISODE_LABEL, HEAD } from './theme';
  *  - segment motif on top, segment label + logo tilted -2°, a short title (5 words)
  *    on white/yellow marks, top 405
  *  - a real frame of the video across the bottom half (panel from y 690 to the strip);
- *    no face in this segment, so it's the problem scene at 30.8 s (row 501 arrives with
+ *    no face in this segment, so it's the problem scene at 26.3 s (row 501 arrives with
  *    an empty total, "Total-nya kosong!", "Narik lagi…"). The frame is cropped below the
  *    video's header row, so =ARRAYFORMULA never shows: the cover doesn't give the answer away.
  *  - a tilted card on the panel edge, black series strip at the bottom

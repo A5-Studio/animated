@@ -7,7 +7,7 @@ import { BODY, BORDER, C, EPISODE, HEAD, MONO, PARTS, cue, s, shadow } from './t
 /*
  * Spreadsheet Gym · Sesi 02 · ARRAYFORMULA. One scene per recorded VO clip, in order:
  *  0 hook · 1 bumper · 2 bos kirim data · 3 data baru, total kosong · 4 gimana caranya
- *  5 pause dulu (+5 s timer) · 6 jawabannya ARRAYFORMULA · 7 satu kolom terisi · 8 kenapa bisa
+ *  5 pause dulu (+3 s timer) · 6 jawabannya ARRAYFORMULA · 7 satu kolom terisi · 8 kenapa bisa
  *  9 baris per baris · 10 jebakan · 11 biar rapi (IF) · 12 berbarengan fungsi lain · 13 intinya
  *  14 catatan (Excel) · 15 latihan · 16 like, save, share, follow
  * Times come from the word timestamps of the VO (cue(part, word)).
@@ -362,10 +362,10 @@ const Gimana: React.FC = () => {
 };
 
 /* ------------------------------------------------------------------ */
-/* 5. "Pause dulu, coba tebak rumusnya di komen." + 5 s countdown       */
+/* 5. "Pause dulu, coba tebak rumusnya di komen." + 3 s countdown       */
 /* ------------------------------------------------------------------ */
 export const TIMER_START = () => PARTS[5].end + 0.15;
-export const TIMER_LEN = 5;
+export const TIMER_LEN = 3;
 
 const Pause: React.FC = () => {
   const f = useCurrentFrame();

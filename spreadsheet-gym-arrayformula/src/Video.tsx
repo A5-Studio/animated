@@ -4,7 +4,7 @@ import { At, between } from './components';
 import { Barbell, SCENES } from './scenes';
 import { Fx } from './Sheet';
 import { Sfx } from './sfx';
-import { BODY, BORDER, C, EPISODE_LABEL, HEAD, MAIN_FORMULA, MONO, PARTS, SAFE, SAFE_CX, STAGE, WORDS, s, shadow } from './theme';
+import { BODY, BORDER, C, EPISODE_LABEL, HEAD, MAIN_FORMULA, MONO, PARTS, SAFE, SAFE_CX, STAGE, WORDS, cue, s, shadow } from './theme';
 
 /*
  * Captions. The text is what's shown on screen (formulas written as
@@ -105,8 +105,16 @@ const Grid: React.FC = () => (
   />
 );
 
-/** header row at the top of the safe box: segment chip + formula bar with the episode's main formula */
-const TopBar: React.FC = () => (
+/**
+ * header row at the top of the safe box: segment chip + formula bar.
+ * The bar keeps the answer hidden until it's said ("Jawabannya ARRAYFORMULA"):
+ * before that it only asks the question.
+ */
+const REVEAL = () => cue(6, 'arrayformula');
+const TopBar: React.FC = () => {
+  const f = useCurrentFrame();
+  const shown = f >= s(REVEAL());
+  return (
   <div style={{ position: 'absolute', left: SAFE.left, top: SAFE.top, width: SAFE.right - SAFE.left, height: 76, display: 'flex', gap: 16, alignItems: 'stretch' }}>
     <div style={{ background: C.green, border: `5px solid ${C.ink}`, borderRadius: 14, boxShadow: shadow(6), padding: '0 18px', display: 'flex', alignItems: 'center', gap: 10, fontFamily: MONO, fontWeight: 700, fontSize: 26, whiteSpace: 'nowrap', transform: 'rotate(-2deg)' }}>
       <Barbell w={64} />
@@ -115,11 +123,12 @@ const TopBar: React.FC = () => (
     <div style={{ flex: 1, background: C.white, border: `5px solid ${C.ink}`, borderRadius: 14, boxShadow: shadow(6), display: 'flex', alignItems: 'stretch', overflow: 'hidden' }}>
       <div style={{ width: 70, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRight: `5px solid ${C.ink}`, fontFamily: MONO, fontStyle: 'italic', fontWeight: 700, fontSize: 32 }}>fx</div>
       <div style={{ display: 'flex', alignItems: 'center', padding: '0 14px', fontFamily: MONO, fontWeight: 700, fontSize: MAIN_FORMULA.length > 16 ? 25 : 36, whiteSpace: 'nowrap' }}>
-        <Fx text={MAIN_FORMULA} />
+        {shown ? <Fx text={MAIN_FORMULA} /> : <span style={{ fontFamily: BODY, fontSize: 30 }}>1 formula, semua data terisi?</span>}
       </div>
     </div>
   </div>
-);
+  );
+};
 
 /** black strip at the bottom, like the cover */
 const Strip: React.FC = () => (
