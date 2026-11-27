@@ -128,6 +128,8 @@ Scene timing is cued to words in the VO (`cue(part, word)` in `src/theme.ts`), s
 - **Audio:** `scripts/clean_vo.py` cleans every clip the same way so they sound like one take. It starts with spectral noise reduction (noisereduce, 80%, with a noise profile from each clip's quietest frames), which lowers the noise floor from about -30 dB to about -55 dB. Then come an 80 Hz high-pass, light FFT denoise, +2 dB presence, gentle compression, two-pass loudnorm to -16 LUFS, a gentle gate that turns pauses longer than 150 ms down 18 dB, and 1.07× speed (`atempo` keeps the pitch). It also cuts silence: leading and trailing silence goes, and pauses inside a clip are shortened to 0.22 s. `scripts/build_vo.py` then joins the clips with 0.18 s gaps, adds the 5-second "pause dulu" silence, normalizes the mix to -14 LUFS and writes `src/timing.ts` (word timestamps).
 - **Video:** the scenes (`src/scenes.tsx`) reuse the Sesi 01 components and the shared safe area (`safe-area-check.png`). Each big sheet slides in at full size with a fade (`slideIn`), and the direction rotates through left, right and bottom. The practice sheet types `=ARRAYFORMULA(B2:B*C2:C)` piece by piece on the spoken words, fills column D on "enter", and drops row 501 in to show new data being filled.
 
+The cover (`thumbnail.png`, the `Thumbnail` still) uses the Sesi 01 cover rules: TRIMS cover geometry, the SAFE box x 60–940, y 285–1500, no face, and no answer. The title is "Masih narik formula / tiap data baru?!", and the panel shows the problem frame at 30.8 s (row 501 with an empty total), cropped below the header row so `=ARRAYFORMULA` never shows. `thumbnail-safe-area-check.png` shows the overlays.
+
 ```sh
 cd spreadsheet-gym-arrayformula
 npm install
