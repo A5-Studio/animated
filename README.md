@@ -91,7 +91,7 @@ npm run render -- --browser-executable=<chrome-headless-shell>
 
 ## Carousel IG: meta tags untuk vibe coder (1080×1350, 10 slide)
 
-`carousel-meta-tags/slides/01.png`–`10.png` is a ready-to-post carousel reminding vibe coders to ask their AI for a favicon, meta title, meta description and OG image. It uses the same neobrutalist building blocks as the videos above, in a retro-pop palette (cream, yellow, blue, red-orange) with ink text throughout for contrast.
+`carousel-meta-tags/slides/01.png`–`10.png` is a ready-to-post carousel reminding vibe coders to ask their AI for a favicon, meta title, meta description and OG image. It uses the same neobrutalist building blocks as the videos above, in a warm minimal palette (cream, ink, one burnt-orange accent); text on orange is always white and large.
 
 Edit the text in `carousel-meta-tags/index.html` (open it in a browser to preview), then re-export:
 

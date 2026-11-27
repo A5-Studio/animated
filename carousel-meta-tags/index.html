@@ -11,18 +11,18 @@
 
 /*
   Palette: one accent only.
-  Retro-pop palette: cream base, yellow as the main accent, blue + red-orange as support.
-  All text is ink (or yellow/cream on ink): ink on yellow ~12:1, on blue ~7:1, on red ~5:1.
+  Warm minimal palette: cream base, ink text, one burnt-orange accent (+ a light orange tint for surfaces).
+  Text on orange is always white and large; small text sits on cream/white/tint (ink, ~15:1+).
   The only other colour is the link blue inside the UI mocks, because that is what real chat / search UIs look like.
 */
 :root {
-  --bg: #FBF6EC;
-  --bg2: #CDEBFF;
-  --blue: #1EA4F2;
-  --red: #EE4B2B;
+  --bg: #F6F2E8;
+  --bg2: #FBE1D3;
+  --cream2: #E9E2D0;
+  --acc: #C9461F;
+  --acc-l: #FF9466;
   --ink: #141414;
   --white: #FFFFFF;
-  --yellow: #FFC20E;
   --muted: #55535F;
   --link: #1846C8;
   --b: 6px;
@@ -40,44 +40,42 @@ body { background: #222; display: flex; flex-direction: column; align-items: cen
   padding: 150px 80px 130px;
   display: flex; flex-direction: column;
 }
-.slide.red { background-color: var(--red); }
-.slide.yellow { background-color: var(--yellow); background-image: radial-gradient(rgba(20,20,20,.14) 2.5px, transparent 2.6px); }
+.slide.plain { background-image: none; }
 
 /* chrome: top + bottom bars */
 .top { position: absolute; top: 56px; left: 80px; right: 80px; display: flex; justify-content: space-between; align-items: center; }
 .handle { font-family: var(--head); font-size: 30px; }
 .count { font-family: var(--head); font-size: 26px; background: var(--white); border: 5px solid var(--ink); border-radius: 999px; padding: 6px 20px; box-shadow: 5px 5px 0 var(--ink); }
 .bottom { position: absolute; bottom: 56px; left: 80px; right: 80px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 28px; }
-.swipe { font-family: var(--head); font-size: 28px; background: var(--ink); color: var(--yellow); border-radius: 999px; padding: 12px 28px; display: flex; gap: 14px; align-items: center; }
+.swipe { font-family: var(--head); font-size: 28px; background: var(--ink); color: var(--white); border-radius: 999px; padding: 12px 28px; display: flex; gap: 14px; align-items: center; }
 
 /* blocks */
 .box { background: var(--white); border: var(--b) solid var(--ink); border-radius: 26px; box-shadow: 12px 12px 0 var(--ink); padding: 30px 36px; }
 .sticker { display: inline-block; font-family: var(--head); text-transform: uppercase; border: 5px solid var(--ink); border-radius: 16px; box-shadow: 7px 7px 0 var(--ink); padding: 10px 24px; font-size: 34px; white-space: nowrap; background: var(--white); }
-.sticker.dark { background: var(--ink); color: var(--yellow); }
-.mark { background: var(--yellow); color: var(--ink); border: 4px solid var(--ink); border-radius: 10px; padding: 0 10px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-.mark.inv { background: var(--ink); color: var(--yellow); }
+.sticker.dark { background: var(--ink); color: var(--white); }
+.mark { background: var(--acc); color: var(--white); border: 4px solid var(--ink); border-radius: 10px; padding: 0 10px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 
 h1 { font-family: var(--head); font-weight: 400; font-size: 100px; line-height: 1.04; letter-spacing: -1px; text-transform: uppercase; }
 h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1.04; text-transform: uppercase; letter-spacing: -1px; }
 .lead { font-size: 40px; line-height: 1.3; font-weight: 500; }
 .small { font-size: 30px; line-height: 1.35; }
-.num { width: 120px; height: 120px; border: var(--b) solid var(--ink); border-radius: 50%; background: var(--yellow); box-shadow: 8px 8px 0 var(--ink); font-family: var(--head); font-size: 58px; display: grid; place-items: center; flex: none; }
+.num { width: 120px; height: 120px; border: var(--b) solid var(--ink); border-radius: 50%; background: var(--acc); color: var(--white); box-shadow: 8px 8px 0 var(--ink); font-family: var(--head); font-size: 58px; display: grid; place-items: center; flex: none; }
 .row { display: flex; gap: 28px; align-items: center; }
 .mono { font-family: "DejaVu Sans Mono", ui-monospace, monospace; }
 .code { background: var(--ink); color: var(--white); border-radius: 18px; padding: 22px 28px; font-size: 25px; line-height: 1.55; font-family: "DejaVu Sans Mono", ui-monospace, monospace; border: var(--b) solid var(--ink); box-shadow: 10px 10px 0 rgba(20,20,20,.3); }
 .code .a { color: #8FD3FF; }
-.code .s { color: var(--yellow); }
-.tag { position: absolute; font-family: var(--head); font-size: 24px; background: var(--ink); color: var(--yellow); border: 4px solid var(--ink); border-radius: 12px; padding: 6px 14px; box-shadow: 5px 5px 0 rgba(20,20,20,.35); white-space: nowrap; }
+.code .s { color: var(--acc-l); }
+.tag { position: absolute; font-family: var(--head); font-size: 24px; background: var(--acc); color: var(--white); border: 4px solid var(--ink); border-radius: 12px; padding: 6px 14px; box-shadow: 5px 5px 0 rgba(20,20,20,.35); white-space: nowrap; }
 .tag.light { background: var(--white); color: var(--ink); box-shadow: 5px 5px 0 var(--ink); }
 .tips { display: flex; flex-direction: column; gap: 18px; }
 .tip { display: flex; gap: 20px; align-items: flex-start; font-size: 32px; line-height: 1.3; font-weight: 500; }
-.tip i { flex: none; width: 46px; height: 46px; border: 4px solid var(--ink); border-radius: 12px; background: var(--yellow); display: grid; place-items: center; font-style: normal; font-weight: 700; margin-top: -2px; }
-.tip i.w { background: var(--white); }
+.tip i { flex: none; width: 46px; height: 46px; border: 4px solid var(--ink); border-radius: 12px; background: var(--acc); color: var(--white); display: grid; place-items: center; font-style: normal; font-weight: 700; margin-top: -2px; }
+.tip i.w { background: var(--white); color: var(--ink); }
 
 /* chat mock */
 .chat { background: #F7F6FB; border: var(--b) solid var(--ink); border-radius: 30px; box-shadow: 12px 12px 0 var(--ink); overflow: hidden; }
 .chat-head { background: var(--ink); color: var(--white); padding: 20px 28px; display: flex; gap: 18px; align-items: center; font-weight: 700; font-size: 28px; }
-.ava { width: 52px; height: 52px; border-radius: 50%; background: var(--blue); border: 3px solid var(--white); }
+.ava { width: 52px; height: 52px; border-radius: 50%; background: var(--acc); border: 3px solid var(--white); }
 .chat-body { padding: 26px; display: flex; flex-direction: column; gap: 16px; }
 .bubble { align-self: flex-end; background: var(--bg2); border: 4px solid var(--ink); border-radius: 22px 22px 6px 22px; padding: 16px 20px; font-size: 28px; max-width: 92%; }
 .bubble.in { align-self: flex-start; background: var(--white); border-radius: 22px 22px 22px 6px; }
@@ -94,17 +92,17 @@ h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1
 .og .og-logo, .og .og-h { position: relative; z-index: 1; }
 .og .og-logo { display: flex; gap: 12px; align-items: center; font-family: var(--head); font-size: 1.1em; }
 .og .og-h { font-family: var(--head); font-size: 2.2em; line-height: 1.02; margin-top: .3em; text-transform: uppercase; }
-.og .og-h span { color: var(--yellow); }
-.og .blob { position: absolute; right: -12%; top: -22%; width: 42%; aspect-ratio: 1; border-radius: 50%; background: var(--blue); border: 5px solid var(--white); }
-.og .blob2 { position: absolute; right: 8%; bottom: -24%; width: 26%; aspect-ratio: 1; border-radius: 30%; background: var(--red); border: 5px solid var(--white); transform: rotate(18deg); }
+.og .og-h span { color: var(--acc-l); }
+.og .blob { position: absolute; right: -12%; top: -22%; width: 42%; aspect-ratio: 1; border-radius: 50%; background: var(--acc); border: 5px solid var(--white); }
+.og .blob2 { position: absolute; right: 8%; bottom: -24%; width: 26%; aspect-ratio: 1; border-radius: 30%; background: var(--bg2); border: 5px solid var(--white); transform: rotate(18deg); }
 
 /* fictional brand logo used in mocks */
-.logo { width: 1em; height: 1em; border-radius: 28%; background: var(--yellow); border: .1em solid var(--ink); display: grid; place-items: center; font-family: var(--head); color: var(--ink); flex: none; line-height: 1; }
+.logo { width: 1em; height: 1em; border-radius: 28%; background: var(--acc); border: .1em solid var(--ink); display: grid; place-items: center; font-family: var(--head); color: var(--white); flex: none; line-height: 1; }
 .logo b { font-size: .62em; font-weight: 400; }
 
 /* browser tabs */
 .browser { border: var(--b) solid var(--ink); border-radius: 26px; overflow: hidden; box-shadow: 12px 12px 0 var(--ink); background: var(--white); }
-.tabs { background: var(--blue); display: flex; align-items: flex-end; gap: 6px; padding: 18px 18px 0; border-bottom: var(--b) solid var(--ink); }
+.tabs { background: var(--cream2); display: flex; align-items: flex-end; gap: 6px; padding: 18px 18px 0; border-bottom: var(--b) solid var(--ink); }
 .tabx { display: flex; gap: 14px; align-items: center; padding: 16px 20px; font-size: 26px; font-weight: 600; border: 4px solid var(--ink); border-bottom: none; border-radius: 16px 16px 0 0; background: var(--bg2); white-space: nowrap; max-width: 330px; overflow: hidden; }
 .tabx.on { background: var(--white); margin-bottom: -6px; padding-bottom: 22px; }
 .tabx span { overflow: hidden; text-overflow: ellipsis; }
@@ -125,7 +123,12 @@ h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1
 .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
 .label { font-family: var(--head); font-size: 28px; text-transform: uppercase; margin-bottom: 14px; display: flex; gap: 12px; align-items: center; }
 .dot { width: 24px; height: 24px; border-radius: 50%; border: 4px solid var(--ink); background: var(--white); flex: none; }
-.dot.on { background: var(--yellow); }
+.dot.on { background: var(--acc); }
+
+/* cover fan cards */
+.fan { position: absolute; width: 330px; background: var(--white); border: 5px solid var(--ink); border-radius: 26px; padding: 24px 22px 22px; box-shadow: 0 24px 40px rgba(20,20,20,.18); }
+.chip { display: inline-block; background: var(--ink); color: var(--white); font-family: var(--head); font-size: 20px; text-transform: uppercase; border-radius: 999px; padding: 6px 16px; }
+.fan-cap { font-family: var(--head); font-size: 24px; line-height: 1.15; text-transform: uppercase; margin-top: 18px; text-align: left; }
 
 /* CTA buttons */
 .cta { display: flex; align-items: center; gap: 30px; background: var(--white); border: var(--b) solid var(--ink); border-radius: 28px; box-shadow: 12px 12px 0 var(--ink); padding: 26px 32px; }
@@ -137,34 +140,45 @@ h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1
 <body>
 
 <!-- ============================================================ 1. COVER -->
-<section class="slide red" id="s1">
-  <div class="top"><div class="handle count" style="font-size:28px;">@faqihpedia</div><div class="count">1/10</div></div>
-
-  <div class="sticker" style="background:var(--yellow); transform:rotate(-3deg); align-self:flex-start; font-size:30px;">Catatan buat vibe coder</div>
-
-  <h1 style="margin-top:32px; font-size:110px; line-height:1;">Stop share<br>web kayak<br><span class="mark inv">gini.</span></h1>
-
-  <p class="lead box" style="margin-top:30px; font-size:34px; font-weight:600; padding:20px 28px; box-shadow:8px 8px 0 var(--ink); align-self:flex-start;">Aku sering lihat web hasil vibe coding dishare,<br>tapi tampilan luarnya gak proper.</p>
-
-  <div style="position:relative; margin-top:40px;">
-    <div class="chat" style="width:760px; transform:rotate(-2deg); background:var(--bg);">
-      <div class="chat-head" style="background:var(--white); color:var(--ink); border-bottom:var(--b) solid var(--ink);">
-        <span style="display:flex; gap:10px;"><i style="width:22px;height:22px;border-radius:50%;border:3px solid var(--ink);background:var(--red)"></i><i style="width:22px;height:22px;border-radius:50%;border:3px solid var(--ink);background:var(--yellow)"></i><i style="width:22px;height:22px;border-radius:50%;border:3px solid var(--ink);background:var(--blue)"></i></span>
-        <span style="margin-left:10px;">Grup Kantor</span></div>
-      <div class="chat-body">
-        <div class="bubble">Guys cobain web baru aku dong
-          <div class="link" style="margin-top:6px;">https://my-app-v2-final-fix.vercel.app</div>
-          <div class="meta-time">21.04</div></div>
-        <div class="bubble in" style="font-size:26px;">ini link apa? aman ga?</div>
-      </div>
-    </div>
-    <div style="position:absolute; right:-40px; top:-100px; width:310px; height:310px; transform:rotate(12deg);">
-      <svg width="310" height="310" viewBox="0 0 220 220"><polygon points="210.0,110.0 182.1,126.5 200.1,153.4 167.9,156.1 172.3,188.2 142.1,176.7 132.3,207.5 110.0,184.0 87.7,207.5 77.9,176.7 47.7,188.2 52.1,156.1 19.9,153.4 37.9,126.5 10.0,110.0 37.9,93.5 19.9,66.6 52.1,63.9 47.7,31.8 77.9,43.3 87.7,12.5 110.0,36.0 132.3,12.5 142.1,43.3 172.3,31.8 167.9,63.9 200.1,66.6 182.1,93.5" fill="#FFC20E" stroke="#141414" stroke-width="5" stroke-linejoin="round"/></svg>
-      <div style="position:absolute; inset:0; display:grid; place-items:center; text-align:center; font-family:var(--head); font-size:36px; line-height:1.05;">GAK<br>PROPER!</div>
-    </div>
+<section class="slide plain" id="s1" style="align-items:center; text-align:center;">
+  <div class="top">
+    <div class="row" style="gap:14px;"><span class="logo" style="font-size:46px; border-radius:50%;"><b>F</b></span><div style="text-align:left;"><div class="handle" style="font-size:26px;">@faqihpedia</div><div style="font-size:20px; color:var(--muted); font-weight:600;">Catatan buat vibe coder</div></div></div>
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#141414" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 34V12a5 5 0 0110 0v16l12 3a6 6 0 014 7l-3 14a8 8 0 01-8 6H30a8 8 0 01-6-3l-9-11a5 5 0 017-7z"/><path d="M12 16a14 14 0 0126-6M44 10l-4 4-5-2"/></svg>
   </div>
 
-  <div class="bottom"><div class="count" style="font-family:var(--body); font-weight:700; font-size:28px; padding:10px 24px;">4 hal yang sering lupa diminta ke AI</div><div class="swipe">Geser <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2 12h28M20 2l10 10-10 10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+  <p style="font-size:34px; font-weight:600; color:var(--muted); margin-top:30px;">Aku sering lihat web hasil vibe coding yang…</p>
+  <h1 style="font-size:90px; line-height:1.02; margin-top:26px; letter-spacing:-2px; white-space:nowrap;">Bagus dalamnya,</h1>
+  <div style="position:relative; margin-top:18px;">
+    <div style="display:inline-block; background:var(--acc); color:var(--white); font-family:var(--head); font-size:100px; line-height:1; text-transform:uppercase; padding:16px 34px 22px; letter-spacing:-2px;">Gak proper<br>luarnya</div>
+    <svg style="position:absolute; right:-74px; bottom:-44px;" width="78" height="82" viewBox="0 0 78 82"><path d="M6 6l64 26-28 9-9 30z" fill="#FBE1D3" stroke="#141414" stroke-width="5" stroke-linejoin="round"/></svg>
+  </div>
+
+  <!-- soft stage -->
+  <div style="position:absolute; left:-200px; right:-200px; bottom:-560px; height:900px; border-radius:50%; background:radial-gradient(closest-side, #FFFFFF 62%, #EFE9DB 100%); box-shadow:0 -30px 60px rgba(20,20,20,.08);"></div>
+
+  <!-- fanned cards: what "tampilan luar" looks like when it's not done -->
+  <div style="position:absolute; left:0; right:0; top:680px; height:560px;">
+    <div class="fan" style="left:18px; top:120px; width:300px; transform:rotate(-12deg);">
+      <div class="chip">Di tab</div>
+      <div style="background:var(--cream2); border:4px solid var(--ink); border-radius:14px 14px 0 0; padding:12px 14px; display:flex; gap:10px; align-items:center; font-weight:600; font-size:22px; margin-top:22px;"><div class="blank" style="width:24px;height:24px;"></div>Vite + React</div>
+      <div style="border:4px solid var(--ink); border-top:none; border-radius:0 0 14px 14px; height:120px; background:var(--white);"></div>
+      <p class="fan-cap">Ikon kosong, judul bawaan</p>
+    </div>
+    <div class="fan" style="left:50%; top:0; transform:translateX(-50%); width:420px; z-index:2;">
+      <div class="chip">Di chat</div>
+      <div class="bubble" style="margin-top:22px; font-size:21px; max-width:100%; text-align:left;"><div class="link" style="word-break:normal; white-space:nowrap;">my-app-v2-final-fix.vercel.app</div><div class="meta-time" style="font-size:17px;">21.04</div></div>
+      <div class="bubble in" style="margin-top:12px; font-size:22px; text-align:left;">ini link apa? aman ga?</div>
+      <p class="fan-cap">Cuma URL, tanpa preview</p>
+    </div>
+    <div class="fan" style="right:18px; top:120px; width:300px; transform:rotate(12deg);">
+      <div class="chip">Di Google</div>
+      <div style="text-align:left; margin-top:22px; border:4px solid var(--ink); border-radius:14px; padding:14px 16px; background:var(--white);">
+        <div style="color:var(--link); font-weight:700; font-size:24px;">Vite App</div>
+        <div style="font-size:18px; color:#333; line-height:1.35; margin-top:6px;">Loading... Menu Home Cookie settings Accept all...</div>
+      </div>
+      <p class="fan-cap">Deskripsi ngacak</p>
+    </div>
+  </div>
 </section>
 
 <!-- ============================================================ 2. WHAT "TAMPILAN LUAR" MEANS -->
@@ -245,7 +259,7 @@ h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1
 <section class="slide" id="s4">
   <div class="top"><div class="handle">@faqihpedia</div><div class="count">4/10</div></div>
 
-  <div class="row"><div class="num" style="background:var(--blue)">2</div><h2>Meta title</h2></div>
+  <div class="row"><div class="num">2</div><h2>Meta title</h2></div>
   <p class="lead" style="margin-top:28px;">Judul halaman. Tampil di <span class="mark">tab</span>, <span class="mark">hasil Google</span>, dan preview link.</p>
 
   <div class="box serp" style="margin-top:50px; position:relative;">
@@ -260,7 +274,7 @@ h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1
       <div class="label" style="font-size:24px;"><span class="dot"></span>Yang sering aku lihat</div>
       <div class="mono" style="font-size:28px; line-height:1.6; text-decoration:line-through; text-decoration-thickness:3px;">Vite + React<br>Home<br>Untitled</div>
     </div>
-    <div class="box" style="background:var(--yellow); padding:24px 28px;">
+    <div class="box" style="background:var(--bg2); padding:24px 28px;">
       <div class="label" style="font-size:24px;"><span class="dot" style="background:var(--ink)"></span>Yang proper</div>
       <div style="font-size:28px; line-height:1.4; font-weight:700;">[Nama Brand]: [Apa yang kamu tawarkan]</div>
     </div>
@@ -278,7 +292,7 @@ h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1
 <section class="slide" id="s5">
   <div class="top"><div class="handle">@faqihpedia</div><div class="count">5/10</div></div>
 
-  <div class="row"><div class="num" style="background:var(--red)">3</div><h2>Meta<br>description</h2></div>
+  <div class="row"><div class="num">3</div><h2>Meta<br>description</h2></div>
   <p class="lead" style="margin-top:28px;">Kalimat ringkas di bawah judul. Ini <span class="mark">“iklan gratis”</span> web kamu di Google.</p>
 
   <div class="label" style="margin-top:44px;"><span class="dot"></span>Kalau lupa diisi</div>
@@ -348,11 +362,11 @@ h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1
       <div><div style="font-family:var(--head); font-size:36px; text-transform:uppercase;">Google paham isinya</div><div class="small" style="margin-top:6px;">Title jadi petunjuk utama halaman ini tentang apa.</div></div>
     </div>
     <div class="box row" style="padding:26px 32px; gap:26px; align-items:flex-start;">
-      <div class="num" style="width:84px; height:84px; font-size:40px; box-shadow:5px 5px 0 var(--ink); background:var(--blue);">B</div>
+      <div class="num" style="width:84px; height:84px; font-size:40px; box-shadow:5px 5px 0 var(--ink);">B</div>
       <div><div style="font-family:var(--head); font-size:36px; text-transform:uppercase;">Lebih banyak yang klik</div><div class="small" style="margin-top:6px;">Judul + deskripsi yang jelas bikin orang milih link kamu.</div></div>
     </div>
     <div class="box row" style="padding:26px 32px; gap:26px; align-items:flex-start;">
-      <div class="num" style="width:84px; height:84px; font-size:40px; box-shadow:5px 5px 0 var(--ink); background:var(--red);">C</div>
+      <div class="num" style="width:84px; height:84px; font-size:40px; box-shadow:5px 5px 0 var(--ink);">C</div>
       <div><div style="font-family:var(--head); font-size:36px; text-transform:uppercase;">Kelihatan bisa dipercaya</div><div class="small" style="margin-top:6px;">Preview rapi = web serius, bukan link aneh.</div></div>
     </div>
   </div>
@@ -374,7 +388,7 @@ h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1
 <span class="s">3.</span> Meta description 140-160 karakter,<br>&nbsp;&nbsp;&nbsp;isinya manfaat + ajakan<br><br>
 <span class="s">4.</span> OG image 1200x630 + tag og:title,<br>&nbsp;&nbsp;&nbsp;og:description, og:image (URL absolut),<br>&nbsp;&nbsp;&nbsp;og:url, twitter:card=summary_large_image<br><br>
 <span class="a">Taruh semua di &lt;head&gt;.</span>
-    <div class="tag" style="right:-18px; top:-24px; background:var(--yellow); color:var(--ink); transform:rotate(4deg); box-shadow:5px 5px 0 var(--ink);">SAVE SLIDE INI</div>
+    <div class="tag" style="right:-18px; top:-24px; background:var(--acc); color:var(--white); transform:rotate(4deg); box-shadow:5px 5px 0 var(--ink);">SAVE SLIDE INI</div>
   </div>
 
   <div class="bottom"><div>Ganti isi [ ] sesuai web kamu</div><div class="swipe">Geser <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2 12h28M20 2l10 10-10 10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
@@ -405,23 +419,23 @@ h2 { font-family: var(--head); font-weight: 400; font-size: 84px; line-height: 1
 </section>
 
 <!-- ============================================================ 10. CTA -->
-<section class="slide yellow" id="s10">
+<section class="slide" id="s10">
   <div class="top"><div class="handle">@faqihpedia</div><div class="count">10/10</div></div>
 
-  <h1 style="font-size:92px;">Biar web kamu<br>dilihat orang<br><span class="mark inv">udah proper.</span></h1>
+  <h1 style="font-size:92px;">Biar web kamu<br>dilihat orang<br><span class="mark">udah proper.</span></h1>
   <p class="lead" style="margin-top:28px;">Bukan cuma pas dibuka, tapi juga pas dishare.</p>
 
   <div style="display:flex; flex-direction:column; gap:28px; margin-top:52px;">
     <div class="cta">
-      <div class="ic"><svg width="62" height="56" viewBox="0 0 62 56"><path d="M31 52S4 36 4 18A13 13 0 0131 11a13 13 0 0127 7c0 18-27 34-27 34z" fill="#EE4B2B" stroke="#EE4B2B" stroke-width="4" stroke-linejoin="round"/></svg></div>
+      <div class="ic"><svg width="62" height="56" viewBox="0 0 62 56"><path d="M31 52S4 36 4 18A13 13 0 0131 11a13 13 0 0127 7c0 18-27 34-27 34z" fill="#FF9466" stroke="#FF9466" stroke-width="4" stroke-linejoin="round"/></svg></div>
       <div><div class="t1">Like</div><div class="t2">kalau kamu pernah lupa salah satunya</div></div>
     </div>
     <div class="cta">
-      <div class="ic"><svg width="46" height="58" viewBox="0 0 46 58"><path d="M4 4h38v50L23 40 4 54z" fill="#FFC20E" stroke="#FFC20E" stroke-width="4" stroke-linejoin="round"/></svg></div>
+      <div class="ic"><svg width="46" height="58" viewBox="0 0 46 58"><path d="M4 4h38v50L23 40 4 54z" fill="#FF9466" stroke="#FF9466" stroke-width="4" stroke-linejoin="round"/></svg></div>
       <div><div class="t1">Save</div><div class="t2">buat checklist project berikutnya</div></div>
     </div>
     <div class="cta">
-      <div class="ic"><svg width="62" height="56" viewBox="0 0 62 56"><circle cx="24" cy="16" r="11" fill="#1EA4F2"/><path d="M4 52c0-12 9-20 20-20s20 8 20 20z" fill="#1EA4F2"/><path d="M51 18v20M41 28h20" stroke="#1EA4F2" stroke-width="6" stroke-linecap="round"/></svg></div>
+      <div class="ic"><svg width="62" height="56" viewBox="0 0 62 56"><circle cx="24" cy="16" r="11" fill="#FF9466"/><path d="M4 52c0-12 9-20 20-20s20 8 20 20z" fill="#FF9466"/><path d="M51 18v20M41 28h20" stroke="#FF9466" stroke-width="6" stroke-linecap="round"/></svg></div>
       <div><div class="t1">Follow</div><div class="t2">buat tips vibe coding lainnya</div></div>
     </div>
   </div>
