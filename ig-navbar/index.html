@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Dua Versi Navbar IG</title>
+<style>
+@font-face { font-family: "Archivo Black"; src: url(fonts/ArchivoBlack.woff2) format("woff2"); }
+@font-face { font-family: "Space Grotesk"; src: url(fonts/SpaceGrotesk.woff2) format("woff2"); font-weight: 300 700; }
+
+/* Same palette as carousel-meta-tags: cream, ink, one burnt-orange accent. */
+:root {
+  --bg: #F6F2E8; --ink: #141414; --white: #FFFFFF; --acc: #C9461F; --tint: #FBE1D3; --muted: #55535F;
+  --head: "Archivo Black", sans-serif; --body: "Space Grotesk", sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #222; display: flex; justify-content: center; padding: 40px 0; font-family: var(--body); color: var(--ink); }
+
+.slide { width: 1080px; height: 1350px; position: relative; overflow: hidden; background: var(--bg); padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+h1 { white-space: nowrap; font-family: var(--head); font-weight: 400; font-size: 92px; line-height: 1.02; letter-spacing: -2px; text-transform: uppercase; }
+.block { display: inline-block; background: var(--acc); color: var(--white); font-family: var(--head); font-size: 96px; line-height: 1; letter-spacing: -2px; text-transform: uppercase; padding: 14px 32px 20px; margin-top: 14px; }
+.sub { font-size: 34px; font-weight: 600; color: var(--muted); margin-top: 24px; }
+
+.version { width: 100%; margin-top: 64px; }
+.chip { display: inline-block; background: var(--ink); color: var(--white); font-family: var(--head); font-size: 26px; text-transform: uppercase; border-radius: 999px; padding: 8px 24px; }
+
+/* navbar: white pill like the real one */
+.bar { margin-top: 26px; height: 170px; background: var(--white); border-radius: 999px; box-shadow: 0 18px 40px rgba(20,20,20,.12), 0 0 0 1px rgba(20,20,20,.06); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 0 14px; }
+.slot { height: 140px; display: grid; place-items: center; border-radius: 999px; }
+.slot.on { background: var(--tint); outline: 4px solid var(--acc); outline-offset: -4px; }
+.slot svg { width: 72px; height: 72px; }
+
+/* labels under the first two icons */
+.labels { display: grid; grid-template-columns: repeat(5, 1fr); padding: 0 14px; margin-top: 22px; }
+.lbl { justify-self: center; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.lbl svg { width: 26px; height: 18px; }
+.lbl span { font-family: var(--head); font-size: 30px; text-transform: uppercase; border-radius: 14px; padding: 8px 18px; white-space: nowrap; }
+.lbl.reels span { background: var(--acc); color: var(--white); }
+.lbl.post span { background: var(--ink); color: var(--white); }
+</style>
+</head>
+<body>
+
+<!-- icon sprites (stroke icons, drawn to match the IG nav) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="i-home" fill="none" stroke="#141414" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M10 30 L32 11 L54 30 V52 a5 5 0 0 1 -5 5 H41 V42 a9 9 0 0 0 -18 0 V57 H15 a5 5 0 0 1 -5 -5 Z"/></g>
+    <g id="i-feed" fill="none" stroke="#141414" stroke-width="5" stroke-linecap="round"><rect x="9" y="9" width="46" height="46" rx="13"/><path d="M20 24 H44 M20 32 H44 M20 40 H44"/></g>
+    <g id="i-reels" fill="none" stroke="#141414" stroke-width="5" stroke-linejoin="round"><rect x="9" y="9" width="46" height="46" rx="13"/><path d="M26 21 L43 32 L26 43 Z"/></g>
+    <g id="i-send" fill="none" stroke="#141414" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M8 16 L56 13 L32 55 L27 35 Z M27 35 L56 13"/></g>
+    <g id="i-search" fill="none" stroke="#141414" stroke-width="5" stroke-linecap="round"><circle cx="28" cy="28" r="17"/><path d="M41 41 L55 55"/></g>
+    <g id="i-profile"><circle cx="32" cy="32" r="25" fill="#fff" stroke="#141414" stroke-width="4"/><clipPath id="pc"><circle cx="32" cy="32" r="22"/></clipPath><g clip-path="url(#pc)" fill="#8A8D96"><circle cx="32" cy="27" r="8"/><ellipse cx="32" cy="52" rx="16" ry="12"/></g></g>
+    <g id="arrow" fill="#141414"><path d="M13 0 L26 18 H0 Z"/></g>
+  </defs>
+</svg>
+
+<section class="slide">
+  <h1>Navbar IG kamu</h1>
+  <div class="block">yang mana?</div>
+  <p class="sub">Tombol Home-nya bisa beda.</p>
+
+  <div class="version">
+    <div class="chip">Versi 1</div>
+    <div class="bar">
+      <div class="slot on"><svg viewBox="0 0 64 64"><use href="#i-home"/></svg></div>
+      <div class="slot"><svg viewBox="0 0 64 64"><use href="#i-feed"/></svg></div>
+      <div class="slot"><svg viewBox="0 0 64 64"><use href="#i-send"/></svg></div>
+      <div class="slot"><svg viewBox="0 0 64 64"><use href="#i-search"/></svg></div>
+      <div class="slot"><svg viewBox="0 0 64 64"><use href="#i-profile"/></svg></div>
+    </div>
+    <div class="labels">
+      <div class="lbl reels"><svg viewBox="0 0 26 18"><use href="#arrow"/></svg><span>Reels</span></div>
+      <div class="lbl post"><svg viewBox="0 0 26 18"><use href="#arrow"/></svg><span>Post</span></div>
+    </div>
+  </div>
+
+  <div class="version">
+    <div class="chip">Versi 2</div>
+    <div class="bar">
+      <div class="slot on"><svg viewBox="0 0 64 64"><use href="#i-home"/></svg></div>
+      <div class="slot"><svg viewBox="0 0 64 64"><use href="#i-reels"/></svg></div>
+      <div class="slot"><svg viewBox="0 0 64 64"><use href="#i-send"/></svg></div>
+      <div class="slot"><svg viewBox="0 0 64 64"><use href="#i-search"/></svg></div>
+      <div class="slot"><svg viewBox="0 0 64 64"><use href="#i-profile"/></svg></div>
+    </div>
+    <div class="labels">
+      <div class="lbl post"><svg viewBox="0 0 26 18"><use href="#arrow"/></svg><span>Post</span></div>
+      <div class="lbl reels"><svg viewBox="0 0 26 18"><use href="#arrow"/></svg><span>Reels</span></div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

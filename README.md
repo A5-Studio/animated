@@ -98,3 +98,7 @@ Edit the text in `carousel-meta-tags/index.html` (open it in a browser to previe
 ```sh
 NODE_PATH=$(npm root -g) node carousel-meta-tags/export.mjs
 ```
+
+## Slide IG: dua versi navbar Instagram (1080×1350, 1 slide)
+
+`ig-navbar/slides/01.png` shows the two bottom-nav layouts side by side: version 1 where Home opens Reels (second tab = posts feed), and version 2 where Home opens posts (second tab = Reels). Same palette as the carousel. Edit `ig-navbar/index.html`, then run `NODE_PATH=$(npm root -g) node ig-navbar/export.mjs`.
