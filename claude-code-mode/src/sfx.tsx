@@ -19,8 +19,9 @@ const CUES: [number, Kind][] = [
   ...WORDS.map((_, i) => [at(3, WORD_AT(i)), 'tick'] as [number, Kind]),
   [at(3, WORD_AT(12) + 6), 'pop'],
   ...[14, 54, 94].map((k) => [at(4, k), 'pop'] as [number, Kind]),
-  [at(5, 22), 'pop'],
-  [at(5, 34), 'ding'],
+  [at(5, 6), 'pop'],
+  [at(5, 20), 'ding'],
+  ...[0, 40, 80].flatMap((w) => [0, 4, 8, 12].map((k) => [at(5, 26 + w + k), 'tick'] as [number, Kind])), // typing a word
 ];
 
 export const Sfx: React.FC = () => (

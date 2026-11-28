@@ -1,7 +1,7 @@
 import React from 'react';
 import { C, MONO, SANS, SERIF, T, s, soft } from './theme';
 import { DotSpin, PromptBox, Ring, Spinner, StatusLine, Terminal, ToolLine, UserLine, VERBS, typed } from './term';
-import { SegmentTag, Tag, lin, out } from './ui';
+import { SegmentTag, Tag, lin, out, pop } from './ui';
 
 /*
  * AI (An Info), 30 s, drawn only: the "✻ Brewing…" spinner words in Claude Code.
@@ -185,23 +185,49 @@ const Read: React.FC<{ f: number }> = ({ f }) => {
 /* ================================================================== */
 /* 6. Outro                                                            */
 /* ================================================================== */
-const Outro: React.FC<{ f: number }> = ({ f }) => (
-  <>
-    <Headline f={f} y={330} lines={['Apa pun katanya,', 'Claude *lagi kerja']} />
-    <div style={{ position: 'absolute', left: 0, right: 0, top: 590, display: 'flex', justifyContent: 'center', ...rise(f, 10) }}>
-      <div style={{ background: T.bg, borderRadius: 24, padding: '26px 44px', boxShadow: soft }}>
-        <Spinner f={f} cycle={8} size={40} meta={false} />
+const CTA_WORDS = ['Clauding', 'Brewing', 'Vibing', 'Cooking'];
+
+/** "Clauding" typed into a comment box, deleted, next word, and so on */
+const typedComment = (f: number) => {
+  const g = Math.max(0, f - 26);
+  const w = CTA_WORDS[Math.floor(g / 40) % CTA_WORDS.length];
+  const k = g % 40;
+  const n = k < 28 ? Math.floor(k / 2) : w.length - (k - 28) * 2;
+  return w.slice(0, Math.max(0, Math.min(w.length, n)));
+};
+
+const Outro: React.FC<{ f: number }> = ({ f }) => {
+  const p = pop(f, 6, 150);
+  const send = 1 + 0.06 * Math.sin(f / 5) * lin(f, 26, 34);
+  return (
+    <>
+      <Headline f={f} y={262} lines={['Apa pun katanya,', 'Claude *lagi kerja']} size={70} />
+      <div style={{ position: 'absolute', left: 120, top: 462, width: 840, height: 640, background: C.card, borderRadius: 40, boxShadow: soft, overflow: 'hidden', opacity: Math.min(1, p * 1.4), transform: `scale(${0.92 + 0.08 * p})` }}>
+        <div style={{ height: 14, background: T.claude }} />
+        <div style={{ padding: '34px 44px 0', display: 'flex', alignItems: 'center', gap: 14 }}>
+          <DotSpin f={f} size={40} />
+          <span style={{ fontFamily: SANS, fontSize: 28, fontWeight: 700, letterSpacing: 2, color: T.claude }}>GILIRAN KAMU</span>
+        </div>
+        <div style={{ padding: '18px 44px 0', fontFamily: SERIF, fontWeight: 500, fontSize: 94, lineHeight: 1.02, letterSpacing: -3, color: C.ink, marginTop: 20 }}>
+          Kamu paling sering<br />dapet <span style={{ color: T.claude }}>kata apa?</span>
+        </div>
+        <div style={{ position: 'absolute', left: 44, right: 44, bottom: 112, height: 96, borderRadius: 48, background: C.bg, display: 'flex', alignItems: 'center', gap: 18, padding: '0 12px 0 16px', ...rise(f, 18) }}>
+          <div style={{ width: 64, height: 64, borderRadius: 32, background: C.tag, flex: 'none' }} />
+          <div style={{ flex: 1, fontFamily: SANS, fontSize: 38, fontWeight: 600, color: C.ink, whiteSpace: 'nowrap' }}>
+            {typedComment(f) || <span style={{ color: C.faint, fontWeight: 500 }}>Tambah komentar…</span>}
+            <span style={{ display: 'inline-block', width: 3, height: 40, verticalAlign: '-6px', marginLeft: 3, background: Math.floor(f / 12) % 2 ? 'transparent' : C.ink }} />
+          </div>
+          <div style={{ width: 72, height: 72, borderRadius: 36, background: T.claude, flex: 'none', display: 'grid', placeItems: 'center', transform: `scale(${send})` }}>
+            <svg width="34" height="34" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="#fff" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </div>
+        </div>
+        <div style={{ position: 'absolute', left: 0, right: 0, bottom: 38, textAlign: 'center', fontFamily: SANS, fontSize: 34, fontWeight: 700, color: C.ink, ...rise(f, 26) }}>
+          Tulis di komentar ↓
+        </div>
       </div>
-    </div>
-    <div style={{ position: 'absolute', left: 0, right: 0, top: 760, display: 'flex', justifyContent: 'center', gap: 18, ...rise(f, 22) }}>
-      <Pill>Tunggu aja</Pill>
-      <Pill>atau <span style={{ fontFamily: MONO, background: C.tag, borderRadius: 10, padding: '4px 14px' }}>Esc</span> buat stop</Pill>
-    </div>
-    <div style={{ position: 'absolute', left: 0, right: 0, top: 900, display: 'flex', justifyContent: 'center', ...rise(f, 34) }}>
-      <Tag style={{ fontSize: 30, padding: '10px 22px' }}>Kamu paling sering dapet kata apa?</Tag>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 /* ------------------------------------------------------------------ */
 export type Scene = { from: number; to: number; C: React.FC<{ f: number }> };
@@ -210,8 +236,8 @@ export const SCENES: Scene[] = [
   { from: 3.4, to: 9.6, C: Working },
   { from: 9.6, to: 11.4, C: Turn },
   { from: 11.4, to: 19.6, C: Words },
-  { from: 19.6, to: 25.8, C: Read },
-  { from: 25.8, to: 30, C: Outro },
+  { from: 19.6, to: 25.2, C: Read },
+  { from: 25.2, to: 30, C: Outro },
 ];
 
 /** on-screen captions (no voice): short grey pills */
@@ -222,9 +248,9 @@ export const CAPTIONS: [number, number, string][] = [
   [9.8, 11.3, 'Kok ganti-ganti?'],
   [11.6, 15.6, 'Dipilih acak tiap kerja,'],
   [15.6, 19.5, 'artinya tetap sama.'],
-  [19.8, 25.7, 'Baca angkanya juga.'],
-  [26.0, 28.0, 'Tulis di komentar!'],
-  [28.0, 29.8, 'Like dulu, ya'],
+  [19.8, 25.1, 'Baca angkanya juga.'],
+  [25.4, 27.8, 'Jawab di komentar!'],
+  [27.8, 29.8, 'Like dulu, ya'],
 ];
 
 export { s, VERBS };
