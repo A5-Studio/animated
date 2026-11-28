@@ -21,7 +21,8 @@ import numpy as np
 import noisereduce as nr
 
 SR = 48000
-CHAIN = "highpass=f=80,afftdn=nr=8:nf=-45:tn=1,equalizer=f=3000:t=q:w=1.2:g=2,acompressor=threshold=-20dB:ratio=3:attack=5:release=80:makeup=2,atempo=" + os.environ.get("TEMPO", "1.07")
+RNNN = os.environ.get("RNNN", "")  # optional RNNoise model for ffmpeg arnndn (neural denoise)
+CHAIN = ("arnndn=m=" + RNNN + ":mix=0.95," if RNNN else "") + "highpass=f=80,afftdn=nr=8:nf=-45:tn=1,equalizer=f=3000:t=q:w=1.2:g=2,acompressor=threshold=-20dB:ratio=3:attack=5:release=80:makeup=2,atempo=" + os.environ.get("TEMPO", "1.07")
 TARGET = "I=-16:TP=-1.5:LRA=7"
 MAX_GAP = 0.22   # longest pause kept inside a clip (s)
 PAD = 0.05       # speech kept around each cut (s)
@@ -42,7 +43,7 @@ def denoise(src):
     rms = np.array([np.sqrt(np.mean(fr ** 2) + 1e-12) for fr in frames])
     quiet = np.argsort(rms)[: max(10, int(0.15 * len(frames)))]
     noise = np.concatenate([frames[i] for i in sorted(quiet)])
-    out = nr.reduce_noise(y=y, sr=SR, y_noise=noise, stationary=True, prop_decrease=0.8, n_fft=2048)
+    out = nr.reduce_noise(y=y, sr=SR, y_noise=noise, stationary=True, prop_decrease=float(os.environ.get("NR_PROP", "0.8")), n_fft=2048)
     tmp = tempfile.NamedTemporaryFile(suffix=".wav", delete=False).name
     with wave.open(tmp, "wb") as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
