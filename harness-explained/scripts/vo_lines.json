@@ -1,0 +1,20 @@
+{
+  "ref": {
+    "source": "faqihpedia-27/faqihpedia-27.mp4, 13.15-17.95 s (mono, 24 kHz)",
+    "text": "Itu juga yang aku ingat pas mau bikin konten ini, walaupun ini juga bukan mimpi-mimpi banget ya,"
+  },
+  "speed": 0.9,
+  "lines": [
+    {"id": "h1", "take": "seed 1007", "text": "Kalian sering denger kata harness? AI harness, agent harness. Itu apa sih?"},
+    {"id": "b1", "take": "seed 7", "text": "Gampangnya gini. Model AI itu kayak otak."},
+    {"id": "b2", "take": "seed 1007", "text": "Pinter, bisa jawab apa aja. Tapi nggak bisa gerak. Cuma bisa ngasih saran."},
+    {"id": "n1", "take": "seed 1007", "text": "Nah, harness itu badannya. Program yang membungkus modelnya, biar bisa beneran kerja."},
+    {"id": "i0", "take": "seed 1007", "text": "Isinya ada empat."},
+    {"id": "i1", "take": "seed 507", "text": "Satu, alat. Buat baca file, jalanin perintah, sampai cari di web."},
+    {"id": "i2", "take": "seed 7", "text": "Dua, putaran kerja. Dikerjain, dicek, diulang sampai beres."},
+    {"id": "i3", "take": "seed 1007", "text": "Tiga, memori. Biar inget isi obrolan kalian."},
+    {"id": "i4", "take": "seed 1907", "text": "Terakhir, izin. Dia nanya dulu sebelum ngelakuin hal yang berisiko."},
+    {"id": "e1", "take": "seed 507", "text": "Contohnya Klood Kood. Otaknya model Klood, badannya ya harness-nya."},
+    {"id": "o1", "take": "seed 2907", "text": "Kalau kalian, istilah AI apa yang masih bikin bingung? Jawab di komentar ya!"}
+  ]
+}

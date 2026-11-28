@@ -109,22 +109,26 @@ npm run render -- --browser-executable=<chrome-headless-shell>
 npx remotion still Thumbnail cover.png --browser-executable=<chrome-headless-shell>
 ```
 
-## AI (An Info) · Harness itu apa? (Remotion, Reels 1080×1920, 39s)
+## AI (An Info) · Harness itu apa? (Remotion, Reels 1080×1920, 41.8s, cloned VO)
 
-`harness-explained/harness-explained.mp4` explains an AI "harness" for beginners, drawn only (no footage, no voice), in the AI (An Info) style. It is built from `claude-code-mode`, and everything, captions included, stays inside the safe box x 120–960, y 250–1250. The analogy: the model is the brain, the harness is the body around it.
+`harness-explained/harness-explained.mp4` (41.8 s) explains an AI "harness" for beginners, drawn only (no footage), in the AI (An Info) style, with a cloned-voice VO. It is built from `claude-code-mode`, and everything, captions included, stays inside the safe box x 120–960, y 250–1250. The analogy: the model is the brain, the harness is the body around it.
 
-| Time | Scene |
+| Scene | VO line(s) |
 |---|---|
-| 0–3.4 | hook: "Harness itu apa sih?" + the phrases people hear |
-| 3.4–9.6 | a model on its own only gives advice in text |
-| 9.6–13.6 | harness = the program that wraps the model (literally: a horse's harness) |
-| 13.6–26.4 | what's inside: tools, the work loop, memory, permissions |
-| 26.4–33.4 | example: Claude Code = model + harness |
-| 33.4–39 | recap + comment CTA ("Istilah AI apa lagi yang bikin bingung?") |
+| hook: "Harness itu apa sih?" + the phrases people hear | h1 |
+| a model on its own only gives advice in text | b1, b2 (stamp on "cuma") |
+| harness = the program that wraps the model (literally: a horse's harness) | n1 |
+| what's inside: tools, the work loop, memory, permissions | i0–i4 (one part per line) |
+| example: Claude Code = model + harness | e1 |
+| recap + comment CTA ("Istilah AI apa yang masih bikin bingung?") | o1 |
+
+**VO.** OmniVoice (`k2-fsa/OmniVoice`, `pip install omnivoice`, CPU, about 1 minute per sentence) cloning a 4.8-second reference of Faqihpedia #27 (13.15–17.95 s). `scripts/vo_lines.json` has the reference, the 11 lines and the picked seed for each. Every sentence is generated separately at 0.9× speed, two or three takes each, and the take whose Whisper transcript matches the script best wins. Lessons: lines that start with a vowel lose their first syllable ("Empat" → "Pat", "Istilah" → "Silah"), so those lines start with a consonant ("Terakhir, izin", "Kalau kalian, istilah…"); "harness" can stay in English; "Claude Code" is spelled "Klood Kood". `scripts/build_vo.py` joins the takes, normalizes to -14 LUFS and writes `src/timing.ts` (part spans + Whisper word times). Scene cuts, the four harness parts and the captions all come from that file, so a new VO re-times the video by itself. Captions show the script's spelling via the `FIX` table in `src/scenes.tsx`.
 
 ```sh
 cd harness-explained
 npm install
+# VO: generate each line of scripts/vo_lines.json with OmniVoice, then
+python3 scripts/build_vo.py h1=h1.wav b1=b1.wav b2=b2.wav n1=n1.wav i0=i0.wav i1=i1.wav i2=i2.wav i3=i3.wav i4=i4.wav e1=e1.wav o1=o1.wav
 npm run render -- --browser-executable=<chrome-headless-shell>
 npx remotion still Thumbnail cover.png --browser-executable=<chrome-headless-shell>
 ```

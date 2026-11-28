@@ -281,7 +281,7 @@ const Outro: React.FC<{ f: number }> = ({ f }) => {
           <span style={{ fontFamily: SANS, fontSize: 28, fontWeight: 700, letterSpacing: 2, color: C.blue }}>GILIRAN KAMU</span>
         </div>
         <div style={{ padding: '18px 44px 0', fontFamily: SERIF, fontWeight: 500, fontSize: 90, lineHeight: 1.02, letterSpacing: -3, color: C.ink, marginTop: 10 }}>
-          Istilah AI apa lagi yang <span style={{ color: C.blue }}>bikin bingung?</span>
+          Istilah AI apa yang masih <span style={{ color: C.blue }}>bikin bingung?</span>
         </div>
         <div style={{ position: 'absolute', left: 44, right: 44, bottom: 112, height: 96, borderRadius: 48, background: C.bg, display: 'flex', alignItems: 'center', gap: 18, padding: '0 12px 0 16px', ...rise(f, 18) }}>
           <div style={{ width: 64, height: 64, borderRadius: 32, background: C.tag, flex: 'none' }} />
@@ -313,10 +313,15 @@ export const SCENES: Scene[] = [
 ];
 
 /* captions: the VO's own words, in short pills split at punctuation */
-const FIX: Record<string, string> = { klod: 'Claude', kod: 'Code', harnes: 'harness', ai: 'AI' };
+// Whisper's spelling -> the script's spelling
+const FIX: Record<string, string> = {
+  harnes: 'harness', harnesnya: 'harness-nya', agen: 'agent', ai: 'AI',
+  '1': 'Satu', '2': 'Dua', '3': 'Tiga', '4': 'empat', memory: 'memori', ijin: 'izin',
+  tontonnya: 'Contohnya', kontohnya: 'Contohnya', coutt: 'Code', cout: 'Code', koot: 'Code', kalo: 'Kalau', ingat: 'inget',
+};
 const fix = (w: string) => {
-  const key = w.toLowerCase().replace(/[^a-z]/g, '');
-  return FIX[key] ? w.replace(/[A-Za-z]+/, FIX[key]) : w;
+  const key = w.toLowerCase().replace(/[^a-z0-9]/g, '');
+  return FIX[key] ? w.replace(/[A-Za-z0-9]+/, FIX[key]) : w;
 };
 const buildCaptions = () => {
   const caps: [number, number, string][] = [];
@@ -329,9 +334,11 @@ const buildCaptions = () => {
   };
   WORDS.forEach((w, i) => {
     const len = cur.map((x) => x.w).join(' ').length;
-    if (cur.length && (len + 1 + w.w.length > 24 || cur[0].p !== w.p)) flush(w.s);
+    const newSentence = /^[A-Z][a-z]/.test(w.w) && !['Claude', 'Code'].includes(fix(w.w).replace(/[^A-Za-z]/g, ''));
+    if (cur.length && (len + 1 + w.w.length > 24 || cur[0].p !== w.p || newSentence)) flush(w.s);
     cur.push(w);
-    if (/[,.?!]$/.test(w.w)) flush(WORDS[i + 1]?.s);
+    const now = cur.map((x) => x.w).join(' ').length;
+    if (/[?!.]$/.test(w.w) || (/,$/.test(w.w) && now >= 9)) flush(WORDS[i + 1]?.s);
   });
   flush();
   return caps.map(([a, b, x], i, all) => [a, Math.min(b, all[i + 1]?.[0] ?? b), x] as [number, number, string]);
