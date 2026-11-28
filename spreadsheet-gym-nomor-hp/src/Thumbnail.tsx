@@ -12,9 +12,9 @@ import { BORDER, BODY, C, EPISODE_LABEL, HEAD } from './theme';
  *  - segment motif on top, segment label + logo tilted -2°, a short title (5 words)
  *    on white/yellow marks, top 405
  *  - a real frame of the video across the bottom half (panel from y 690 to the strip);
- *    no face in this segment, so it's the problem scene at 26.3 s (row 501 arrives with
- *    an empty total, "Total-nya kosong!", "Narik lagi…"). The frame is cropped below the
- *    video's header row, so =ARRAYFORMULA never shows: the cover doesn't give the answer away.
+ *    no face in this segment, so it's the problem scene at 33.9 s: =RIGHT(A2;11) on the new
+ *    data, with the red "nyisa 62 / nyisa 2 / kepotong" results. It shows the wrong way only,
+ *    never LEN: the cover doesn't give the answer away.
  *  - a tilted card on the panel edge, black series strip at the bottom
  */
 export const SAFE = { left: 60, right: 940, top: 285, bottom: 1500 };
@@ -27,9 +27,9 @@ const mark: React.CSSProperties = {
 const PHOTO_TOP = 690;
 const STRIP = 150;
 const K = 1; // frame scale
-// frame rows: sheet window starts ~580, the two stickers end ~1365. Show from 565 so the
-// stickers end at 690 + (1365 - 565) = 1490, inside SAFE.bottom.
-const FRAME_Y = 565;
+// frame rows: sheet window starts ~555, the "+62857123456789 → 57123456789" line ends ~1345.
+// Show from 545 so it ends at 690 + (1345 - 545) = 1490, inside SAFE.bottom.
+const FRAME_Y = 545;
 
 /** spreadsheet motif: header row with column letters, row numbers, cell grid (decoration) */
 const SheetMotif: React.FC = () => {
@@ -91,11 +91,11 @@ export const Thumbnail: React.FC<{ guides?: boolean }> = ({ guides = false }) =>
       </Box>
     </div>
 
-    {/* title: 6 words, right edge inside SAFE.right */}
+    {/* title: 5 words, right edge inside SAFE.right */}
     <div style={{ position: 'absolute', left: SAFE.left, top: 405, fontFamily: HEAD, fontSize: 74, lineHeight: 1.3, color: C.ink, whiteSpace: 'nowrap' }}>
-      <span style={mark}>Masih narik formula</span>
+      <span style={mark}>Rapiin nomor HP</span>
       <br />
-      <span style={{ ...mark, background: C.yellow }}>tiap data baru?!</span>
+      <span style={{ ...mark, background: C.yellow }}>beda panjang?!</span>
     </div>
 
     {/* card on the panel edge */}

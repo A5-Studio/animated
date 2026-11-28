@@ -146,6 +146,8 @@ npm run render -- --browser-executable=<chrome-headless-shell>
 - **Script and storyboard:** `script.md` and `storyboard.png` are the plan. The recording departs from them in places (the RIGHT(…;11) example, "Taruh jawabannya di komentar" as its own clip, a different CTA), and the edit follows the recording.
 - **Edit:** the same rules as Sesi 02. There are 15 self-recorded clips from Drive, one scene per clip. The audio goes through `clean_vo.py` (denoise, EQ, compression, leveling, 1.07× speed, silence cut), then `trim_tails.py`, with 0.18 s gaps, a 3-second pause, and a 0.6 s hold after the answer. The top bar asks "1 rumus, semua panjang?" until the answer is said. Sheets slide in from varying sides, everything stays inside the shared safe area (`safe-area-check.png`), and the hook sheet has two columns only.
 
+The cover (`thumbnail.png`, the `Thumbnail` still) follows the Sesi 02 cover rules: TRIMS cover geometry, the SAFE box x 60–940, y 285–1500, no face, and no answer. The title is "Rapiin nomor HP / beda panjang?!", and the panel shows the wrong-way frame at 33.9 s (`=RIGHT(A2;11)` with the red "nyisa 62 / nyisa 2 / kepotong" results), so LEN never shows. `thumbnail-safe-area-check.png` shows the overlays.
+
 ```sh
 cd spreadsheet-gym-nomor-hp
 npm install
