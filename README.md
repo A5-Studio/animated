@@ -139,6 +139,18 @@ GAP=0.18 python3 scripts/build_vo.py --pause-after 6 3.2 <clean dir>/{01..17}.wa
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
 
-## Spreadsheet Gym · Sesi 03: Hapus +62 di nomor HP (script + storyboard)
+## Spreadsheet Gym · Sesi 03: Hapus +62 di nomor HP (Remotion, Reels 1080×1920, 99.5s)
 
-`spreadsheet-gym-nomor-hp/script.md` is the next episode, about 70 s. Every number starts with +62, but they are 10 to 13 digits long. A fixed `=RIGHT(A2;10)` either leaves a stray "2" or cuts digits off, while `=RIGHT(A2;LEN(A2)-3)` lets LEN do the counting (minus the 3 characters of "+62"). It calls back to Sesi 02 with ARRAYFORMULA, and the latihan turns the numbers into the 08 format (`="0"&RIGHT(A2;LEN(A2)-3)`). The data comes from the Drive practice sheet "Spreadsheets Gym" (Day 1). The VO lines carry recording marks (↗, ↘, `/` short pause). The top bar keeps the answer hidden until it's said, and the pause is 3 seconds, as in the final Sesi 02. `storyboard.png` draws the 12 panels inside the shared safe area. Its source is `storyboard/storyboard.html`. An earlier REGEXREPLACE draft was replaced by this simpler version.
+`spreadsheet-gym-nomor-hp/spreadsheet-gym-sesi-03.mp4` covers numbers that all start with +62 but are 10 to 13 digits long. A fixed `=RIGHT(A2;11)` leaves "62" or "2" in front or cuts digits off, while `=RIGHT(A2;LEN(A2)-3)` lets LEN do the counting. It calls back to Sesi 02 with ARRAYFORMULA, and the latihan asks for the 08 format (answer: `="0"&RIGHT(A2;LEN(A2)-3)`).
+
+- **Script and storyboard:** `script.md` and `storyboard.png` are the plan. The recording departs from them in places (the RIGHT(…;11) example, "Taruh jawabannya di komentar" as its own clip, a different CTA), and the edit follows the recording.
+- **Edit:** the same rules as Sesi 02. There are 15 self-recorded clips from Drive, one scene per clip. The audio goes through `clean_vo.py` (denoise, EQ, compression, leveling, 1.07× speed, silence cut), then `trim_tails.py`, with 0.18 s gaps, a 3-second pause, and a 0.6 s hold after the answer. The top bar asks "1 rumus, semua panjang?" until the answer is said. Sheets slide in from varying sides, everything stays inside the shared safe area (`safe-area-check.png`), and the hook sheet has two columns only.
+
+```sh
+cd spreadsheet-gym-nomor-hp
+npm install
+python3 scripts/clean_vo.py <clean dir> <15 clips in order>
+python3 scripts/trim_tails.py <clean dir>/*.wav
+GAP=0.18 python3 scripts/build_vo.py --pause-after 6 3.2 --pause-after 7 0.6 <clean dir>/{01..15}.wav
+npm run render -- --browser-executable=<chrome-headless-shell>
+```
