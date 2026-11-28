@@ -139,7 +139,6 @@ GAP=0.18 python3 scripts/build_vo.py --pause-after 6 3.2 <clean dir>/{01..17}.wa
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
 
-## Spreadsheet Gym · Sesi 03: Rapikan nomor HP (script + storyboard)
+## Spreadsheet Gym · Sesi 03: Hapus +62 di nomor HP (script + storyboard)
 
-`spreadsheet-gym-nomor-hp/script.md` is the next episode, about 75 s. A customer list mixes the prefixes +62, 62, 0 and 8, and one `REGEXREPLACE` makes every number start with 8: `=REGEXREPLACE(A2&"";"^(\+62|62|0)";"")`. The script reads the pattern (`^` = di awal, `|` = atau), covers the trap (numbers typed without + are numbers, so `&""` turns them into text), and calls back to Sesi 02 by wrapping the formula in ARRAYFORMULA. The latihan asks for a WhatsApp link (`wa.me/62…`). The data comes from the Drive practice sheet "Spreadsheets Gym" (Day 2). The VO lines carry recording marks (↗, ↘, `/` short pause). The top bar keeps the answer hidden until it's said, and the pause is 3 seconds, as in the final Sesi 02. `storyboard.png` draws the 12 panels inside the shared safe area. Its source is `storyboard/storyboard.html`.
-
+`spreadsheet-gym-nomor-hp/script.md` is the next episode, about 70 s. Every number starts with +62, but they are 10 to 13 digits long. A fixed `=RIGHT(A2;10)` either leaves a stray "2" or cuts digits off, while `=RIGHT(A2;LEN(A2)-3)` lets LEN do the counting (minus the 3 characters of "+62"). It calls back to Sesi 02 with ARRAYFORMULA, and the latihan turns the numbers into the 08 format (`="0"&RIGHT(A2;LEN(A2)-3)`). The data comes from the Drive practice sheet "Spreadsheets Gym" (Day 1). The VO lines carry recording marks (↗, ↘, `/` short pause). The top bar keeps the answer hidden until it's said, and the pause is 3 seconds, as in the final Sesi 02. `storyboard.png` draws the 12 panels inside the shared safe area. Its source is `storyboard/storyboard.html`. An earlier REGEXREPLACE draft was replaced by this simpler version.

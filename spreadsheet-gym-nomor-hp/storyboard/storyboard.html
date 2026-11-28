@@ -54,105 +54,106 @@ table.sh td.n { text-align: right; }
 </head>
 <body>
 <div class="page">
-  <h1>Spreadsheet Gym · Sesi 03 · Rapikan nomor HP: storyboard</h1>
-  <div class="sub">12 panels, 1/3 scale (360×640 = 1080×1920). Orange dashed box = safe area (x 60–940, y 285–1500). The top bar asks <code style="font-family:'Space Grotesk';color:#111">1 rumus, semua nomor rapi?</code> until panel 6, then shows <code>=REGEXREPLACE(A2&amp;"";"^(\+62|62|0)";"")</code></div>
+  <h1>Spreadsheet Gym · Sesi 03 · Hapus +62 di nomor HP: storyboard</h1>
+  <div class="sub">12 panels, 1/3 scale (360×640 = 1080×1920). Orange dashed box = safe area (x 60–940, y 285–1500). The top bar asks <code style="font-family:'Space Grotesk';color:#111">1 rumus, semua panjang?</code> until panel 6, then shows <code>=RIGHT(A2;LEN(A2)-3)</code></div>
   <div class="grid" id="grid"></div>
 </div>
 <script>
-const Q = `<div class="head"><div class="chip">▮▬▮ GYM · SESI 03</div><div class="bar"><i>fx</i><b style="color:#111;font-family:'Space Grotesk'">1 rumus, semua nomor rapi?</b></div></div>`;
-const A = `<div class="head"><div class="chip">▮▬▮ GYM · SESI 03</div><div class="bar"><i>fx</i><b style="font-size:8px">=REGEXREPLACE(A2&amp;"";"^(\\+62|62|0)";"")</b></div></div>`;
+const Q = `<div class="head"><div class="chip">▮▬▮ GYM · SESI 03</div><div class="bar"><i>fx</i><b style="color:#111;font-family:'Space Grotesk'">1 rumus, semua panjang?</b></div></div>`;
+const A = `<div class="head"><div class="chip">▮▬▮ GYM · SESI 03</div><div class="bar"><i>fx</i><b>=RIGHT(A2;LEN(A2)-3)</b></div></div>`;
 const strip = `<div class="strip"><span>SPREADSHEET GYM</span><span>@faqihpedia</span></div>`;
 const at = (x, y, html, cls = '') => `<div class="st ${cls}" style="left:${x}px;top:${y}px">${html}</div>`;
 const cap = (h) => `<div class="cap">${h}</div>`;
-const NUMS = [['+62', '812345678'], ['0', '8112345678'], ['62', '85210345678'], ['', '812345678'], ['+62', '8771234567'], ['62', '822123456']];
-// phone sheet: mode 'raw' | 'hl' (prefix highlighted) | 'strike' (prefix struck) ; b: column B values or null
-function phones({ mode = 'raw', b = null, bcls = [], fbar = '', title = 'pelanggan.xlsx', colB = 'Format 8xxx', sel = 0, w = 270, bh = null }) {
-  let h = `<div class="win" style="width:${w}px"><div class="tb">● ● ● ${title}</div><div class="fb">${fbar}</div><table class="sh" style="width:100%"><tr><th></th><th>A</th><th>B</th></tr>`;
-  h += `<tr><th>1</th><td style="font-family:'Space Grotesk';font-weight:700">Nomor HP</td><td style="font-family:'Space Grotesk';font-weight:700">${colB}</td></tr>`;
-  NUMS.forEach(([p, n], i) => {
-    const pre = !p ? '' : mode === 'hl' ? `<span style="background:#FFD600">${p}</span>` : mode === 'strike' ? `<span class="strike">${p}</span>` : p;
+const NUMS = ['812345678', '8112345678', '81312345678', '857123456789', '822123456', '8771234567'];
+const wrong = (n) => ('+62' + n).slice(-10);
+function phones({ hl = false, b = null, bcls = [], fbar = '', title = 'pelanggan.xlsx', colB = 'Format 8xxx', colA = 'Nomor HP', sel = 0, w = 270, len = false, aval = null }) {
+  let h = `<div class="win" style="width:${w}px"><div class="tb">● ● ● ${title}</div><div class="fb">${fbar}</div><table class="sh" style="width:100%"><tr><th></th><th>A</th>${len ? '<th></th>' : ''}<th>B</th></tr>`;
+  h += `<tr><th>1</th><td style="font-family:'Space Grotesk';font-weight:700">${colA}</td>${len ? `<td style="font-family:'Space Grotesk';font-weight:700">LEN</td>` : ''}<td style="font-family:'Space Grotesk';font-weight:700">${colB}</td></tr>`;
+  NUMS.forEach((n, i) => {
+    const a = aval ? aval[i] : (hl ? `<span style="background:#FFD600">+62</span>${n}` : '+62' + n);
     const bv = b ? (b[i] ?? '') : '';
-    h += `<tr><th>${i + 2}</th><td>${pre}${n}</td><td class="n ${bcls[i] ?? ''} ${sel === i + 2 ? 'selc' : ''}">${bv}</td></tr>`;
+    h += `<tr><th>${i + 2}</th><td>${a}</td>${len ? `<td class="n">${n.length + 3}</td>` : ''}<td class="n ${bcls[i] ?? ''} ${sel === i + 2 ? 'selc' : ''}">${bv}</td></tr>`;
   });
   return h + `</table></div>`;
 }
-const CLEAN = NUMS.map(([, n]) => n);
 const P = [
   { t: 'Hook', d: '0–4 s', html: `${Q}
-    ${at(166, 165, `<div class="box big" style="background:var(--red);color:#fff;font-size:20px">Campur aduk!</div>`, 'tilt-l')}
-    ${at(166, 290, phones({ mode: 'hl', w: 230 }))}
+    ${at(166, 165, `<div class="box big" style="background:var(--red);color:#fff;font-size:17px">Panjangnya beda-beda!</div>`, 'tilt-l')}
+    ${at(166, 290, phones({ hl: true, len: true, w: 250 }))}
     ${at(166, 420, `<div class="box big" style="background:var(--green);font-size:18px">1 rumus, beres</div>`, 'tilt-r')}
-    ${cap('Nomor HP pelanggan formatnya <em>campur aduk?</em>')}`,
-    vo: 'Nomor HP pelanggan / formatnya <b>campur aduk</b>? ↗ Satu rumus, / <b>beres</b>. ↘', note: 'The prefixes flash yellow and the column shakes. "1 rumus, beres" thumps in.' },
+    ${cap('Hapus +62, tapi panjang nomornya <em>beda-beda?</em>')}`,
+    vo: 'Mau hapus plus enam dua, / tapi panjang nomornya <b>beda-beda</b>? ↗ Satu rumus, / <b>beres</b>. ↘', note: 'A small ruler grows next to each number to show the different lengths. "1 rumus, beres" thumps in.' },
   { t: 'Bumper', d: '4–6 s', html: `${Q}
     ${at(166, 220, `<div style="display:flex;gap:2px;align-items:center"><div class="box" style="width:30px;height:56px;padding:0;background:repeating-linear-gradient(#fff 0 17px,#111 17px 19px)"></div><div style="width:70px;height:10px;background:#fff;border:2px solid #111;font:italic 700 7px 'Space Mono';text-align:center">fx</div><div class="box" style="width:30px;height:56px;padding:0;background:repeating-linear-gradient(#fff 0 17px,#111 17px 19px)"></div></div>`)}
     ${at(166, 300, `<div class="box big" style="background:var(--green);font-size:24px">SPREADSHEET GYM</div>`, 'tilt-l')}
     ${at(166, 360, `<div class="box big" style="font-size:18px">Sesi 03</div>`, 'tilt-r')}
     ${cap('Balik lagi di Spreadsheet Gym, sesi <em>03</em>.')}`,
     vo: 'Balik lagi di Spreadsheet Gym, / sesi <b>tiga</b>. ↘', note: 'Coach whistle. Same logo pop as sesi 01 and 02.' },
-  { t: 'Warm-up', d: '6–16 s', html: `${Q}
-    ${at(166, 150, `<div class="box" style="border-radius:12px"><div class="mono" style="font-size:8px">Bos:</div><div style="font-weight:700;font-size:12px">Kirim promo lewat WA ya</div></div>`)}
-    ${at(166, 300, phones({ mode: 'hl' }))}
-    ${at(80, 420, `<span class="tok" style="background:var(--yellow)">+62</span>`)}${at(130, 420, `<span class="tok" style="background:var(--yellow)">0</span>`)}${at(175, 420, `<span class="tok" style="background:var(--yellow)">62</span>`)}${at(230, 420, `<span class="tok" style="background:var(--green)">8…</span>`)}
-    ${cap('ada yang +62, ada yang 0, ada yang 62, ada yang langsung <em>8</em>.')}`,
-    vo: 'Bos minta kirim promo lewat <b>WhatsApp</b>. ↘ Tapi nomor di datanya campur aduk: / ada yang plus enam dua, / ada yang nol, / ada yang enam dua, / ada yang langsung <b>delapan</b>. ↘', note: 'Each prefix lights up as it is said, and its chip pops below the sheet.' },
-  { t: 'The problem', d: '16–22 s', html: `${Q}
-    ${at(166, 160, `<div class="box big" style="font-size:16px">Target: awalan <span style="background:var(--green)">8</span></div>`, 'tilt-l')}
-    ${at(166, 300, phones({ mode: 'raw', b: ['812345678', '', '', '', '', ''], bcls: ['hl-d'], sel: 3 }))}
-    ${at(240, 410, `<div class="box big" style="background:var(--red);color:#fff;font-size:13px">500 nomor manual?</div>`, 'tilt-r')}
-    ${cap('Kalau diedit manual, kapan <em>kelarnya?</em>')}`,
-    vo: 'Semuanya harus diseragamin / jadi awalan delapan. ↘ Kalau diedit manual, / lima ratus nomor… / kapan <b>kelarnya</b>? ↗', note: 'A cursor retypes one number by hand while a counter shows "1 / 500".' },
-  { t: 'Pause dulu', d: '22–27 s', html: `${Q}
+  { t: 'Warm-up', d: '6–15 s', html: `${Q}
+    ${at(166, 150, `<div class="box" style="border-radius:12px"><div class="mono" style="font-size:8px">Bos:</div><div style="font-weight:700;font-size:12px">Buang +62-nya ya</div></div>`)}
+    ${at(166, 295, phones({ hl: true }))}
+    ${at(166, 418, `<div style="display:flex;gap:4px"><span class="tok">10 digit</span><span class="tok">11</span><span class="tok">12</span><span class="tok" style="background:var(--yellow)">13 digit</span></div>`)}
+    ${cap('ada yang 10 digit, ada yang sampai <em>13</em>.')}`,
+    vo: 'Bos kirim data pelanggan. ↘ Semua nomor diawali plus enam dua, / tapi panjangnya beda-beda: / ada yang <b>sepuluh</b> digit, / ada yang sampai <b>tiga belas</b>. ↘', note: '"+62" lights up in every row. The digit chips pop as they are said.' },
+  { t: 'The wrong way', d: '15–23 s', html: `${Q}
+    ${at(166, 150, `<div class="box mono" style="font-size:14px;color:var(--fx)">=RIGHT(A2;<span style="background:var(--red);color:#fff">10</span>)</div>`)}
+    ${at(166, 290, phones({ b: NUMS.map((n) => wrong(n) === n ? n : `<span class="zero">${wrong(n)}</span>`), bcls: NUMS.map((n) => wrong(n) === n ? 'hl-d' : ''), fbar: '=RIGHT(A2;10)' }))}
+    ${at(166, 412, `<div class="box big" style="background:var(--red);color:#fff;font-size:12px">Angka tetap = salah</div>`, 'tilt-r')}
+    ${cap('ada yang nyisa angka 2, ada yang <em>kepotong</em>.')}`,
+    vo: 'Biasanya kamu pakai RIGHT, / ambil sepuluh angka dari kanan. ↘ Tapi hasilnya: / ada yang masih nyisa angka dua, / ada yang <b>kepotong</b>. ↘', note: 'The drag fills B. Only the 10-digit rows come out right (green); the rest turn red: "2812345678", "7123456789".' },
+  { t: 'Pause dulu', d: '23–29 s', html: `${Q}
     ${at(166, 170, `<div class="box big" style="background:var(--yellow);font-size:24px">PAUSE DULU</div>`, 'tilt-l')}
     ${at(166, 290, `<div style="width:150px;height:150px;border-radius:50%;border:3px solid #111;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 0 0 12px var(--green)"><div class="big" style="font-size:60px;line-height:1">3</div><div class="mono" style="font-size:10px">detik</div></div>`)}
     ${at(166, 410, `<div class="box" style="border-radius:12px"><div class="mono" style="font-size:8px">Komentar</div><div class="mono" style="font-size:12px;color:var(--fx)">=??? <span style="background:var(--yellow);color:#111">tebak!</span></div></div>`)}
-    ${cap('Pause dulu, coba tebak rumusnya di <em>komen!</em>')}`,
-    vo: 'Pause dulu, / coba tebak rumusnya di <b>komen</b>! ↘ <i>(3 s timer)</i>', note: 'Same timer as sesi 02, now 3 seconds.' },
-  { t: 'Move 1: the answer', d: '27–36 s', html: `${A}
-    ${at(166, 150, `<div class="box big" style="background:var(--green);font-size:20px">REGEXREPLACE</div>`, 'tilt-l')}
-    ${at(166, 290, phones({ mode: 'raw', b: ['812345678', '', '', '', '', ''], bcls: ['hl-d'], sel: 2, fbar: '=REGEXREPLACE(A2&amp;"";"^(\\+62|62|0)";"")' }))}
-    ${at(166, 408, `<div style="display:flex;gap:4px"><span class="tok">A2</span><span class="tok" style="background:var(--yellow)">pola</span><span class="tok" style="background:#EEF1F4">"" kosong</span></div>`)}
-    ${cap('Jawabannya: <em>REGEXREPLACE</em>.')}`,
-    vo: 'Jawabannya: / <b>REGEXREPLACE</b>. ↘ Tulis di B dua: / REGEXREPLACE, / A dua, / terus polanya, / terus ganti sama <b>kosong</b>. ↘', note: 'The top bar switches from the question to the formula. B2 types it piece by piece on "A dua", "polanya", "kosong".' },
-  { t: 'Move 2: the pattern', d: '36–45 s', html: `${A}
-    ${at(166, 160, `<div class="box mono" style="font-size:16px;color:var(--fx)">^( \\+62 | 62 | 0 )</div>`)}
-    ${at(166, 215, `<div style="display:flex;gap:5px"><span class="tok" style="background:var(--yellow)">^ = di awal</span><span class="tok" style="background:var(--blue)">| = atau</span></div>`)}
-    ${at(166, 330, phones({ mode: 'strike', w: 230 }))}
-    ${cap('Kalau di awal ada +62, 62, atau 0: <em>hapus</em>.')}`,
-    vo: 'Polanya dibaca gini: / tanda topi artinya <b>di awal</b>. ↘ Garis tegak artinya <b>atau</b>. ↘ Jadi kalau di awal ada plus enam dua, / enam dua, / atau nol, / <b>hapus</b>. ↘', note: 'The pattern splits into chips as each part is explained. Then every matching prefix gets a red strike.' },
-  { t: 'Move 3: the trap', d: '45–54 s', html: `${A}
-    ${at(166, 150, `<div class="box big" style="background:var(--red);color:#fff;font-size:18px">JEBAKAN!</div>`, 'tilt-l')}
-    ${at(166, 280, phones({ mode: 'raw', b: ['812345678', '8112345678', '<span class="zero">#VALUE!</span>', '<span class="zero">#VALUE!</span>', '', ''], bcls: ['hl-d', 'hl-d', '', ''], fbar: '=REGEXREPLACE(A4<span style="background:#FFD600">&amp;""</span>;…)' }))}
-    ${at(166, 400, `<div class="box" style="font-size:11px;font-weight:700">angka → <span class="mono" style="background:var(--yellow)">&amp;""</span> → teks ✓</div>`, 'tilt-r')}
-    ${cap('REGEXREPLACE cuma mau <em>teks</em>.')}`,
-    vo: 'Tapi ada satu <b>jebakan</b>. ↘ Nomor yang diketik tanpa plus / kebaca sebagai <b>angka</b>, / dan REGEXREPLACE cuma mau <b>teks</b>. ↘ Tambahin dan, petik, petik, / biar jadi teks. ↘', note: 'Rows typed as plain numbers show red #VALUE!. &"" slides into the formula (yellow) and the errors turn into tidy numbers.' },
-  { t: 'Move 4: one column', d: '54–61 s', html: `${A}
+    ${cap('Satu rumus buat semua panjang? <em>Tebak!</em>')}`,
+    vo: 'Gimana caranya / satu rumus buat semua panjang? ↗ Pause dulu, / tebak di <b>komen</b>! ↘ <i>(3 s timer)</i>', note: 'Same 3-second timer as sesi 02.' },
+  { t: 'Move 1: the answer', d: '29–37 s', html: `${A}
+    ${at(166, 150, `<div class="box big" style="background:var(--green);font-size:20px">RIGHT + LEN</div>`, 'tilt-l')}
+    ${at(166, 290, phones({ b: ['812345678'], bcls: ['hl-d'], sel: 2, fbar: '=RIGHT(A2;<span style="background:#FFD600">LEN(A2)-3</span>)' }))}
+    ${at(166, 410, `<div style="display:flex;gap:4px"><span class="tok">A2</span><span class="tok" style="background:var(--yellow)">LEN(A2)</span><span class="tok" style="background:var(--red);color:#fff">−3</span></div>`)}
+    ${cap('Jawabannya: <em>RIGHT</em> sama <em>LEN</em>.')}`,
+    vo: 'Jawabannya: / <b>RIGHT</b> sama <b>LEN</b>. ↘ Tulis di B dua: / RIGHT, / A dua, / terus LEN A dua, / dikurang <b>tiga</b>. ↘', note: 'The top bar switches from the question to the formula. B2 types it piece by piece and shows 812345678.' },
+  { t: 'Move 2: why −3', d: '37–45 s', html: `${A}
+    ${at(166, 160, `<div class="box mono" style="font-size:15px"><span style="background:var(--red);color:#fff;padding:0 2px">+</span><span style="background:var(--red);color:#fff;padding:0 2px">6</span><span style="background:var(--red);color:#fff;padding:0 2px">2</span>812345678</div>`)}
+    ${at(166, 210, `<div style="display:flex;gap:5px"><span class="tok" style="background:var(--red);color:#fff">3 karakter</span><span class="tok" style="background:var(--green)">9 karakter</span></div>`)}
+    ${at(166, 300, `<div class="box mono" style="font-size:13px;line-height:1.8;white-space:normal;width:250px">LEN = <b>12</b><br>12 − 3 = <b>9</b><br>RIGHT(…; 9) → <span style="background:var(--green)">812345678</span></div>`)}
+    ${cap('RIGHT ambil semua, kecuali <em>3 karakter</em> paling depan.')}`,
+    vo: 'LEN ngitung panjang teksnya. ↘ Dikurang tiga, / karena plus enam dua itu / <b>tiga karakter</b>. ↘ Jadi RIGHT ambil semua, / kecuali tiga karakter <b>paling depan</b>. ↘', note: 'The characters count up 1…12 under the number. + 6 2 flash red as "3 karakter".' },
+  { t: 'Move 3: any length', d: '45–52 s', html: `${A}
+    ${at(166, 160, `<div class="box big" style="font-size:15px">Panjang apa pun</div>`, 'tilt-l')}
+    ${at(166, 255, `<div class="box mono" style="font-size:11px;line-height:1.7;white-space:normal;width:270px">+62812345678 · <b>12</b> → ambil <b>9</b><br><span style="background:#C9F9D5">812345678</span></div>`)}
+    ${at(166, 345, `<div class="box mono" style="font-size:11px;line-height:1.7;white-space:normal;width:270px">+62857123456789 · <b>15</b> → ambil <b>12</b><br><span style="background:#C9F9D5">857123456789</span></div>`)}
+    ${at(166, 420, `<div class="box big" style="background:var(--green);font-size:12px">Otomatis ngikutin panjangnya</div>`, 'tilt-r')}
+    ${cap('Otomatis <em>ngikutin</em> panjangnya.')}`,
+    vo: 'Nomornya dua belas karakter? / Ambil <b>sembilan</b>. ↘ Lima belas karakter? / Ambil <b>dua belas</b>. ↘ Otomatis <b>ngikutin</b> panjangnya. ↘', note: 'Two rows side by side, each with its own count and result. Both turn green.' },
+  { t: 'Move 4: one column', d: '52–58 s', html: `${A}
     ${at(166, 150, `<div class="box big" style="background:var(--green);font-size:16px">+ ARRAYFORMULA</div>`, 'tilt-l')}
-    ${at(166, 290, phones({ mode: 'raw', b: CLEAN, bcls: CLEAN.map(() => 'hl-d'), fbar: '=ARRAYFORMULA(IF(A2:A="";"";REGEXREPLACE(A2:A&amp;"";…)))' }))}
+    ${at(166, 290, phones({ b: NUMS, bcls: NUMS.map(() => 'hl-d'), fbar: '=ARRAYFORMULA(IF(A2:A="";"";RIGHT(A2:A;LEN(A2:A)-3)))' }))}
     ${at(166, 410, `<div class="box big" style="font-size:12px">Ingat sesi 02 ↩</div>`, 'tilt-r')}
-    ${cap('Lima ratus nomor, <em>satu rumus</em>.')}`,
-    vo: 'Mau satu kolom <b>sekaligus</b>? ↗ Inget sesi dua: / bungkus pakai <b>ARRAYFORMULA</b>. ↘ Lima ratus nomor, / satu rumus. ↘', note: 'Callback card to sesi 02. Column B fills top to bottom in a wave.' },
-  { t: 'Takeaway', d: '61–66 s', html: `${A}
+    ${cap('Bungkus pakai <em>ARRAYFORMULA</em>, kayak sesi dua.')}`,
+    vo: 'Mau satu kolom <b>sekaligus</b>? ↗ Bungkus pakai <b>ARRAYFORMULA</b>, / kayak sesi dua. ↘', note: 'Callback card to sesi 02. Column B fills top to bottom in a wave.' },
+  { t: 'Takeaway', d: '58–63 s', html: `${A}
     ${at(166, 150, `<div class="box big" style="background:#111;color:var(--green);font-size:16px">INTINYA</div>`, 'tilt-l')}
-    ${at(90, 290, `<div class="box mono" style="font-size:9px;line-height:1.7;white-space:normal;width:110px">${NUMS.map(([p, n]) => `<div>${p ? `<span class="strike">${p}</span>` : ''}${n}</div>`).join('')}</div>`)}
-    ${at(166, 290, `<div class="big" style="font-size:24px">→</div>`)}
-    ${at(242, 290, `<div class="box mono" style="font-size:9px;line-height:1.7;background:#C9F9D5;width:100px">${CLEAN.map((n) => `<div>${n}</div>`).join('')}</div>`)}
-    ${cap('Semua nomor jadi <em>seragam</em>.')}`,
-    vo: 'Intinya: / hapus awalannya, / sisain angka <b>delapan</b>. ↘ Semua nomor jadi <b>seragam</b>. ↘', note: 'Before → after: the struck prefixes fly off and the right column turns green.' },
-  { t: 'Latihan', d: '66–74 s', html: `${A}
+    ${at(166, 250, `<div class="box mono" style="font-size:14px"><span class="strike">=RIGHT(A2;10)</span></div>`)}
+    ${at(166, 300, `<div class="big" style="font-size:22px">↓</div>`)}
+    ${at(166, 345, `<div class="box mono" style="font-size:14px;background:#C9F9D5;color:var(--fx)">=RIGHT(A2;LEN(A2)-3)</div>`)}
+    ${at(166, 410, `<div class="box big" style="font-size:12px;background:var(--yellow)">Biarin LEN yang ngitung</div>`, 'tilt-r')}
+    ${cap('Jangan pakai angka <em>tetap</em>.')}`,
+    vo: 'Intinya: / jangan pakai angka <b>tetap</b>. ↘ Biarin LEN / yang <b>ngitung</b>. ↘', note: 'The fixed "10" gets crossed out, and LEN(A2)-3 slides in under it.' },
+  { t: 'Latihan', d: '63–69 s', html: `${A}
     ${at(166, 150, `<div class="box big" style="background:var(--yellow);font-size:20px">LATIHAN</div>`, 'tilt-l')}
-    ${at(166, 275, phones({ mode: 'raw', b: CLEAN.map(() => '<b style="color:#1A73E8">?</b>'), colB: 'Link WA', fbar: '=??? ', title: 'latihan.xlsx' }).replace('Nomor HP</td>', 'Format 8xxx</td>').replace(/\+62|>0(?=8)|>62(?=8)/g, (m) => m.startsWith('>') ? '>' : ''))}
-    ${at(166, 400, `<div class="box mono" style="font-size:11px;background:var(--blue)">wa.me/62812345678</div>`, 'tilt-r')}
-    ${cap('Bikin <em>link WhatsApp</em> otomatis!')}`,
-    vo: 'Sekarang latihan: / dari nomor yang udah rapi, / bikin <b>link WhatsApp</b> otomatis: / wa titik me, / garis miring, / enam dua, / terus nomornya. ↘ Jawab di komen! ↘', note: 'Pinned answer: =ARRAYFORMULA(IF(B2:B="";"";"https://wa.me/62"&B2:B))' },
-  { t: 'CTA', d: '74–80 s', html: `${A}
+    ${at(166, 280, phones({ b: NUMS.map(() => '<b style="color:#1A73E8">?</b>'), colB: 'Format 08xx', fbar: '=??? ', title: 'latihan.xlsx' }))}
+    ${at(166, 400, `<div class="box mono" style="font-size:12px;background:var(--blue)">+62812345678 → 0812345678</div>`, 'tilt-r')}
+    ${cap('Ubah jadi format <em>08</em>. Satu rumus!')}`,
+    vo: 'Sekarang latihan: / ubah nomornya jadi format <b>nol delapan</b>. ↘ Satu rumus. / Jawab di komen! ↘', note: 'Pinned answer: ="0"&RIGHT(A2;LEN(A2)-3)' },
+  { t: 'CTA', d: '69–75 s', html: `${A}
     ${at(110, 160, `<div style="font-size:42px;line-height:1">❤️</div>`)}${at(220, 160, `<div style="font-size:42px;line-height:1">🔖</div>`)}
     ${at(166, 215, `<div class="big" style="font-size:13px">Like &amp; save biar gak lupa</div>`)}
-    ${at(166, 290, `<div class="box" style="font-weight:700;font-size:11px">✈ Share ke temen yang datanya masih campur aduk</div>`)}
+    ${at(166, 290, `<div class="box" style="font-weight:700;font-size:11px">✈ Share ke temen yang masih hapus +62 manual</div>`)}
     ${at(166, 360, `<div class="box big" style="font-size:16px;background:var(--green)">+ Follow</div>`)}
     ${at(166, 415, `<div style="display:flex;gap:6px"><span class="box mono" style="font-size:9px;background:var(--green)">SESI 04 ?</span><span class="box mono" style="font-size:9px">SESI 05 ?</span></div>`)}
-    ${cap('Follow, biar gak ketinggalan <em>sesi berikutnya!</em>')}`,
-    vo: 'Like dan save / biar gak lupa! ↘ Share ke temen yang datanya / masih campur aduk, / terus <b>follow</b>, / biar gak ketinggalan sesi berikutnya! ↘', note: 'Same CTA as sesi 02: heart, bookmark, share card, and a cursor tapping Follow.' },
+    ${cap('Share, terus <em>follow!</em>')}`,
+    vo: 'Like dan save / biar gak lupa! ↘ Share ke temen / yang masih hapus plus enam dua manual, / terus <b>follow</b>! ↘', note: 'Same CTA as sesi 02: heart, bookmark, share card, and a cursor tapping Follow.' },
 ];
 document.getElementById('grid').innerHTML = P.map((p, i) => `
   <div class="cell">
