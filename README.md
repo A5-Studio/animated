@@ -108,3 +108,23 @@ npm install
 npm run render -- --browser-executable=<chrome-headless-shell>
 npx remotion still Thumbnail cover.png --browser-executable=<chrome-headless-shell>
 ```
+
+## AI (An Info) · Harness itu apa? (Remotion, Reels 1080×1920, 39s)
+
+`harness-explained/harness-explained.mp4` explains an AI "harness" for beginners, drawn only (no footage, no voice), in the AI (An Info) style. It is built from `claude-code-mode`, and everything, captions included, stays inside the safe box x 120–960, y 250–1250. The analogy: the model is the brain, the harness is the body around it.
+
+| Time | Scene |
+|---|---|
+| 0–3.4 | hook: "Harness itu apa sih?" + the phrases people hear |
+| 3.4–9.6 | a model on its own only gives advice in text |
+| 9.6–13.6 | harness = the program that wraps the model (literally: a horse's harness) |
+| 13.6–26.4 | what's inside: tools, the work loop, memory, permissions |
+| 26.4–33.4 | example: Claude Code = model + harness |
+| 33.4–39 | recap + comment CTA ("Istilah AI apa lagi yang bikin bingung?") |
+
+```sh
+cd harness-explained
+npm install
+npm run render -- --browser-executable=<chrome-headless-shell>
+npx remotion still Thumbnail cover.png --browser-executable=<chrome-headless-shell>
+```
