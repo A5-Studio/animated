@@ -24,13 +24,13 @@ const Stage: React.FC<{ f: number }> = ({ f }) => (
   </>
 );
 
-/** grey caption pill at the "anim" position (y 1760) */
+/** grey caption pill, kept above the TikTok/Reels bottom UI (safe box ends at y 1250) */
 const Captions: React.FC<{ f: number }> = ({ f }) => {
   const cur = CAPTIONS.find(([a, b]) => f >= s(a) && f < s(b));
   if (!cur) return null;
   const p = out(f, s(cur[0]), s(cur[0]) + 4);
   return (
-    <div style={{ position: 'absolute', left: 0, right: 0, top: 1760, display: 'flex', justifyContent: 'center', transform: 'translateY(-50%)' }}>
+    <div style={{ position: 'absolute', left: 0, right: 0, top: 1185, display: 'flex', justifyContent: 'center', transform: 'translateY(-50%)' }}>
       <div style={{ background: 'rgba(48,46,43,0.72)', color: '#fff', fontFamily: SANS, fontWeight: 600, fontSize: 44, letterSpacing: -0.2, padding: '12px 28px 14px', borderRadius: 18, whiteSpace: 'nowrap', opacity: p, transform: `scale(${0.96 + 0.04 * p})` }}>
         {cur[2]}
       </div>
