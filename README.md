@@ -88,3 +88,23 @@ npm install
 cp <original clip>.mp4 public/source.mp4    # not committed; trimmed to 0–73.5s is enough
 npm run render -- --browser-executable=<chrome-headless-shell>
 ```
+
+## AI (An Info) · Spinner words di Claude Code (Remotion, Reels 1080×1920, 30s)
+
+`claude-code-mode/claude-code-mode.mp4` is a drawn-only (no footage, no voice) AI (An Info) episode about the orange "Brewing… / Clauding… / Cooking…" words Claude Code shows while it works. It follows the AI (An Info) segment standard (cream paper, serif headlines, white cards, grey caption pills, `SegmentTag`), squeezed to 30 s:
+
+| Time | Scene |
+|---|---|
+| 0–3.4 | hook: the word keeps changing, spinning dots |
+| 3.4–9.6 | what it means: Claude is working (seconds and tokens count up) |
+| 9.6–11.4 | turn: why does the word change? |
+| 11.4–19.6 | 12 of the words, each with a loose Indonesian meaning |
+| 19.6–25.8 | reading the rest of the line: `12s`, `↓ tokens`, `esc to interrupt` |
+| 25.8–30 | outro + comment prompt |
+
+```sh
+cd claude-code-mode
+npm install
+npm run render -- --browser-executable=<chrome-headless-shell>
+npx remotion still Thumbnail cover.png --browser-executable=<chrome-headless-shell>
+```
