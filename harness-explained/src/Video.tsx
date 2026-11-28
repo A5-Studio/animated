@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, Html5Audio, staticFile, useCurrentFrame } from 'remotion';
 import { CAPTIONS, SCENES } from './scenes';
 import { Sfx } from './sfx';
 import { C, SANS, TOTAL, s } from './theme';
@@ -46,6 +46,7 @@ export const HarnessExplained: React.FC = () => {
       <Stage f={f} />
       <Captions f={f} />
       <Sfx />
+      <Html5Audio src={staticFile('vo.wav')} />
     </AbsoluteFill>
   );
 };

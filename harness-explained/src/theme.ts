@@ -1,5 +1,6 @@
 import { loadFont } from '@remotion/fonts';
 import { staticFile } from 'remotion';
+import { TOTAL_SEC } from './timing';
 
 export const FPS = 30;
 
@@ -47,4 +48,4 @@ export const soft = '0 2px 6px rgba(31,30,28,0.06), 0 18px 48px rgba(31,30,28,0.
 /** seconds -> frames */
 export const s = (sec: number) => Math.round(sec * FPS);
 
-export const TOTAL = s(39);
+export const TOTAL = s(TOTAL_SEC);

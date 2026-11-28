@@ -2,6 +2,26 @@ import React from 'react';
 import { C, MONO, SANS, SERIF, T, s, soft } from './theme';
 import { DotSpin, PromptBox, Spinner, StatusLine, Terminal, ToolLine, UserLine } from './term';
 import { SegmentTag, Tag, lin, out, pop } from './ui';
+import { PARTS, TOTAL_SEC, WORDS } from './timing';
+
+/* ------------------------- timing from the VO ------------------------- */
+/** seconds of the first word in part `p` that starts with `word` (or the part start) */
+export const cue = (p: string, word?: string) => {
+  if (!word) return PARTS[p].s;
+  const w = WORDS.find((x) => x.p === p && x.w.toLowerCase().replace(/[^a-z0-9]/g, '').startsWith(word.toLowerCase()));
+  return w ? w.s : PARTS[p].s;
+};
+const LEADIN = 0.15;
+/** scene boundaries in seconds */
+const B = {
+  brainy: PARTS.b1.s - LEADIN,
+  name: PARTS.n1.s - LEADIN,
+  inside: PARTS.i0.s - LEADIN,
+  example: PARTS.e1.s - LEADIN,
+  outro: PARTS.o1.s - LEADIN,
+};
+/** frames from a scene start to a VO cue */
+const at = (scene: number, sec: number) => Math.max(0, s(sec) - s(scene));
 
 /*
  * AI (An Info), 39 s, drawn only: what an AI "harness" is, for beginners.
@@ -136,7 +156,7 @@ const Hook: React.FC<{ f: number }> = ({ f }) => {
 /* 2. Model alone: a brain that can only answer in text                */
 /* ================================================================== */
 const Brainy: React.FC<{ f: number }> = ({ f }) => {
-  const stamp = pop(f, 120, 160);
+  const stamp = pop(f, at(B.brainy, cue('b2', 'cuma')), 160);
   return (
     <>
       <Headline f={f} y={270} lines={['Model AI', 'itu kayak *otak']} />
@@ -180,7 +200,7 @@ const Name: React.FC<{ f: number }> = ({ f }) => (
 /* ================================================================== */
 /* 4. What is inside the harness                                       */
 /* ================================================================== */
-export const PIECE_AT = (i: number) => 14 + i * 92;
+export const PIECE_AT = (i: number) => at(B.inside, PARTS[`i${i + 1}`].s);
 
 const Inside: React.FC<{ f: number }> = ({ f }) => {
   const cur = PIECES.filter((_, i) => f >= PIECE_AT(i)).length - 1;
@@ -220,14 +240,14 @@ const Example: React.FC<{ f: number }> = ({ f }) => (
         <StatusLine kind="default" size={22} />
       </Terminal>
     </div>
-    <div style={{ position: 'absolute', left: 120, right: 120, top: 960, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, fontFamily: SANS, fontSize: 34, fontWeight: 700, ...rise(f, 80) }}>
+    <div style={{ position: 'absolute', left: 120, right: 120, top: 960, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, fontFamily: SANS, fontSize: 34, fontWeight: 700, ...rise(f, at(B.example, cue('e1', 'otak'))) }}>
       <div style={{ background: T.claude, color: '#fff', borderRadius: 40, padding: '16px 26px' }}>Claude Code</div>
       <span style={{ color: C.sub }}>=</span>
       <div style={{ background: C.blue, color: '#fff', borderRadius: 40, padding: '16px 26px' }}>model</div>
       <span style={{ color: C.sub }}>+</span>
       <div style={{ background: C.card, color: T.claude, borderRadius: 40, padding: '16px 26px', boxShadow: soft }}>harness</div>
     </div>
-    <div style={{ position: 'absolute', left: 0, right: 0, top: 1070, textAlign: 'center', fontFamily: SANS, fontSize: 28, color: C.sub, ...rise(f, 110) }}>
+    <div style={{ position: 'absolute', left: 0, right: 0, top: 1070, textAlign: 'center', fontFamily: SANS, fontSize: 28, color: C.sub, ...rise(f, at(B.example, cue('e1', 'otak')) + 24) }}>
       “Brewing…” itu juga tampilan dari harness-nya
     </div>
   </>
@@ -284,31 +304,38 @@ const Outro: React.FC<{ f: number }> = ({ f }) => {
 /* ------------------------------------------------------------------ */
 export type Scene = { from: number; to: number; C: React.FC<{ f: number }> };
 export const SCENES: Scene[] = [
-  { from: 0, to: 3.4, C: Hook },
-  { from: 3.4, to: 9.6, C: Brainy },
-  { from: 9.6, to: 13.6, C: Name },
-  { from: 13.6, to: 26.4, C: Inside },
-  { from: 26.4, to: 33.4, C: Example },
-  { from: 33.4, to: 39, C: Outro },
+  { from: 0, to: B.brainy, C: Hook },
+  { from: B.brainy, to: B.name, C: Brainy },
+  { from: B.name, to: B.inside, C: Name },
+  { from: B.inside, to: B.example, C: Inside },
+  { from: B.example, to: B.outro, C: Example },
+  { from: B.outro, to: TOTAL_SEC, C: Outro },
 ];
-export const TOTAL_SEC = 39;
 
-const piece = (i: number, a: number) => 13.6 + PIECE_AT(i) / 30 + a;
-
-/** on-screen captions (no voice): short grey pills */
-export const CAPTIONS: [number, number, string][] = [
-  [0.4, 3.3, 'Sering denger kata ini?'],
-  [3.6, 6.6, 'Model AI itu otaknya.'],
-  [6.6, 9.5, 'Pinter, tapi gak bisa gerak.'],
-  [9.8, 13.5, 'Harness yang bikin gerak.'],
-  [piece(0, 0.2), piece(1, 0), 'Tangan buat pakai alat.'],
-  [piece(1, 0.1), piece(2, 0), 'Kerja sampai beres.'],
-  [piece(2, 0.1), piece(3, 0), 'Ingat obrolanmu.'],
-  [piece(3, 0.1), 26.3, 'Tahu kapan harus nanya.'],
-  [26.6, 30.0, 'Claude Code itu harness.'],
-  [30.0, 33.3, 'Otaknya: model Claude.'],
-  [33.6, 36.6, 'Jawab di komentar!'],
-  [36.6, 38.8, 'Like dulu, ya'],
-];
+/* captions: the VO's own words, in short pills split at punctuation */
+const FIX: Record<string, string> = { klod: 'Claude', kod: 'Code', harnes: 'harness', ai: 'AI' };
+const fix = (w: string) => {
+  const key = w.toLowerCase().replace(/[^a-z]/g, '');
+  return FIX[key] ? w.replace(/[A-Za-z]+/, FIX[key]) : w;
+};
+const buildCaptions = () => {
+  const caps: [number, number, string][] = [];
+  let cur: typeof WORDS = [];
+  const flush = (next?: number) => {
+    if (!cur.length) return;
+    const text = cur.map((w) => fix(w.w)).join(' ').replace(/[.,]+$/, '');
+    caps.push([cur[0].s, next ?? cur[cur.length - 1].e + 0.35, text]);
+    cur = [];
+  };
+  WORDS.forEach((w, i) => {
+    const len = cur.map((x) => x.w).join(' ').length;
+    if (cur.length && (len + 1 + w.w.length > 24 || cur[0].p !== w.p)) flush(w.s);
+    cur.push(w);
+    if (/[,.?!]$/.test(w.w)) flush(WORDS[i + 1]?.s);
+  });
+  flush();
+  return caps.map(([a, b, x], i, all) => [a, Math.min(b, all[i + 1]?.[0] ?? b), x] as [number, number, string]);
+};
+export const CAPTIONS = buildCaptions();
 
 export { s, MONO, PromptBox };
